@@ -17,7 +17,7 @@ Melissa Gramajo, Vivienne Do
     
     Step0.1: Add new repo using git command line | | SourceTree 
     
-    *note: You may be prompted for username and password
+    *note: You may be prompted for username and password when adding remote repo
     username: poosusername
     password: c=299792458 
     end of note. 
