@@ -10,12 +10,13 @@ Melissa Gramajo, Vivienne Do
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+0. How to Clone repositories by URL in VSO
+
+    Step0.0: Obtain URL 
+    "Code" (top tool bar) >> "Restaurant Management" >> "Clone" (right corner) 
+    
+    Step0.1: Add new repo using git command line | | SourceTree 
+    
 
 ### Contribution guidelines ###
 
