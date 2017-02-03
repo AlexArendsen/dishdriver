@@ -22,6 +22,8 @@ Melissa Gramajo, Vivienne Do
     password: c=299792458 
     end of note. 
     
+command line to clone:
+git clone https://projectrest.visualstudio.com/_git/Restaurant%20Management
 
 ### Contribution guidelines ###
 
