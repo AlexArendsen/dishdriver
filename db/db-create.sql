@@ -1,0 +1,1 @@
+-- This script will create all of the tables and contraints for our database

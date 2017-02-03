@@ -1,0 +1,2 @@
+-- This script will populate the database with dummy data for us to test
+-- against.
