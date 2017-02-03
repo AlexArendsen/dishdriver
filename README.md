@@ -10,7 +10,7 @@ Melissa Gramajo, Vivienne Do
 
 ### How do I get set up? ###
 
-0. How to Clone repositories by URL in VSO
+0.How to Clone repositories by URL in VSO
 
     Step0.0: Obtain URL 
     "Code" (top tool bar) >> "Restaurant Management" >> "Clone" (right corner) 
