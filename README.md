@@ -23,7 +23,7 @@ Melissa Gramajo, Vivienne Do
     end of note. 
     
 command line to clone:
-git clone https://projectrest.visualstudio.com/_git/Restaurant%20Management
+    git clone https://projectrest.visualstudio.com/_git/Restaurant%20Management
 
 ### Contribution guidelines ###
 
