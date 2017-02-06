@@ -1,0 +1,10 @@
+port: 6789
+cert: "/path/to/cert"  # SSL certificate path goes here, NULL if none
+db:
+  host: 'localhost'
+  user: 'dishdriver'
+  password: 'abc123'
+  database: 'dishdriver'
+restify:    # Restify options, see http://restify.com/#creating-a-server for full details
+  name: "DishDriver"
+  version: "1.0.0"
