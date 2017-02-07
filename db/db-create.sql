@@ -19,8 +19,12 @@
 -- Had to adjust the lengths of VARCHAR fields involved with UNIQUE contraints (the limit for keys is 767 bytes)
 -- For the foreign key on `Positions`, Waiter_ID and Cook_ID each needed separate FK constraints
 
-CREATE DATABASE Yummy;
-USE Yummy;
+
+CREATE DATABASE dishdriver;
+USE dishdriver;
+
+CREATE USER 'dishdriver'@'localhost' IDENTIFIED BY 'yummo';
+GRANT ALL PRIVILEGES ON dishdriver.* TO 'dishdriver'@'localhost' WITH GRANT OPTION;
 
 CREATE TABLE Users (
   ID           INT          NOT NULL AUTO_INCREMENT, 
