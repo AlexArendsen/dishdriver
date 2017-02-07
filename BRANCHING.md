@@ -6,17 +6,17 @@ semantic versioning scheme.
 ## Branching
 
 * `master`
-* `app-master`
-* `app-development`
+* `ui-master`
+* `ui-development`
 * `lib-master`
 * `lib-development`
 
-`app-master` and `lib-master` should contain stable versions of their
-respective components at all times. `app-development` and `lib-development`, on
-the other hand, do not have to be stable. The `master` branch should contain
-the most recent releases from both subcomponents.
+`ui-master` and `lib-master` should contain stable versions of their respective
+components at all times. `ui-development` and `lib-development`, on the other
+hand, do not have to be stable. The `master` branch should contain the most
+recent releases from both subcomponents.
 
-This setup allows the app and the library to have compatible versions of one
+This setup allows the UI and the library to have compatible versions of one
 another, and prevents breakage in one component from preventing the other
 component from being effectively developed.
 
