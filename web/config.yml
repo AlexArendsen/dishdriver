@@ -1,10 +1,15 @@
 port: 6789
 cert: "/path/to/cert"  # SSL certificate path goes here, NULL if none
+clientToken: "asdf123"
 db:
   host: 'localhost'
   user: 'dishdriver'
-  password: 'abc123'
+  password: 'yummo'
   database: 'dishdriver'
 restify:    # Restify options, see http://restify.com/#creating-a-server for full details
   name: "DishDriver"
   version: "1.0.0"
+bodyParser:
+  maxBodySize: 8096
+  mapParams: true
+  overwriteParams: true

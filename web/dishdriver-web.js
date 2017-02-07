@@ -5,15 +5,25 @@ var yaml = require('js-yaml')
 
 // === Globals
 var config;
-var connection;
+var db;
 var server;
 
+// Handler /query requests
 function runQuery(request, response, next) {
-  response.send({error: "Not yet implemented"})
+  if (request.headers['dd-token-client'] != config.clientToken)
+    throw "Unauthorized access";
+  else if (!(request.params.sql && request.params.args && 1))
+    throw "SQL or args missing";
+  else
+    if (typeof(request.params.sql) != "string" || typeof(request.params.args) != "object")
+      throw "SQL or args type mismatched"
+    db.query(request.params.sql, request.params.args, function(err, results, fields) {
+      response.send({code: "Success", results: results});
+    });
 } 
 
 function runProcedure(request, response, next) {
-  response.send({error: "Not yet implemented"})
+  throw "Not yet implemented"
 } 
 
 function pong(request, response, next) {
@@ -30,15 +40,18 @@ function initialize() {
     console.warn("WARNING: An SSL certificate is defined, but dishdriver does not yet support SSL-encrypted traffic");
 
   // Initialize database connection
-  connection = mysql.createConnection({
+  db = mysql.createConnection({
     host:     config.db.host || 'localhost',
     user:     config.db.user,
-    password: config.db.secret || '',
+    password: config.db.password || '',
     database: config.db.database
   });
 
+  // Create and configure restify server
+  server = restify.createServer(config.restify || undefined)
+  server.use(restify.bodyParser(config.bodyParser || undefined));
+
   // Set up restify routes
-  server = restify.createServer(config.restify || {})
   server.post('/query', runQuery);
   server.post('/proc/:name', runProcedure);
   server.get('/ping', pong);
