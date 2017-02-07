@@ -15,6 +15,7 @@
   "private": true,
   "dependencies": {
     "js-yaml": "^3.7.0",
+    "merge": "^1.2.0",
     "mysql": "^2.13.0",
     "restify": "^4.3.0"
   }

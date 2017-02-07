@@ -2,6 +2,7 @@ var restify = require('restify')
 var mysql = require('mysql')
 var fs = require('fs')
 var yaml = require('js-yaml')
+var merge = require('merge')
 
 // === Globals
 var config;
@@ -32,12 +33,13 @@ function pong(request, response, next) {
 
 // Initialization function, run at daemon start
 function initialize() {
+
   // Read configuration file (it's in YAML because I like nice things)
   config = yaml.safeLoad(fs.readFileSync('config.yml'))
 
-  // TODO -- Read the SSL Certificate
-  if (config.cert)
-    console.warn("WARNING: An SSL certificate is defined, but dishdriver does not yet support SSL-encrypted traffic");
+  // Read the SSL Certificate
+  cert = (config.cert)? fs.readFileSync(config.cert) : undefined ;
+  key  = (config.key) ? fs.readFileSync(config.key)  : undefined ;
 
   // Initialize database connection
   db = mysql.createConnection({
@@ -48,7 +50,10 @@ function initialize() {
   });
 
   // Create and configure restify server
-  server = restify.createServer(config.restify || undefined)
+  server = restify.createServer(merge(
+    config.restify || undefined,
+    { cert: cert, key: key }
+  ))
   server.use(restify.bodyParser(config.bodyParser || undefined));
 
   // Set up restify routes
