@@ -1,0 +1,17 @@
+port: 6789
+cert: "dishdriver-crt.pem"
+key:  "dishdriver-key.pem"
+clientToken: "asdf123"
+db:
+  host: 'localhost'
+  user: 'dishdriver'
+  password: 'yummo'
+  database: 'dishdriver'
+restify:    # Restify options, see http://restify.com/#creating-a-server for full details
+  name: "DishDriver"
+  version: "1.0.0"
+  passphrase: "yummo"  # PEM passphrase
+bodyParser:
+  maxBodySize: 8096
+  mapParams: true
+  overwriteParams: true

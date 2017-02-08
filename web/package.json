@@ -1,0 +1,22 @@
+{
+  "name": "dishdriver-web",
+  "version": "1.0.0",
+  "description": "A thin data service for the DishDriver restaurant management system",
+  "main": "dishdriver-web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://projectrest.visualstudio.com/"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "js-yaml": "^3.7.0",
+    "merge": "^1.2.0",
+    "mysql": "^2.13.0",
+    "restify": "^4.3.0"
+  }
+}
