@@ -33,10 +33,12 @@ CREATE TABLE Users (
   FirstName    VARCHAR(255) NOT NULL,
   LastName     VARCHAR(255) NOT NULL,
   DT_Created   DATETIME     NOT NULL DEFAULT NOW(),
+  SessionToken VARCHAR(127) DEFAULT NULL,
   DT_LastLogin DATETIME     NULL DEFAULT NULL,
   DT_Cancelled DATETIME     NULL DEFAULT NULL, 
   PRIMARY KEY (ID),
-  UNIQUE (Email)
+  UNIQUE (Email),
+  UNIQUE (SessionToken)
 );
 
 CREATE TABLE Roles (
@@ -53,6 +55,17 @@ CREATE TABLE Restaurants (
   DT_Opened    DATETIME     NOT NULL DEFAULT NOW(),
   DT_Closed    DATETIME     DEFAULT NULL,
   PRIMARY KEY (ID) 
+);
+
+CREATE TABLE Tables (
+  ID          INT           NOT NULL AUTO_INCREMENT,
+  Restaurant_ID INT         NOT NULL,
+  Name        VARCHAR(255)  NOT NULL,
+  Position_X  INT           NOT NULL DEFAULT 0,
+  Position_Y  INT           NOT NULL DEFAULT 0,
+  Capacity    INT           DEFAULT 0,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID)
 );
 
 CREATE TABLE Positions (
@@ -75,6 +88,7 @@ CREATE TABLE Orders (
   ID          INT           NOT NULL AUTO_INCREMENT,
   Waiter_ID   INT           NOT NULL,
   Cook_ID     INT           DEFAULT NULL,
+  Table_ID    INT           NOT NULL,
   DT_Placed   DATETIME      NOT NULL,
   DT_Rejected DATETIME      DEFAULT NULL,
   DT_Cancelled DATETIME     DEFAULT NULL,
@@ -85,7 +99,8 @@ CREATE TABLE Orders (
   Instructions VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (ID),
   FOREIGN KEY (Cook_ID) REFERENCES Positions (ID),
-  FOREIGN KEY (Waiter_ID) REFERENCES Positions (ID)
+  FOREIGN KEY (Waiter_ID) REFERENCES Positions (ID),
+  FOREIGN KEY (Table_ID) REFERENCES Tables (ID)
   -- ^^ Question was "which ID?", we just need FKs for both of them individually
 );
 
