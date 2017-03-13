@@ -3,6 +3,8 @@ var mysql = require('mysql')
 var fs = require('fs')
 var yaml = require('js-yaml')
 var merge = require('merge')
+var bcrypt = require('bcrypt')
+var uuid = require('node-uuid')
 
 // === Globals
 var config;
@@ -27,8 +29,57 @@ function runProcedure(request, response, next) {
   throw "Not yet implemented"
 } 
 
+function runLogin(request, response, next) {
+  // Check that access token was provided
+  if (request.headers['dd-token-client'] != config.clientToken) {
+    throw "Unauthorized access";
+
+  // Handle token login
+  } else if (request.params.token) {
+    db.query("SELECT Id, SessionToken FROM Users WHERE SessionToken = ? LIMIT 1", [request.params.token], function(err, results, fields) {
+      if (err)
+        return response.send(err);
+      if (!results || !results.length || !results[0])
+        return response.send({code: "LoginFailed", message: "Unrecognized token"});
+      db.query("UPDATE Users SET DT_LastLogin = CURRENT_TIMESTAMP() WHERE Id = ?", [results[0].Id])
+      return response.send({code: "success", results: [{"token": results[0].token}], message: "Login Successful!"});
+    });
+
+  // Handle credential login
+  } else if (request.params.email && request.params.password) {
+    db.query("SELECT Id, Password FROM Users WHERE Email = ? LIMIT 1", [request.params.email], function(err, results, fields) {
+      bcrypt.compare(request.params.password, results[0].Password, function(err, result) {
+        if (result) {
+          var sessionToken = uuid.v4();
+          db.query(
+            "UPDATE Users SET DT_LastLogin = CURRENT_TIMESTAMP(), SessionToken = ? WHERE Id = ?",
+            [sessionToken, results[0].Id],
+            () => {}
+          );
+          response.send({code: "success", results: [{"token": sessionToken}], message: "Login Successful!"});
+        } else {
+          response.send({code: "LoginFailed", message: "Invalid email or password."});
+        }
+      });
+    });
+
+  // Give up
+  } else {
+    throw "Missing email or password";
+  }
+}
+
+function runLogout(request, response, next) {
+  // TODO -- We need to store session information somewhere. For now, we'll just say nothing about it...
+  response.send({code: "success", message: "Logout Successful!"});
+}
+
+function runSignup(request, response, next) {
+  throw "Sign up is not yet supported! Sorry! In the meantime, make sure that you're sending email and password. For employee signups, also provide firstname and lastname fields.";
+}
+
 function pong(request, response, next) {
-  response.send({message: "You have reached the DishDriver web service"})
+  response.send({code: "success", message: "You have reached the DishDriver web service"})
 }
 
 // Initialization function, run at daemon start
@@ -59,6 +110,9 @@ function initialize() {
   // Set up restify routes
   server.post('/query', runQuery);
   server.post('/proc/:name', runProcedure);
+  server.post('/login', runLogin);
+  server.post('/logout', runLogout);
+  server.post('/user/new', runSignup);
   server.get('/ping', pong);
 }
 
