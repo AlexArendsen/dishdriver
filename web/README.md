@@ -119,7 +119,7 @@ First: credential login, using email and password:
 Sample response:
 
     {
-      "code": "Success",
+      "code": "success",
       "results": [
         {"token": "xxxxxx-xxx..."}
       ],
@@ -137,7 +137,7 @@ login credentials again.
 Sample response:
 
     {
-      "code": "Success",
+      "code": "success",
       "results": [
         {"token": "xxxxxx-xxx..."}
       ],
