@@ -104,3 +104,42 @@ If `code` is any other value, it indicates that some error has occurred:
       "code": "InternalError",
       "message": "Unauthorized access"
     }
+
+### Login
+
+Two login methods are supported. They both use the `/login` endpoint.
+
+First: credential login, using email and password:
+
+    {
+      "email": "someone@example.com",
+      "password": "password"
+    }
+
+Sample response:
+
+    {
+      "code": "Success",
+      "results": [
+        {"token": "xxxxxx-xxx..."}
+      ],
+      "message": "Login Successful!"
+    }
+
+Second: token login. Tokens are supplied in credential login requests, and can
+be used as a quicker way to authenticate with the API than asking the user for
+login credentials again.
+
+    {
+      "token": "xxxxxx-xxx..."
+    }
+
+Sample response:
+
+    {
+      "code": "Success",
+      "results": [
+        {"token": "xxxxxx-xxx..."}
+      ],
+      "message": "Login Successful!"
+    }
