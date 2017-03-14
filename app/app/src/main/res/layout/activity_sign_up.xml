@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:weightSum="1">
+
+    <Button
+        android:text="+ Create a Guest Account"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:fontFamily="serif"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="109dp"
+        android:id="@+id/textView"
+        tools:text="Sign In"
+        android:textSize="36sp"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/white"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:layout_below="@+id/Title"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:background="@color/white"
+        android:layout_marginTop="18dp"
+        android:id="@+id/UserName"
+        android:hint="Email"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/password" />
+
+    <EditText
+        android:layout_width="500dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginTop="21dp"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:background="@color/white"
+        android:singleLine="false"
+        android:selectAllOnFocus="false"
+        android:layout_height="50dp"
+        android:layout_below="@+id/UserName"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/userIcon"
+        android:id="@+id/UserNameIcon"
+        android:background="@color/white"
+        android:layout_width="50dp"
+        android:layout_alignTop="@+id/UserName"
+        android:layout_toStartOf="@+id/UserName" />
+
+    <ImageView
+        android:layout_width="50dp"
+        app:srcCompat="@drawable/PassIcon"
+        android:id="@+id/imageView2"
+        android:background="@color/white"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/password"
+        android:layout_toStartOf="@+id/password"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="109dp"
+        android:id="@+id/Title"
+        tools:text="Dish Driver"
+        android:textSize="66sp"
+        android:layout_marginTop="97dp"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
