@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
- * Created by ashton on pi + .00002.
+ * Created by ashton on pi + .0002.
  */
 
 public class OrdersDishesModel {

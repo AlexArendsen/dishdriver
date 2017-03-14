@@ -1,7 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.models;
 
 /**
- * Created by ashton on pi + .00002.
+ * Created by ashton on pi + .0002.
  */
 
 public class SessionModel {
