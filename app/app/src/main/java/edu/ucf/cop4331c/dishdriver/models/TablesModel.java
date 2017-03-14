@@ -36,6 +36,12 @@ public class TablesModel {
         this.capacity = capacity;
     }
 
+    public static Call<ArrayList<TablesModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<TableReservationModel> reserve() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<boolean> unreserved() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<boolean> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
     public Integer getId() {
         return id;
     }
