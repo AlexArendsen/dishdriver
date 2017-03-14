@@ -42,7 +42,6 @@ public class TablesModel {
     public Call<boolean> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
     public Call<boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
 
-
     public Integer getId() {
         return id;
     }

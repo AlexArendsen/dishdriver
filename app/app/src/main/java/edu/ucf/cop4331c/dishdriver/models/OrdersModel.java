@@ -78,7 +78,6 @@ public class OrdersModel {
     public Call markCooked() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
     public Call markPaid() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
 
-
     public Integer getId() {
         return id;
     }

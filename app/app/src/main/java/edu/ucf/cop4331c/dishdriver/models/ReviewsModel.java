@@ -40,6 +40,9 @@ public class ReviewsModel {
         this.comments = comments;
     }
 
+    public static Call<ArrayList<ReviewsModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<int> submit() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
     public Integer getiD() {
         return iD;
     }
