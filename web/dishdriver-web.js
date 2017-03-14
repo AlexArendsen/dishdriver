@@ -36,18 +36,18 @@ function runLogin(request, response, next) {
 
   // Handle token login
   } else if (request.params.token) {
-    db.query("SELECT Id, SessionToken FROM Users WHERE SessionToken = ? LIMIT 1", [request.params.token], function(err, results, fields) {
+    db.query("SELECT * FROM Users WHERE SessionToken = ? LIMIT 1", [request.params.token], function(err, results, fields) {
       if (err)
         return response.send(err);
       if (!results || !results.length || !results[0])
         return response.send({code: "LoginFailed", message: "Unrecognized token"});
       db.query("UPDATE Users SET DT_LastLogin = CURRENT_TIMESTAMP() WHERE Id = ?", [results[0].Id])
-      return response.send({code: "success", results: [{"token": results[0].token}], message: "Login Successful!"});
+      return response.send({code: "success", results: [results[0]], message: "Login Successful!"});
     });
 
   // Handle credential login
   } else if (request.params.email && request.params.password) {
-    db.query("SELECT Id, Password FROM Users WHERE Email = ? LIMIT 1", [request.params.email], function(err, results, fields) {
+    db.query("SELECT * FROM Users WHERE Email = ? LIMIT 1", [request.params.email], function(err, results, fields) {
       bcrypt.compare(request.params.password, results[0].Password, function(err, result) {
         if (result) {
           var sessionToken = uuid.v4();
@@ -56,7 +56,7 @@ function runLogin(request, response, next) {
             [sessionToken, results[0].Id],
             () => {}
           );
-          response.send({code: "success", results: [{"token": sessionToken}], message: "Login Successful!"});
+          response.send({code: "success", results: [results[0]], message: "Login Successful!"});
         } else {
           response.send({code: "LoginFailed", message: "Invalid email or password."});
         }
@@ -70,7 +70,9 @@ function runLogin(request, response, next) {
 }
 
 function runLogout(request, response, next) {
-  // TODO -- We need to store session information somewhere. For now, we'll just say nothing about it...
+  // TODO -- We need to store session information somewhere. For now, we'll
+  // just say nothing about it...
+
   response.send({code: "success", message: "Logout Successful!"});
 }
 
