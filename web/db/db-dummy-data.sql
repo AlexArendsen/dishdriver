@@ -62,3 +62,16 @@ INSERT INTO Table_Reservations
   (ID, Table_ID, Party_Name, Party_Size, Deposit, DT_Requested, DT_Accepted)
 VALUES
   (1, 3, 'TJ\'s Super Duper Pirate Party', 30, 8, CURRENT_TIMESTAMP(), NULL);
+
+INSERT INTO Orders
+  (Id, Waiter_ID, Cook_ID, Table_ID, DT_Created, DT_Placed, DT_Rejected, DT_Cancelled, DT_Cooked, DT_Payed, Discount, Payment, Instructions)
+VALUES
+  (1, 1, 1, 3, '2017-01-03 13:00:00', '2017-01-03 13:15:47', NULL, NULL, NULL, NULL, 220, 1299, 'None pizza left beef');
+
+INSERT INTO Order_Dishes
+  (Id, Order_ID, Dish_ID, IsRejected, IsVoided, NotesFromKitchen)
+VALUES
+  (1, 1, 2, false, false, 'Make sure that it\'s a burger.'),
+  (2, 1, 1, false, false, 'This is for desert.'),
+  (3, 1, 4, false, false, 'They NOTCH-yos (omg!)'),
+  (4, 1, 5, false, false, 'Customer requests that they are made from buffalos and not from chickens or whatever.');
