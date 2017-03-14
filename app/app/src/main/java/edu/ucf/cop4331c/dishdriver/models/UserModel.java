@@ -10,31 +10,31 @@ import com.google.gson.annotations.SerializedName;
 public class UserModel {
     @SerializedName("ID")
     @Expose
-    private Integer id;
+    protected Integer id;
     @SerializedName("Email")
     @Expose
-    private String email;
+    protected String email;
     @SerializedName("Password")
     @Expose
-    private String password;
+    protected String password;
     @SerializedName("FirstName")
     @Expose
-    private String firstName;
+    protected String firstName;
     @SerializedName("LastName")
     @Expose
-    private String lastName;
+    protected String lastName;
     @SerializedName("DT_Created")
     @Expose
-    private String dTCreated;
+    protected String dTCreated;
     @SerializedName("SessionToken")
     @Expose
-    private String sessionToken;
+    protected String sessionToken;
     @SerializedName("DT_LastLogin")
     @Expose
-    private String dTLastLogin;
+    protected String dTLastLogin;
     @SerializedName("DT_Cancelled")
     @Expose
-    private Object dTCancelled;
+    protected Object dTCancelled;
 
     public UserModel(Integer id, String email, String password, String firstName, String lastName) {
         this.id = id;
