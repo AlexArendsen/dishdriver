@@ -3,7 +3,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
 
 /**
  * Created by ashton on pi + .0002.
@@ -36,12 +39,13 @@ public class OrdersDishesModel {
         this.notesFromKitchen = notesFromKitchen;
     }
 
+    /*
     public Call reject(String reason);
     public  Call reject();
     Call void();
-    static Call<ArrayList<OrderedDish>> between(Date start, Date end);
-    static Call<ArrayList<OrderedDish>> onDay(Date day);
-
+    static Call<ArrayList<OrdersDishesModel>> between(Date start, Date end);
+    static Call<ArrayList<OrdersDishesModel>> onDay(Date day);
+    */
 
 
     public Integer getId() {
