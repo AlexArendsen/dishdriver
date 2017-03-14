@@ -23,7 +23,14 @@
 
         <activity android:name=".CookActivity"
             android:screenOrientation="landscape"/>
+
         <activity android:name=".SignUpActivity"
+            android:screenOrientation="landscape" />
+
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="landscape" />
+
+        <activity android:name=".CreateReviewActivity"
             android:screenOrientation="landscape" />
     </application>
 
