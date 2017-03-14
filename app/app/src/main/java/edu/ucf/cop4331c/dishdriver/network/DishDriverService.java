@@ -9,6 +9,7 @@ import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * Created by copper on 3/14/17.
@@ -24,6 +25,13 @@ public interface DishDriverService {
     @POST("/login")
     Call<LoginResponseModel> login(@Body TokenLoginModel token);
 
+    @POST("/login")
+    Observable<LoginResponseModel> loginObservable(@Body CredentialLoginModel token);
+
+    @POST("/login")
+    Observable<LoginResponseModel> loginObservable(@Body TokenLoginModel token);
+
     @POST("/logout")
     Call<LogoutResponseModel> logout();
+
 }

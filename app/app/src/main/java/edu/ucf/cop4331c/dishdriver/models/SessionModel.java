@@ -5,6 +5,9 @@ import edu.ucf.cop4331c.dishdriver.network.DishDriverService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ashton on pi + .0002.
@@ -12,29 +15,37 @@ import retrofit2.Response;
 
 public class SessionModel {
 
-    private static UserModel user;
-    private static PositionModel position;
-    private static RestaurantModel restaurant;
-    private static String token;
+    private static UserModel sUser;
+    private static PositionModel sPosition;
+    private static RestaurantModel sRestaurant;
+    private static String sToken;
 
-    public static Call<LoginResponseModel> login(final String email, final String password) {
+    public static Observable<LoginResponseModel> login(final String email, final String password) {
         final DishDriverService dd = DishDriverProvider.getInstance();
 
-        return dd.login(new CredentialLoginModel(email, password))
-            .enqueue(new Callback<LoginResponseModel>() {
-                @Override
-                public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
-                    user = response.body().getResults().get(0);
-                    token = response.body().getResults().get(0).sessionToken;
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponseModel> call, Throwable t) { }
-            });
+        return dd.loginObservable(new CredentialLoginModel(email, password))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(loginResponseModel -> {
+                    sUser = loginResponseModel.getResults().get(0);
+                    sToken = sUser.sessionToken;
+                    return Observable.just(loginResponseModel);
+                })
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Call<LoginResponseModel> login(String token) {
-        return DishDriverProvider.getInstance().login(new TokenLoginModel(token));
+    public static Observable<LoginResponseModel> login(String token) {
+        final DishDriverService dd = DishDriverProvider.getInstance();
+
+        return dd.loginObservable(new TokenLoginModel(token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(loginResponseModel -> {
+                    sUser = loginResponseModel.getResults().get(0);
+                    sToken = sUser.sessionToken;
+                    return Observable.just(loginResponseModel);
+                })
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Call logout() throws UnsupportedOperationException {
