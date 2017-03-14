@@ -3,8 +3,6 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 /**
  * Created by rebeca on 3/14/2017.
  */
@@ -16,7 +14,6 @@ public class TablesModel {
     @SerializedName("Restaurant_ID")
     @Expose
     private Integer restaurantId;
-
     @SerializedName("Name")
     @Expose
     private String name;
@@ -28,7 +25,7 @@ public class TablesModel {
     private Integer positionY;
     @SerializedName("Capacity")
     @Expose
-    private Integer Capacity;
+    private Integer capacity;
 
     public TablesModel(Integer id, Integer restaurantId, String name, Integer positionX, Integer positionY, Integer capacity) {
         this.id = id;
@@ -36,7 +33,7 @@ public class TablesModel {
         this.name = name;
         this.positionX = positionX;
         this.positionY = positionY;
-        Capacity = capacity;
+        this.capacity = capacity;
     }
 
     public Integer getId() {
@@ -80,10 +77,10 @@ public class TablesModel {
     }
 
     public Integer getCapacity() {
-        return Capacity;
+        return capacity;
     }
 
     public void setCapacity(Integer capacity) {
-        Capacity = capacity;
+        this.capacity = capacity;
     }
 }
