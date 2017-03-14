@@ -15,10 +15,10 @@ import rx.schedulers.Schedulers;
 
 public class SessionModel {
 
-    private static UserModel user;
-    private static PositionModel position;
-    private static RestaurantModel restaurant;
-    private static String token;
+    private static UserModel sUser;
+    private static PositionModel sPosition;
+    private static RestaurantModel sRestaurant;
+    private static String sToken;
 
     public static Observable<LoginResponseModel> login(final String email, final String password) {
         final DishDriverService dd = DishDriverProvider.getInstance();
@@ -27,15 +27,25 @@ public class SessionModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(loginResponseModel -> {
-                    user = loginResponseModel.getResults().get(0);
-                    token = loginResponseModel.getResults().get(0).sessionToken;
+                    sUser = loginResponseModel.getResults().get(0);
+                    sToken = sUser.sessionToken;
                     return Observable.just(loginResponseModel);
                 })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Call<LoginResponseModel> login(String token) {
-        return DishDriverProvider.getInstance().login(new TokenLoginModel(token));
+    public static Observable<LoginResponseModel> login(String token) {
+        final DishDriverService dd = DishDriverProvider.getInstance();
+
+        return dd.loginObservable(new TokenLoginModel(token))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(loginResponseModel -> {
+                    sUser = loginResponseModel.getResults().get(0);
+                    sToken = sUser.sessionToken;
+                    return Observable.just(loginResponseModel);
+                })
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Call logout() throws UnsupportedOperationException {
