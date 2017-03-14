@@ -36,13 +36,11 @@ public class OrdersDishesModel {
         this.notesFromKitchen = notesFromKitchen;
     }
 
-    public Call reject(String reason);
-    public  Call reject();
-    Call void();
-    static Call<ArrayList<OrderedDish>> between(Date start, Date end);
-    static Call<ArrayList<OrderedDish>> onDay(Date day);
-
-
+    public Call reject(String reason) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public  Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    Call void() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    static Call<ArrayList<OrderedDish>> between(Date start, Date end) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    static Call<ArrayList<OrderedDish>> onDay(Date day) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
 
     public Integer getId() {
         return id;
