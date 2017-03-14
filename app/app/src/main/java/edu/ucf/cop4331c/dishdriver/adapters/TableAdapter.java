@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
+import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -39,6 +42,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     Context context = mContextWeakReference.get();
                     Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
                     caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
+                    EventBus.getDefault().post(new ShowPartyDialogEvent());
                 }
             });
 

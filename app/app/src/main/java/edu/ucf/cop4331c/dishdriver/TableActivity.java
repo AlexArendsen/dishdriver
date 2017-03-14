@@ -7,9 +7,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
+import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
+import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -36,5 +42,22 @@ public class TableActivity extends AppCompatActivity {
         mTableAdapter = new TableAdapter(getApplicationContext());
 
         mTableRecyclerView.setAdapter(mTableAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe (threadMode = ThreadMode.MAIN)
+    public void onPartyDialogOpen(ShowPartyDialogEvent event) {
+        new PartySizeDialog().show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
 }

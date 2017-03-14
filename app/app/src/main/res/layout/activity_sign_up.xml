@@ -62,7 +62,7 @@
 
     <ImageView
         android:layout_height="50dp"
-        app:srcCompat="@drawable/userIcon"
+        app:srcCompat="@drawable/usericon"
         android:id="@+id/UserNameIcon"
         android:background="@color/white"
         android:layout_width="50dp"
@@ -71,7 +71,7 @@
 
     <ImageView
         android:layout_width="50dp"
-        app:srcCompat="@drawable/PassIcon"
+        app:srcCompat="@drawable/passicon"
         android:id="@+id/imageView2"
         android:background="@color/white"
         android:layout_height="50dp"
