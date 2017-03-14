@@ -42,7 +42,7 @@ function runLogin(request, response, next) {
       if (!results || !results.length || !results[0])
         return response.send({code: "LoginFailed", message: "Unrecognized token"});
       db.query("UPDATE Users SET DT_LastLogin = CURRENT_TIMESTAMP() WHERE Id = ?", [results[0].Id])
-      return response.send({code: "success", results: [results[0]], message: "Login Successful!"});
+      return response.send({code: "success", results: [results[0]], message: "POOP! :D"});
     });
 
   // Handle credential login
@@ -56,7 +56,8 @@ function runLogin(request, response, next) {
             [sessionToken, results[0].Id],
             () => {}
           );
-          response.send({code: "success", results: [results[0]], message: "Login Successful!"});
+          results[0].SessionToken = sessionToken;
+          response.send({code: "success", results: [results[0]], message: "POOP! :D"});
         } else {
           response.send({code: "LoginFailed", message: "Invalid email or password."});
         }
