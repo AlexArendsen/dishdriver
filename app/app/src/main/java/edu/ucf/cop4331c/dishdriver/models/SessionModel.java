@@ -10,22 +10,17 @@ public class SessionModel {
     private static Position position;
     private static Restaurant restaurant;
 
-    public static Call<String> login(String username, String password){
-
-    }
-    public static Call<Boolean> login(String token){}
-
-    public static Call logout(){
-
-    }
+    public static Call<String> login(String username, String password) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<Boolean> login(String token) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call logout() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
 
     public static User currentUser(){
         return user;
     }
-    public static Position currentPosition(){
+    public static PositionModel currentPosition(){
         return position;
     }
-    public static Restaurant currentRestaurant(){
+    public static RestaurantModel currentRestaurant(){
         return restaurant;
     }
 }
