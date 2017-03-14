@@ -22,7 +22,7 @@
 
     <ImageView
         android:layout_height="50dp"
-        app:srcCompat="@drawable/userIcon"
+        app:srcCompat="@drawable/usericon"
         android:id="@+id/UserNameIcon"
         android:background="@color/white"
         android:layout_width="50dp"
@@ -32,7 +32,7 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/PassIcon"
+        app:srcCompat="@drawable/passicon"
         android:id="@+id/imageView4"
         android:background="@color/white"
         android:layout_alignTop="@+id/password"
@@ -114,15 +114,6 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/usericon"
-        android:id="@+id/UserNameIcon"
-        android:background="@color/white"
-        android:layout_width="50dp"
-        android:layout_alignTop="@+id/UserName"
-        android:layout_toStartOf="@+id/UserName" />
-
-    <ImageView
         android:layout_width="50dp"
         app:srcCompat="@drawable/passicon"
         android:id="@+id/imageView2"
@@ -132,17 +123,5 @@
         android:layout_toStartOf="@+id/password"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="109dp"
-        android:id="@+id/Title"
-        tools:text="Dish Driver"
-        android:textSize="66sp"
-        android:layout_marginTop="97dp"
-        android:fontFamily="serif"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
