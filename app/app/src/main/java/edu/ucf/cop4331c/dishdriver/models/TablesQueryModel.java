@@ -6,9 +6,9 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 public class TablesQueryModel {
     private String code;
-    private Tables[] results;
+    private TablesModel[] results;
 
-    public TablesQueryModel(String code,  Tables[] results) {
+    public TablesQueryModel(String code,  TablesModel[] results) {
         this.code = code;
         this.results = results;
     }
@@ -21,11 +21,11 @@ public class TablesQueryModel {
         this.code = code;
     }
 
-    public  Tables[] getResults() {
+    public  TablesModel[] getResults() {
         return results;
     }
 
-    public void setResults( Tables[] results) {
+    public void setResults( TablesModel[] results) {
         this.results = results;
     }
 }
