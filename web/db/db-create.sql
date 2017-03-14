@@ -101,6 +101,7 @@ CREATE TABLE Orders (
   Waiter_ID   INT           NOT NULL,
   Cook_ID     INT           DEFAULT NULL,
   Table_ID    INT           NOT NULL,
+  DT_Created  DATETIME      NOT NULL,
   DT_Placed   DATETIME      NOT NULL,
   DT_Rejected DATETIME      DEFAULT NULL,
   DT_Cancelled DATETIME     DEFAULT NULL,
