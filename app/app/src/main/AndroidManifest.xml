@@ -20,6 +20,11 @@
 
         <activity android:name=".TableActivity"
             android:screenOrientation="landscape"/>
+
+        <activity android:name=".CookActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SignUpActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
