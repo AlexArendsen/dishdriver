@@ -25,7 +25,6 @@ VALUES
   (4, 'pom.xml (Priceless Object Management by Ashton)', '2017-01-13 14:13:00', NULL),
   (5, 'Mama Ling-Lings Teahouse and Sandwicheria', '2017-01-13 14:13:00', NULL);
 
-
 INSERT INTO Roles
   (Id, Name)
 VALUES
@@ -75,3 +74,8 @@ VALUES
   (2, 1, 1, false, false, 'This is for desert.'),
   (3, 1, 4, false, false, 'They NOTCH-yos (omg!)'),
   (4, 1, 5, false, false, 'Customer requests that they are made from buffalos and not from chickens or whatever.');
+
+INSERT INTO Reviews
+  (Id, Customer_ID, Restaurant_ID, Waiter_ID, Service_Rating, Food_Rating, Comments)
+VALUES
+  (1, 3, 3, 1, 3, 0, 'My food was on fire and also was everything');
