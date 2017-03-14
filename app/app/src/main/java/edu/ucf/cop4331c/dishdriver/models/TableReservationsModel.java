@@ -43,6 +43,8 @@ public class TableReservationsModel {
         this.dTAccepted = dTAccepted;
     }
 
+    public static Call<ArrayList<TableReservationsModel>> forRestaurant(RestaurantModel restaurant) throws Unsupported
+
     public Integer getId() {
         return id;
     }
