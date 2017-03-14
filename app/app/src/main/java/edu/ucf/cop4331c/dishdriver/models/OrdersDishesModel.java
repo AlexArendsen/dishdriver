@@ -3,7 +3,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
 
 /**
  * Created by ashton on pi + .0002.

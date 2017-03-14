@@ -17,10 +17,10 @@ public class SessionModel {
     public static User currentUser(){
         return user;
     }
-    public static Position currentPosition(){
+    public static PositionModel currentPosition(){
         return position;
     }
-    public static Restaurant currentRestaurant(){
+    public static RestaurantModel currentRestaurant(){
         return restaurant;
     }
 }
