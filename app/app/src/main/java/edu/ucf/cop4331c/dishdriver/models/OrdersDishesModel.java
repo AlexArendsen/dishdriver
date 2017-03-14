@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by ashton on pi + .00002.
  */
 
-public class OrderedDishes {
+public class OrdersDishesModel {
     @SerializedName("ID")
     @Expose
     private Integer id;
@@ -19,7 +19,7 @@ public class OrderedDishes {
     private String notesFromKitchen;
 
 
-    public OrderedDishes(Integer id, String notesFromKitchen) {
+    public OrdersDishesModel(Integer id, String notesFromKitchen) {
         this.id = id;
         this.isVoided = false;
         this.notesFromKitchen = notesFromKitchen;
