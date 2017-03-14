@@ -131,7 +131,7 @@ CREATE TABLE Dishes (
   -- properly.
 );
 
-CREATE TABLE Order_Dishes (
+CREATE TABLE Orders_Dishes (
   ID          INT           NOT NULL AUTO_INCREMENT,
   Order_ID    INT           NOT NULL, 
   Dish_ID     INT           NOT NULL,
