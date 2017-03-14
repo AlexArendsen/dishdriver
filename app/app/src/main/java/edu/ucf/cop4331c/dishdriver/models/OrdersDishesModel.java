@@ -47,7 +47,6 @@ public class OrdersDishesModel {
     static Call<ArrayList<OrdersDishesModel>> onDay(Date day);
     */
 
-
     public Integer getId() {
         return id;
     }

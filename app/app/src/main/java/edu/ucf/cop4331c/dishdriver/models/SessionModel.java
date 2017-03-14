@@ -6,10 +6,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 public class SessionModel {
 
-    private static User user;
-    private static Position position;
-    private static Restaurant restaurant;
-
+    private static UserModel user;
+    private static PositionModel position;
+    private static RestaurantModel restaurant;
+/*
     public static Call<String> login(String username, String password){
 
     }
@@ -18,14 +18,14 @@ public class SessionModel {
     public static Call logout(){
 
     }
-
-    public static User currentUser(){
+*/
+    public static UserModel currentUser(){
         return user;
     }
-    public static Position currentPosition(){
+    public static PositionModel currentPosition(){
         return position;
     }
-    public static Restaurant currentRestaurant(){
+    public static RestaurantModel currentRestaurant(){
         return restaurant;
     }
 }
