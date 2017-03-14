@@ -13,15 +13,26 @@ public class OrdersDishesModel {
     @SerializedName("ID")
     @Expose
     private Integer id;
-
+    @SerializedName("Order_ID")
+    @Expose
+    private int orderId;
+    @SerializedName("Dish_ID")
+    @Expose
+    private int dishId;
+    @SerializedName("IsRejected")
+    @Expose
     private boolean isRejected = false;
-    private boolean isVoided = true;
+    @SerializedName("IsVoided")
+    @Expose
+    private boolean isVoided = false;
+    @SerializedName("NotesFromKitchen")
+    @Expose
     private String notesFromKitchen;
 
-
-    public OrdersDishesModel(Integer id, String notesFromKitchen) {
+    public OrdersDishesModel(Integer id, int orderId, int dishId, String notesFromKitchen) {
         this.id = id;
-        this.isVoided = false;
+        this.orderId = orderId;
+        this.dishId = dishId;
         this.notesFromKitchen = notesFromKitchen;
     }
 
@@ -36,21 +47,35 @@ public class OrdersDishesModel {
     public Integer getId() {
         return id;
     }
-    public void setId(Integer id) {
-        this.id = id;
+
+    public int getOrderId() {
+        return orderId;
     }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getDishId() {
+        return dishId;
+    }
+    public void setDishId(int dishId) {
+        this.dishId = dishId;
+    }
+
     public boolean isRejected() {
         return isRejected;
     }
     public void setRejected(boolean rejected) {
         isRejected = rejected;
     }
+
     public boolean isVoided() {
         return isVoided;
     }
     public void setVoided(boolean voided) {
         isVoided = voided;
     }
+
     public String getNotesFromKitchen() {
         return notesFromKitchen;
     }
