@@ -20,32 +20,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="109dp"
-        android:id="@+id/textView"
-        tools:text="Sign In"
-        android:textSize="36sp"
-        android:layout_marginTop="25dp"
-        android:textColor="@color/white"
-        android:fontFamily="serif"
-        android:gravity="center"
-        android:layout_below="@+id/Title"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:layout_width="500dp"
-        android:layout_height="50dp"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:background="@color/white"
-        android:layout_marginTop="18dp"
-        android:id="@+id/UserName"
-        android:hint="Email"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/password" />
-
     <EditText
         android:layout_width="500dp"
         android:inputType="textPassword"
@@ -58,7 +32,8 @@
         android:selectAllOnFocus="false"
         android:layout_height="50dp"
         android:layout_below="@+id/UserName"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="haha you dont bug check" />
 
     <ImageView
         android:layout_height="50dp"
@@ -71,25 +46,72 @@
 
     <ImageView
         android:layout_width="50dp"
-        app:srcCompat="@drawable/PassIcon"
-        android:id="@+id/imageView2"
-        android:background="@color/white"
         android:layout_height="50dp"
+        app:srcCompat="@drawable/PassIcon"
+        android:id="@+id/imageView4"
+        android:background="@color/white"
         android:layout_alignTop="@+id/password"
         android:layout_toStartOf="@+id/password"
         android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        app:srcCompat="@drawable/icon"
+        android:id="@+id/imageView3"
+        android:layout_above="@+id/textView"
+        android:layout_toEndOf="@+id/UserNameIcon"
+        android:layout_marginBottom="17dp" />
+
+    <Button
+        android:text="Login In"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        android:layout_marginTop="28dp"
+        android:id="@+id/LoginButton"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_width="80dp" />
+
+    <EditText
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:background="@color/white"
+        android:id="@+id/UserName"
+        android:hint="Email"
+        android:layout_below="@+id/textView"
+        android:layout_toEndOf="@+id/imageView4"
+        android:text="haha you dont bug check" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="109dp"
+        android:id="@+id/textView"
+        tools:text="Sign In"
+        android:textSize="36sp"
+        android:textColor="@color/white"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/Title"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="109dp"
         android:id="@+id/Title"
-        tools:text="Dish Driver"
-        android:textSize="66sp"
-        android:layout_marginTop="97dp"
+        tools:text="Dish             river"
+        android:textSize="76sp"
+        android:layout_marginTop="55dp"
         android:fontFamily="serif"
         android:gravity="center"
         android:textColor="@color/white"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="74dp" />
 </RelativeLayout>

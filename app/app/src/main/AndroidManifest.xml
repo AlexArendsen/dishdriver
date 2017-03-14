@@ -20,6 +20,9 @@
 
         <activity android:name=".SignUpActivity"
             android:screenOrientation="landscape" />
+
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
