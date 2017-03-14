@@ -68,6 +68,18 @@ CREATE TABLE Tables (
   FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID)
 );
 
+CREATE TABLE Table_Reservations (
+  ID          INT           NOT NULL AUTO_INCREMENT,
+  Table_ID    INT           NOT NULL,
+  Party_Name  VARCHAR(255)  NOT NULL,
+  Party_Size  INT           NOT NULL,
+  Deposit     INT           NULL DEFAULT NULL,
+  DT_Requested DATETIME     NOT NULL DEFAULT NOW(),
+  DT_Accepted  DATETIME     NULL DEFAULT NULL,
+  PRIMARY KEY (ID),
+  FOREIGN KEY (Table_ID) REFERENCES Tables (ID)
+);
+
 CREATE TABLE Positions (
   ID           INT          AUTO_INCREMENT, 
   Employee_ID  INT          NOT NULL, /* Reference Users */
@@ -78,8 +90,8 @@ CREATE TABLE Positions (
   PRIMARY KEY (ID),
   FOREIGN KEY (Role_ID) REFERENCES Roles (ID),
   FOREIGN KEY (Employee_ID) REFERENCES Users (ID),
-  FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID),
-  UNIQUE(Employee_ID, Restaurant_ID)
+  FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID)
+  -- UNIQUE(Employee_ID, Restaurant_ID)
   -- ^^ I think this is correct for doing the composite key, but I can't vouch
   -- for that
 );
