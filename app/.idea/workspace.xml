@@ -7,7 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22eb3c08-9eab-4786-857d-215fcc132ad2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/TablesQueryModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/TablesQueryModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java" />
     </list>
     <ignored path="DishDriver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,12 +51,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TablesQueryModel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TablesQueryModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/TablesQueryModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-              <folding />
+            <state relative-caret-position="80">
+              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+              <folding>
+                <element signature="e#342#343#0" expanded="true" />
+                <element signature="e#369#370#0" expanded="true" />
+                <element signature="e#409#410#0" expanded="true" />
+                <element signature="e#441#442#0" expanded="true" />
+                <element signature="e#483#484#0" expanded="true" />
+                <element signature="e#513#514#0" expanded="true" />
+                <element signature="e#567#568#0" expanded="true" />
+                <element signature="e#605#606#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SessionModel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="640">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+              <folding>
+                <element signature="e#849#850#0" expanded="true" />
+                <element signature="e#882#883#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1883,8 +1907,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/ReviewsQueryModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/OrdersDishesQueryModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/OrdersDishesModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/TablesQueryModel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java" />
       </list>
     </option>
   </component>
@@ -2420,7 +2444,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java</url>
+          <line>23</line>
+          <properties />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -2488,23 +2521,7 @@
         <state relative-caret-position="560">
           <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#745#746#0" expanded="true" />
-            <element signature="e#770#771#0" expanded="true" />
-            <element signature="e#807#808#0" expanded="true" />
-            <element signature="e#835#836#0" expanded="true" />
-            <element signature="e#866#867#0" expanded="true" />
-            <element signature="e#893#894#0" expanded="true" />
-            <element signature="e#933#934#0" expanded="true" />
-            <element signature="e#965#966#0" expanded="true" />
-            <element signature="e#998#999#0" expanded="true" />
-            <element signature="e#1029#1030#0" expanded="true" />
-            <element signature="e#1075#1076#0" expanded="true" />
-            <element signature="e#1115#1116#0" expanded="true" />
-            <element signature="e#1148#1149#0" expanded="true" />
-            <element signature="e#1179#1180#0" expanded="true" />
-            <element signature="e#1225#1226#0" expanded="true" />
-            <element signature="e#1265#1266#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2514,31 +2531,7 @@
         <state relative-caret-position="480">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="29" selection-end-column="27" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1018#1019#0" expanded="true" />
-            <element signature="e#1043#1044#0" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1108#1109#0" expanded="true" />
-            <element signature="e#1148#1149#0" expanded="true" />
-            <element signature="e#1183#1184#0" expanded="true" />
-            <element signature="e#1240#1241#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1321#1322#0" expanded="true" />
-            <element signature="e#1349#1350#0" expanded="true" />
-            <element signature="e#1392#1393#0" expanded="true" />
-            <element signature="e#1426#1427#0" expanded="true" />
-            <element signature="e#1457#1458#0" expanded="true" />
-            <element signature="e#1484#1485#0" expanded="true" />
-            <element signature="e#1524#1525#0" expanded="true" />
-            <element signature="e#1556#1557#0" expanded="true" />
-            <element signature="e#1594#1595#0" expanded="true" />
-            <element signature="e#1628#1629#0" expanded="true" />
-            <element signature="e#1682#1683#0" expanded="true" />
-            <element signature="e#1728#1729#0" expanded="true" />
-            <element signature="e#1762#1763#0" expanded="true" />
-            <element signature="e#1794#1795#0" expanded="true" />
-            <element signature="e#1842#1843#0" expanded="true" />
-            <element signature="e#1884#1885#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2636,9 +2629,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="35" column="29" selection-start-line="12" selection-start-column="1" selection-end-line="35" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2712,39 +2703,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/OrdersDishesModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
-            <element signature="e#1305#1306#0" expanded="true" />
-            <element signature="e#1335#1336#0" expanded="true" />
-            <marker date="1489521823644" expanded="false" signature="1248:1259" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1269:1275" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1376:1387" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1410:1416" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1444:1455" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1469:1475" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1513:1524" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1545:1551" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1584:1595" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1613:1619" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1665:1676" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1698:1704" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1735:1746" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1762:1768" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1810:1821" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1839:1845" ph=" }" />
-            <marker date="1489521823644" expanded="false" signature="1886:1897" ph=" { " />
-            <marker date="1489521823644" expanded="false" signature="1921:1927" ph=" }" />
+            <element signature="e#1679#1680#0" expanded="true" />
+            <element signature="e#1709#1710#0" expanded="true" />
+            <marker date="1489522591244" expanded="false" signature="1622:1633" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="1643:1649" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="1750:1761" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="1784:1790" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="1818:1829" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="1843:1849" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="1887:1898" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="1919:1925" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="1958:1969" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="1987:1993" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="2039:2050" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="2072:2078" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="2109:2120" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="2136:2142" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="2184:2195" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="2213:2219" ph=" }" />
+            <marker date="1489522591244" expanded="false" signature="2260:2271" ph=" { " />
+            <marker date="1489522591244" expanded="false" signature="2295:2301" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -2759,9 +2742,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/TablesQueryModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="80">
+          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+          <folding>
+            <element signature="e#342#343#0" expanded="true" />
+            <element signature="e#369#370#0" expanded="true" />
+            <element signature="e#409#410#0" expanded="true" />
+            <element signature="e#441#442#0" expanded="true" />
+            <element signature="e#483#484#0" expanded="true" />
+            <element signature="e#513#514#0" expanded="true" />
+            <element signature="e#567#568#0" expanded="true" />
+            <element signature="e#605#606#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ucf/cop4331c/dishdriver/models/SessionModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+          <folding>
+            <element signature="e#849#850#0" expanded="true" />
+            <element signature="e#882#883#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
