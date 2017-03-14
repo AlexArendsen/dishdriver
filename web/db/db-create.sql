@@ -78,8 +78,8 @@ CREATE TABLE Positions (
   PRIMARY KEY (ID),
   FOREIGN KEY (Role_ID) REFERENCES Roles (ID),
   FOREIGN KEY (Employee_ID) REFERENCES Users (ID),
-  FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID),
-  UNIQUE(Employee_ID, Restaurant_ID)
+  FOREIGN KEY (Restaurant_ID) REFERENCES Restaurants (ID)
+  -- UNIQUE(Employee_ID, Restaurant_ID)
   -- ^^ I think this is correct for doing the composite key, but I can't vouch
   -- for that
 );
