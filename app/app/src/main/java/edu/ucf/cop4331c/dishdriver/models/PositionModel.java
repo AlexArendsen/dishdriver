@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import edu.ucf.cop4331c.dishdriver.enums.Roles;
 
 import java.util.Date;
 
@@ -29,14 +30,22 @@ public class PositionModel {
     @Expose
     private Date dTUnhired;
 
-    public PositionModel(Integer id, Integer employeeId, Integer roleId, Integer restaurantId, Date dTHired, Date dTUnhired) {
+    public PositionModel(Integer id, Integer employeeId, Integer roleId, Integer restaurantId, Date dTHired) {
         this.id = id;
         this.employeeId = employeeId;
         this.roleId = roleId;
         this.restaurantId = restaurantId;
         this.dTHired = dTHired;
-        this.dTUnhired = dTUnhired;
     }
+
+    public Call<ArrayList<PositionModel>> forUser(UserModel user) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<int> create(RegistrantModel registrant, RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call unhire() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
+    public PositionModel current() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
 
     public Integer getId() {
         return id;

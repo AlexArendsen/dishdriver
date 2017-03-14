@@ -38,6 +38,12 @@ public class DishesModel {
         this.dTDeleted = dTDeleted;
     }
 
+    public static Call<ArrayList<DishesModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<DishesModel>> search(RestaurantModel r, String query) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<int> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public delete() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
     public Integer getId() {
         return id;
     }

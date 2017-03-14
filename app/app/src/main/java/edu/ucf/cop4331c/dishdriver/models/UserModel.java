@@ -36,6 +36,17 @@ public class UserModel {
     @Expose
     private Object dTCancelled;
 
+    public UserModel(Integer id, String email, String password, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    pubilc Call<int> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
     public Integer getID() {
         return id;
     }

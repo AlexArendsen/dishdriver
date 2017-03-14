@@ -30,6 +30,19 @@ public class RestaurantModel {
         this.dTClosed = dTClosed;
     }
 
+    public static Call<RestaurantModel> get(int id) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<RestaurantModel>> search(String query) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<RestaurantModel>> forUser(UserModel userModel) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<PositionModel>> waiters() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<AraryList<PositionModel>> cooks() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<PositionModel>> admins() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<int> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call update()throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<DishesModel>> menu()throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call saveMenu(ArrayList<DishesModel> dishes)throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call addEmployee(RegistrantModel registrant, Roles roles)throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call addEmployee(UserModel user, Roles roles)throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
     public Integer getId() {
         return id;
     }

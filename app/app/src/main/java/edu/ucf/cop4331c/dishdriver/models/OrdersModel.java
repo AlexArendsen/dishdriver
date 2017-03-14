@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import edu.ucf.cop4331c.dishdriver.enums.Status;
 
 import java.util.Date;
 
@@ -65,6 +66,18 @@ public class OrdersModel {
         this.payment = payment;
         this.instructions = instructions;
     }
+
+    public Call<ArrayList<OrderedDish>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<int> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<Order> create(Position waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<Order> place(ArrayList<Dish> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call accept(Position cook) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call cancel() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call markCooked() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call markPaid() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+
 
     public Integer getId() {
         return id;
