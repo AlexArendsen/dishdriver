@@ -19,7 +19,8 @@ public class SessionModel {
 
     public static Call<LoginResponseModel> login(final String email, final String password) {
         final DishDriverService dd = DishDriverProvider.getInstance();
-        dd.login(new CredentialLoginModel(email, password))
+
+        return dd.login(new CredentialLoginModel(email, password))
             .enqueue(new Callback<LoginResponseModel>() {
                 @Override
                 public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
