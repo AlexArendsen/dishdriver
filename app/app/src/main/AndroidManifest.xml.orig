@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.ucf.cop4331c.dishdriver">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,23 +18,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LibraryDebugActivity" />
-        <activity android:name=".LogInActivity"></activity>
-
+<<<<<<< HEAD
         <activity android:name=".TableActivity"
             android:screenOrientation="landscape"/>
-
+=======
         <activity android:name=".CookActivity"
             android:screenOrientation="landscape"/>
-
         <activity android:name=".SignUpActivity"
             android:screenOrientation="landscape" />
-
-        <activity android:name=".RegisterActivity"
-            android:screenOrientation="landscape" />
-
-        <activity android:name=".CreateReviewActivity"
-            android:screenOrientation="landscape" />
+>>>>>>> 758efb22aad435fc7728b28caace3dcaeb4de3f3
     </application>
 
 </manifest>

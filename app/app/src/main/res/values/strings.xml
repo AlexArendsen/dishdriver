@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DishDriver</string>
+    <string name="order_number_order"><![CDATA[Order Number <Order>]]></string>
+    <string name="dishname"><![CDATA[<DishName>]]></string>
 </resources>

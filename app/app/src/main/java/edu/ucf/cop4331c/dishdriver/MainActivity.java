@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.takeMeToAppButton)
     public void navigateToApp() {
-        startActivity(new Intent(this, LogInActivity.class));
+        startActivity(new Intent(this, SignUpActivity.class));
     }
 
     @OnClick(R.id.takeMeToLibraryButton)
