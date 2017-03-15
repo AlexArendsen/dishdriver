@@ -10,11 +10,13 @@ public class RegistrantModel extends UserModel {
     private String password;
 
     public RegistrantModel(String email, String password) {
+        super();
         this.email = email;
         this.password = password;
     }
 
     public RegistrantModel(String email, String password, String fname, String lname) {
+        super();
         this.email = email;
         this.password = password;
         this.firstName = fname;

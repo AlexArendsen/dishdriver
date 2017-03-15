@@ -46,6 +46,8 @@ public class UserModel {
         this.lastName = lastName;
     }
 
+    public UserModel() { }
+
     public Call<Integer> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call<Boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
