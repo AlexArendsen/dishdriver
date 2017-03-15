@@ -3,6 +3,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+
 /**
  * Created by rebeca on 3/14/2017.
  */
@@ -40,8 +44,8 @@ public class ReviewsModel {
         this.comments = comments;
     }
 
-    public static Call<ArrayList<ReviewsModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<int> submit() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<ReviewsModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<Integer> submit() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getiD() {
         return iD;
