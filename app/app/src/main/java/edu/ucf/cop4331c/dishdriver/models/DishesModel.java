@@ -3,7 +3,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
 
 /**
  * Created by rebeca on 3/14/2017.
@@ -38,11 +41,11 @@ public class DishesModel {
         this.dTDeleted = dTDeleted;
     }
 
-    public static Call<ArrayList<DishesModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public static Call<ArrayList<DishesModel>> search(RestaurantModel r, String query) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<int> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public delete() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<DishesModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public static Call<ArrayList<DishesModel>> search(RestaurantModel r, String query) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<Integer> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public void update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public void delete() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getId() {
         return id;

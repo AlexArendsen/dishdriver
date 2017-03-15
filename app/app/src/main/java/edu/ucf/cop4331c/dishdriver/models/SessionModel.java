@@ -53,12 +53,12 @@ public class SessionModel {
     }
 
     public static UserModel currentUser(){
-        return user;
+        return sUser;
     }
     public static PositionModel currentPosition(){
-        return position;
+        return sPosition;
     }
     public static RestaurantModel currentRestaurant(){
-        return restaurant;
+        return sRestaurant;
     }
 }

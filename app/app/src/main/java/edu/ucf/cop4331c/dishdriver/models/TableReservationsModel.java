@@ -3,7 +3,10 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
 
 /**
  * Created by rebeca on 3/14/2017.
@@ -43,7 +46,7 @@ public class TableReservationsModel {
         this.dTAccepted = dTAccepted;
     }
 
-    public static Call<ArrayList<TableReservationsModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public static Call<ArrayList<TableReservationsModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getId() {
         return id;

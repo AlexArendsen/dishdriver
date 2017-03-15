@@ -3,7 +3,9 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import edu.ucf.cop4331c.dishdriver.enums.Status;
+import retrofit2.Call;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -67,16 +69,16 @@ public class OrdersModel {
         this.instructions = instructions;
     }
 
-    public Call<ArrayList<OrderedDish>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<int> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<Order> create(Position waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<Order> place(ArrayList<Dish> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call accept(Position cook) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call cancel() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call markCooked() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call markPaid() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<OrdersDishesModel>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<Integer> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<OrdersModel> create(PositionModel waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<OrdersModel> place(ArrayList<DishesModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call accept(PositionModel cook) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call cancel() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call markCooked() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call markPaid() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getId() {
         return id;

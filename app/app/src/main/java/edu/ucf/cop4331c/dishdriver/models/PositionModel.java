@@ -3,7 +3,9 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import edu.ucf.cop4331c.dishdriver.enums.Roles;
+import retrofit2.Call;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -38,15 +40,14 @@ public class PositionModel {
         this.dTHired = dTHired;
     }
 
-    public Call<ArrayList<PositionModel>> forUser(UserModel user) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<int> create(RegistrantModel registrant, RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call unhire() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<ArrayList<PositionModel>> forUser(UserModel user) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<ArrayList<PositionModel>> forRestaurant(RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<Integer> create(RegistrantModel registrant, RestaurantModel restaurant, Roles roles) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call unhire() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
-    public PositionModel current() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-
+    public PositionModel current() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Integer getId() {
         return id;
     }

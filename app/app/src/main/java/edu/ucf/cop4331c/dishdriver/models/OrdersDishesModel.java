@@ -39,11 +39,11 @@ public class OrdersDishesModel {
         this.notesFromKitchen = notesFromKitchen;
     }
 
-    public Call reject(String reason) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call void() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public static Call<ArrayList<OrderedDish>> between(Date start, Date end) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public static Call<ArrayList<OrderedDish>> onDay(Date day) throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call reject(String reason) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call voidThisShit() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public static Call<ArrayList<OrdersDishesModel>> between(Date start, Date end) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public static Call<ArrayList<OrdersDishesModel>> onDay(Date day) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getId() {
         return id;

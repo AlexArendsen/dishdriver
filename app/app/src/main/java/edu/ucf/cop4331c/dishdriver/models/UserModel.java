@@ -3,6 +3,8 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import retrofit2.Call;
+
 /**
  * Created by copper on 3/14/17.
  */
@@ -44,8 +46,8 @@ public class UserModel {
         this.lastName = lastName;
     }
 
-    pubilc Call<int> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
-    public Call<boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException; }
+    public Call<Integer> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<Boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public Integer getID() {
         return id;
