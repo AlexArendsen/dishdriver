@@ -9,11 +9,14 @@ import android.widget.Toast;
 
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Subscriber;
 
 public class LibraryDebugActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "LIBRARY_ACT";
+    private static final String TAG = "LIBRARY_DEBUG_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +30,13 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v){
-        Log.d("MR.bool", "We signed in");
         SessionModel.login("ashton@dishdriver.com", "password").subscribe(new Subscriber<LoginResponseModel>() {
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() { }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ERROR");
+                Log.e(TAG, "onError: Failed to log in due to network error.", e);
             }
 
             @Override

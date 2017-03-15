@@ -9,7 +9,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class DishDriverProvider {
-    public static final String BASE_URL = "http://192.168.0.5:6789/";
+
+    // NOTICE!!! If we start using SSL, make sure you change this connection
+    // string so that it begins with "https".
+    public static final String BASE_URL_DIGITAL_OCEAN = "http://45.55.187.43:6789/";
+
+    public static final String BASE_URL_LOCAL = "http://10.0.0.3:6789/";
     public static final String DD_HEADER_CLIENT = "asdf123";
 
     private static DishDriverService sDishDriverService;
@@ -17,7 +22,7 @@ public class DishDriverProvider {
     public static DishDriverService getInstance() {
         if (sDishDriverService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL_DIGITAL_OCEAN)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
