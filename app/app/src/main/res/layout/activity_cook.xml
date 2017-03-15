@@ -19,9 +19,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Order Number <Order>"
+                android:text="@string/order_number_order"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <TextView
@@ -30,7 +30,7 @@
                 android:layout_marginTop="30dp"
                 android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="25sp" />
         </RelativeLayout>
 
@@ -46,7 +46,7 @@
                 android:layout_height="50dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -57,7 +57,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -68,7 +68,7 @@
                 android:layout_marginTop="120dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -79,7 +79,7 @@
                 android:layout_marginTop="180dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -90,7 +90,7 @@
                 android:layout_marginTop="240dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -101,7 +101,7 @@
                 android:layout_marginTop="300dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -112,7 +112,7 @@
                 android:layout_marginTop="360dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -134,9 +134,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Order Number <Order>"
+                android:text="@string/order_number_order"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <TextView
@@ -145,7 +145,7 @@
                 android:layout_marginTop="30dp"
                 android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:textSize="25sp" />
         </RelativeLayout>
 
@@ -161,7 +161,7 @@
                 android:layout_height="50dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -172,7 +172,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -183,7 +183,7 @@
                 android:layout_marginTop="120dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -194,7 +194,7 @@
                 android:layout_marginTop="180dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -205,7 +205,7 @@
                 android:layout_marginTop="240dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -216,7 +216,7 @@
                 android:layout_marginTop="300dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -227,7 +227,7 @@
                 android:layout_marginTop="360dp"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:text="<DishName>"
+                android:text="@string/dishname"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
