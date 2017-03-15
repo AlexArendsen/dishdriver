@@ -30,6 +30,8 @@ function runProcedure(request, response, next) {
 } 
 
 function runLogin(request, response, next) {
+  console.log("Trying to log in with " + request.params.email + " and " + request.params.password + "!");
+
   // Check that access token was provided
   if (request.headers['dd-token-client'] != config.clientToken) {
     throw "Unauthorized access";
