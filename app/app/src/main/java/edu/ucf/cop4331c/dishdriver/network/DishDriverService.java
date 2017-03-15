@@ -8,6 +8,7 @@ import edu.ucf.cop4331c.dishdriver.models.TokenLoginModel;
 import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -26,10 +27,10 @@ public interface DishDriverService {
     Call<LoginResponseModel> login(@Body TokenLoginModel token);
 
     @POST("/login")
-    Observable<LoginResponseModel> loginObservable(@Body CredentialLoginModel token);
+    Observable<LoginResponseModel> loginObservable(@Header("dd-token-client") String value, @Body CredentialLoginModel token);
 
     @POST("/login")
-    Observable<LoginResponseModel> loginObservable(@Body TokenLoginModel token);
+    Observable<LoginResponseModel> loginObservable(@Header("dd-token-client") String value, @Body TokenLoginModel token);
 
     @POST("/logout")
     Call<LogoutResponseModel> logout();

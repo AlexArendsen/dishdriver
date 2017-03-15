@@ -23,7 +23,7 @@ public class SessionModel {
     public static Observable<LoginResponseModel> login(final String email, final String password) {
         final DishDriverService dd = DishDriverProvider.getInstance();
 
-        return dd.loginObservable(new CredentialLoginModel(email, password))
+        return dd.loginObservable(DishDriverProvider.DD_HEADER_CLIENT, new CredentialLoginModel(email, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(loginResponseModel -> {
@@ -37,7 +37,7 @@ public class SessionModel {
     public static Observable<LoginResponseModel> login(String token) {
         final DishDriverService dd = DishDriverProvider.getInstance();
 
-        return dd.loginObservable(new TokenLoginModel(token))
+        return dd.loginObservable(DishDriverProvider.DD_HEADER_CLIENT, new TokenLoginModel(token))
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(loginResponseModel -> {

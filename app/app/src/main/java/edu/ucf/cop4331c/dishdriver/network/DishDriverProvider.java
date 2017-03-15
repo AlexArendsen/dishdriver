@@ -9,7 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class DishDriverProvider {
-    public static final String BASE_URL = "http://192.168.0.5/";
+    public static final String BASE_URL = "http://192.168.0.5:6789/";
+    public static final String DD_HEADER_CLIENT = "asdf123";
 
     private static DishDriverService sDishDriverService;
 
