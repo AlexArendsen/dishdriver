@@ -60,11 +60,10 @@
         android:layout_width="80dp" />
 
     <TextView
-        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="109dp"
         android:id="@+id/textView"
-        tools:text="Sign In"
+        android:text="Sign In"
         android:textSize="36sp"
         android:textColor="@color/white"
         android:fontFamily="serif"
@@ -74,11 +73,11 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="TextView"
+
         android:layout_width="match_parent"
         android:layout_height="109dp"
         android:id="@+id/Title"
-        tools:text="Dish             river"
+        android:text="Dish             river"
         android:textSize="76sp"
         android:layout_marginTop="55dp"
         android:fontFamily="serif"
