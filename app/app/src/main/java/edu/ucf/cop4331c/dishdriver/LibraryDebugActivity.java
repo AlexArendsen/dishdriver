@@ -13,6 +13,8 @@ import rx.Subscriber;
 
 public class LibraryDebugActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "LIBRARY_ACT";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,7 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
 
             @Override
             public void onError(Throwable e) {
-
+                Log.d(TAG, "onError: ERROR");
             }
 
             @Override
