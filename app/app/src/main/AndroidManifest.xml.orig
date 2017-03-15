@@ -18,20 +18,15 @@
             </intent-filter>
         </activity>
 
+<<<<<<< HEAD
         <activity android:name=".TableActivity"
             android:screenOrientation="landscape"/>
-
+=======
         <activity android:name=".CookActivity"
             android:screenOrientation="landscape"/>
-
         <activity android:name=".SignUpActivity"
             android:screenOrientation="landscape" />
-
-        <activity android:name=".RegisterActivity"
-            android:screenOrientation="landscape" />
-
-        <activity android:name=".CreateReviewActivity"
-            android:screenOrientation="landscape" />
+>>>>>>> 758efb22aad435fc7728b28caace3dcaeb4de3f3
     </application>
 
 </manifest>

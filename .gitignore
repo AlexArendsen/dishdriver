@@ -19,7 +19,7 @@ node_modules/
 bin/
 gen/
 out/
-.idea/
+app/.idea/*
 
 # Gradle files
 .gradle/
