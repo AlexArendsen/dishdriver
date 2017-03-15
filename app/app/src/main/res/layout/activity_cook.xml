@@ -1,32 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <TextView
-        android:text="Order Number <Order>"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorAccent"
-        android:textAlignment="center"
-        android:textSize="25sp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_width="300dp"
-        android:layout_height="75dp"
-        android:id="@+id/textView" />
-     <LinearLayout
-         android:background="@color/colorPrimaryDark"
-         android:layout_marginStart="60dp"
-         android:layout_width="280dp"
-         android:layout_height="400dp"
-         android:orientation="vertical">
-         <LinearLayout
-             android:background="@color/colorAccent"
-             android:layout_marginStart="5dp"
-             android:layout_width="270dp"
-             android:layout_height="395dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="550dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="50dp"
+            android:background="#F6890E">
 
-     </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Number <Order>"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="550dp"
+            android:layout_height="430dp"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/customborder"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="60dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="120dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="180dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="240dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="300dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="360dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="550dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="50dp"
+            android:background="#F6890E">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Number <Order>"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="550dp"
+            android:layout_height="430dp"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/customborder"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="60dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="120dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="180dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="240dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="300dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="530dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="360dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="<DishName>"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
