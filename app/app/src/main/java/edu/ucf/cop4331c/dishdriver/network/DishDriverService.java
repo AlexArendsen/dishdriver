@@ -3,6 +3,8 @@ package edu.ucf.cop4331c.dishdriver.network;
 import edu.ucf.cop4331c.dishdriver.models.CredentialLoginModel;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.LogoutResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.PositionQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
 import edu.ucf.cop4331c.dishdriver.models.TokenLoginModel;
@@ -20,10 +22,16 @@ import rx.Observable;
 public interface DishDriverService {
     // Query d00dz
     @POST("/query")
-    Call<UsersQueryModel> queryUsers(@Body SqlModel sqlModel);
+    Call<UsersQueryModel> queryUsers(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
     @POST("/query")
     Call<RestaurantQueryModel> queryRestaurants(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<RestaurantQueryModel> queryRestaurantsObservable(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Call<PositionQueryModel> queryPositions(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
     // The Login Bros
     @POST("/login")

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         DishDriverProvider.getInstance().queryUsers(
+                DishDriverProvider.DD_HEADER_CLIENT,
                 new SqlModel("SELECT * FROM Users", new String[] {""})
         ).enqueue(new Callback<UsersQueryModel>() {
             @Override

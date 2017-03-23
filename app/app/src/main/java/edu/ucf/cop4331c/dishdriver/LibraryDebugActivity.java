@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
@@ -36,24 +38,24 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v){
 
         // We will search for a restaurant whose name begins with a capital P
-        RestaurantModel.search("P").enqueue(new Callback<RestaurantQueryModel>() {
+        RestaurantModel.search("").subscribe(new Subscriber<ArrayList<RestaurantModel>>() {
             @Override
-            public void onResponse(Call<RestaurantQueryModel> call, Response<RestaurantQueryModel> response) {
-                RestaurantQueryModel body = response.body();
-                String message = "Oh no! Could not find any restaurants!";
-                RestaurantModel[] results = null;
+            public void onCompleted() { }
 
-                if (body == null) message = "No response body found :(";
-                else results = body.getResults();
-
-                if (results != null && results.length > 0) message = "Found one! It's called " + results[0].getName();
-                Toast.makeText(LibraryDebugActivity.this, message, Toast.LENGTH_LONG).show();
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError: ", e);
             }
 
             @Override
-            public void onFailure(Call<RestaurantQueryModel> call, Throwable t) {
-                Toast.makeText(LibraryDebugActivity.this, "There was a problem!", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "onFailure: " + t.getMessage());
+            public void onNext(ArrayList<RestaurantModel> restaurantModels) {
+                if (restaurantModels.size() > 0)
+                    Toast.makeText(
+                        LibraryDebugActivity.this,
+                        "Found restaurants! The first one is called " + restaurantModels.get(0).getName(),
+                        Toast.LENGTH_LONG
+                    ).show();
+                else Toast.makeText(LibraryDebugActivity.this, "None found! :(", Toast.LENGTH_SHORT).show();
             }
         });
     }
