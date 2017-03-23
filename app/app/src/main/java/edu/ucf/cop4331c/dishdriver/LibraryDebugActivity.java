@@ -8,11 +8,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Subscriber;
+
+import static android.R.id.message;
 
 public class LibraryDebugActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,18 +34,26 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v){
-        SessionModel.login("ashton@dishdriver.com", "password").subscribe(new Subscriber<LoginResponseModel>() {
-            @Override
-            public void onCompleted() { }
 
+        // We will search for a restaurant whose name begins with a capital P
+        RestaurantModel.search("P").enqueue(new Callback<RestaurantQueryModel>() {
             @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError: Failed to log in due to network error.", e);
+            public void onResponse(Call<RestaurantQueryModel> call, Response<RestaurantQueryModel> response) {
+                RestaurantQueryModel body = response.body();
+                String message = "Oh no! Could not find any restaurants!";
+                RestaurantModel[] results = null;
+
+                if (body == null) message = "No response body found :(";
+                else results = body.getResults();
+
+                if (results != null && results.length > 0) message = "Found one! It's called " + results[0].getName();
+                Toast.makeText(LibraryDebugActivity.this, message, Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onNext(LoginResponseModel loginResponseModel) {
-                Toast.makeText(LibraryDebugActivity.this, loginResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<RestaurantQueryModel> call, Throwable t) {
+                Toast.makeText(LibraryDebugActivity.this, "There was a problem!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }

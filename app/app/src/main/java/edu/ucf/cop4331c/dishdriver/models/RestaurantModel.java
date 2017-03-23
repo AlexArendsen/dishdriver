@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.ucf.cop4331c.dishdriver.enums.Roles;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rebeca on 3/14/2017.
@@ -34,9 +37,35 @@ public class RestaurantModel {
         this.dTClosed = dTClosed;
     }
 
-    public static Call<RestaurantModel> get(int id) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public static Call<ArrayList<RestaurantModel>> search(String query) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public static Call<ArrayList<RestaurantModel>> forUser(UserModel userModel) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public static Call<RestaurantQueryModel> get(int id) {
+        return DishDriverProvider.getInstance().queryRestaurants(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(
+                "SELECT * FROM Restaurants WHERE Id = ?",
+                new String[] {Integer.toString(id)}
+        ));
+    }
+
+    public static Call<RestaurantQueryModel> search(String query) {
+
+        // Reformat query argument. We're only offering a prefix search, so
+        // we will only be adding the 0+ wildcard character (%) to the end
+        // of the query.
+        query += "%";
+
+        return DishDriverProvider.getInstance().queryRestaurants(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(
+                "SELECT * FROM Restaurants WHERE Name LIKE ?",
+                new String[] { query }
+        ));
+    }
+
+    public static Call<RestaurantQueryModel> forUser(PositionModel position) {
+
+        return DishDriverProvider.getInstance().queryRestaurants(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(
+                "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
+                new String[] { Integer.toString(position.getId()) }
+        ));
+
+    }
+
     public Call<ArrayList<PositionModel>> waiters() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call<ArrayList<PositionModel>> cooks() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call<ArrayList<PositionModel>> admins() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }

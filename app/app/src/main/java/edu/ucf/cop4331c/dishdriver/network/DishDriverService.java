@@ -3,6 +3,7 @@ package edu.ucf.cop4331c.dishdriver.network;
 import edu.ucf.cop4331c.dishdriver.models.CredentialLoginModel;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.LogoutResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
 import edu.ucf.cop4331c.dishdriver.models.TokenLoginModel;
 import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
@@ -17,9 +18,14 @@ import rx.Observable;
  */
 
 public interface DishDriverService {
+    // Query d00dz
     @POST("/query")
     Call<UsersQueryModel> queryUsers(@Body SqlModel sqlModel);
 
+    @POST("/query")
+    Call<RestaurantQueryModel> queryRestaurants(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    // The Login Bros
     @POST("/login")
     Call<LoginResponseModel> login(@Body CredentialLoginModel credentials);
 
@@ -32,6 +38,7 @@ public interface DishDriverService {
     @POST("/login")
     Observable<LoginResponseModel> loginObservable(@Header("dd-token-client") String value, @Body TokenLoginModel token);
 
+    // The lone logout man
     @POST("/logout")
     Call<LogoutResponseModel> logout();
 
