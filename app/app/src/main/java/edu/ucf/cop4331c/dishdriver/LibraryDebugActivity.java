@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
 
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
@@ -37,25 +39,19 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v){
 
-        // We will search for a restaurant whose name begins with a capital P
-        RestaurantModel.search("").subscribe(new Subscriber<ArrayList<RestaurantModel>>() {
+        // We will "search" for a restaurant. This will just return all of the restaurants
+        RestaurantModel.search("").subscribe(new Subscriber<List<RestaurantModel>>() {
             @Override
             public void onCompleted() { }
 
             @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError: ", e);
-            }
+            public void onError(Throwable e) { }
 
             @Override
-            public void onNext(ArrayList<RestaurantModel> restaurantModels) {
-                if (restaurantModels.size() > 0)
-                    Toast.makeText(
-                        LibraryDebugActivity.this,
-                        "Found restaurants! The first one is called " + restaurantModels.get(0).getName(),
-                        Toast.LENGTH_LONG
-                    ).show();
-                else Toast.makeText(LibraryDebugActivity.this, "None found! :(", Toast.LENGTH_SHORT).show();
+            public void onNext(List<RestaurantModel> restaurantModels) {
+                String msg = "Restaurants: ";
+                for(RestaurantModel r : restaurantModels) msg += r.getName() + "; ";
+                Toast.makeText(LibraryDebugActivity.this, msg, Toast.LENGTH_LONG).show();
             }
         });
     }

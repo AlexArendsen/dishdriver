@@ -73,7 +73,7 @@ public class OrdersModel {
     public Call<Integer> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call<OrdersModel> create(PositionModel waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<OrdersModel> place(ArrayList<DishesModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<OrdersModel> place(ArrayList<DishModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call accept(PositionModel cook) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call cancel() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
