@@ -7,12 +7,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Subscriber;
+
+import static android.R.id.message;
 
 public class LibraryDebugActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,18 +38,20 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v){
-        SessionModel.login("ashton@dishdriver.com", "password").subscribe(new Subscriber<LoginResponseModel>() {
+
+        // We will "search" for a restaurant. This will just return all of the restaurants
+        RestaurantModel.search("").subscribe(new Subscriber<List<RestaurantModel>>() {
             @Override
             public void onCompleted() { }
 
             @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "onError: Failed to log in due to network error.", e);
-            }
+            public void onError(Throwable e) { }
 
             @Override
-            public void onNext(LoginResponseModel loginResponseModel) {
-                Toast.makeText(LibraryDebugActivity.this, loginResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onNext(List<RestaurantModel> restaurantModels) {
+                String msg = "Restaurants: ";
+                for(RestaurantModel r : restaurantModels) msg += r.getName() + "; ";
+                Toast.makeText(LibraryDebugActivity.this, msg, Toast.LENGTH_LONG).show();
             }
         });
     }

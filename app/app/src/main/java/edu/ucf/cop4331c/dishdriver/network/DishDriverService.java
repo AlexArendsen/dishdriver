@@ -1,8 +1,12 @@
 package edu.ucf.cop4331c.dishdriver.network;
 
 import edu.ucf.cop4331c.dishdriver.models.CredentialLoginModel;
+import edu.ucf.cop4331c.dishdriver.models.DishQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.LogoutResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.PositionQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
 import edu.ucf.cop4331c.dishdriver.models.TokenLoginModel;
 import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
@@ -17,9 +21,24 @@ import rx.Observable;
  */
 
 public interface DishDriverService {
+    // Query d00dz
     @POST("/query")
-    Call<UsersQueryModel> queryUsers(@Body SqlModel sqlModel);
+    Call<UsersQueryModel> queryUsers(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
+    @POST("/query")
+    Observable<RestaurantQueryModel> queryRestaurants(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<PositionQueryModel> queryPositions(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<DishQueryModel> queryDishes(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    // Non-Query Stuffages (for INSERTs, UPDATEs, and DELETEs)
+    @POST("/query")
+    Observable<NonQueryResponseModel> nonQuery(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    // The Login Bros
     @POST("/login")
     Call<LoginResponseModel> login(@Body CredentialLoginModel credentials);
 
@@ -32,6 +51,7 @@ public interface DishDriverService {
     @POST("/login")
     Observable<LoginResponseModel> loginObservable(@Header("dd-token-client") String value, @Body TokenLoginModel token);
 
+    // The lone logout man
     @POST("/logout")
     Call<LogoutResponseModel> logout();
 
