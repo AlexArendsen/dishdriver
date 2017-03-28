@@ -11,11 +11,7 @@ import java.util.List;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by copper on 3/27/17.
@@ -33,12 +29,15 @@ public class RestaurantModelTests {
 
     @Test
     public void SearchForChadThai() throws Exception {
-        Observable<List<RestaurantModel>> observable = RestaurantModel.search("").observeOn(Schedulers.test());
+        Observable<List<RestaurantModel>> observable = RestaurantModel.search("");
         TestSubscriber<List<RestaurantModel>> subscriber = new TestSubscriber<>();
         observable.subscribe(subscriber);
 
         subscriber.assertNoErrors();
-        RestaurantModel chad = subscriber.getOnNextEvents().get(0).get(0);
+        subscriber.awaitTerminalEvent(); // <--- IMPORTANT! Otherwise subscriber won't wait
+
+        List<List<RestaurantModel>> restaurants = subscriber.getOnNextEvents();
+        RestaurantModel chad = restaurants.get(0).get(0);
 
         System.out.println("Here's Chaddy! " + chad.getName());
     }
@@ -50,6 +49,8 @@ public class RestaurantModelTests {
         observable.subscribe(subscriber);
 
         subscriber.assertNoErrors();
+        subscriber.awaitTerminalEvent();
+
         RestaurantModel chad = subscriber.getOnNextEvents().get(0).get(0);
 
         System.out.println("Welcome to " + chad.getName() + "! Here is our menu:");
@@ -59,6 +60,8 @@ public class RestaurantModelTests {
         menuObservable.subscribe(menuSubscriber);
 
         menuSubscriber.assertNoErrors();
+        menuSubscriber.awaitTerminalEvent();
+
         List<DishModel> menu = menuSubscriber.getOnNextEvents().get(0);
 
         for(DishModel d : menu) {

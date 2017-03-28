@@ -41,8 +41,8 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v){
 
-        // We will "search" for a restaurant. This will just return all of the restaurants
-        RestaurantModel.search("").observeOn(AndroidSchedulers.mainThread())
+        // We will search for Chad Thai
+        RestaurantModel.search("Chad").observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<RestaurantModel>>() {
             @Override
             public void onCompleted() { }
