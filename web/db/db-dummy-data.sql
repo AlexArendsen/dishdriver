@@ -67,7 +67,7 @@ INSERT INTO Orders
 VALUES
   (1, 1, 1, 3, '2017-01-03 13:00:00', '2017-01-03 13:15:47', NULL, NULL, NULL, NULL, 220, 1299, 'None pizza left beef');
 
-INSERT INTO Orders_Dishes
+INSERT INTO Ordered_Dishes
   (Id, Order_ID, Dish_ID, IsRejected, IsVoided, NotesFromKitchen)
 VALUES
   (1, 1, 2, false, false, 'Make sure that it\'s a burger.'),
