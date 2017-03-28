@@ -4,11 +4,11 @@ package edu.ucf.cop4331c.dishdriver.models;
  * Created by rebeca on 3/14/2017.
  */
 
-public class OrdersQueryModel {
+public class OrderQueryModel {
     private String code;
-    private OrdersModel[] results;
+    private OrderModel[] results;
 
-    public OrdersQueryModel(String code, OrdersModel[] results) {
+    public OrderQueryModel(String code, OrderModel[] results) {
         this.code = code;
         this.results = results;
     }
@@ -21,11 +21,11 @@ public class OrdersQueryModel {
         this.code = code;
     }
 
-    public OrdersModel[] getResults() {
+    public OrderModel[] getResults() {
         return results;
     }
 
-    public void setResults(OrdersModel[] results) {
+    public void setResults(OrderModel[] results) {
         this.results = results;
     }
 }

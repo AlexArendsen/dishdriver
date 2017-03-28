@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by rebeca on 3/14/2017.
  */
 
-public class OrdersModel {
+public class OrderModel {
     @SerializedName("ID")
     @Expose
     private Integer id;
@@ -53,7 +53,7 @@ public class OrdersModel {
     @Expose
     private String instructions;
 
-    public OrdersModel(Integer id, Integer waiterId, Integer cookId, Integer tableId, Date dTCreated, Date dTPlaced, Date dTRejected, Date dTCancelled, Date dTCooked, Date dTPayed, Integer discount, Integer payment, String instructions) {
+    public OrderModel(Integer id, Integer waiterId, Integer cookId, Integer tableId, Date dTCreated, Date dTPlaced, Date dTRejected, Date dTCancelled, Date dTCooked, Date dTPayed, Integer discount, Integer payment, String instructions) {
         this.id = id;
         this.waiterId = waiterId;
         this.cookId = cookId;
@@ -69,11 +69,11 @@ public class OrdersModel {
         this.instructions = instructions;
     }
 
-    public Call<ArrayList<OrdersDishesModel>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<ArrayList<OrderedDishModel>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call<Integer> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<OrdersModel> create(PositionModel waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<OrdersModel> place(ArrayList<DishModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<OrderModel> create(PositionModel waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Call<OrderModel> place(ArrayList<DishModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call accept(PositionModel cook) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call reject() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
     public Call cancel() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }

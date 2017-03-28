@@ -5,6 +5,8 @@ import edu.ucf.cop4331c.dishdriver.models.DishQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.LogoutResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.PositionQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
@@ -33,6 +35,9 @@ public interface DishDriverService {
 
     @POST("/query")
     Observable<DishQueryModel> queryDishes(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<OrderedDishQueryModel> queryOrderedDishes(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
     // Non-Query Stuffages (for INSERTs, UPDATEs, and DELETEs)
     @POST("/query")
