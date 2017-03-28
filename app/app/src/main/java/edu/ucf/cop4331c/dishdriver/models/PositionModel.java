@@ -61,7 +61,7 @@ public class PositionModel {
                     if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<PositionModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
-                }).observeOn(AndroidSchedulers.mainThread());
+                });
     }
 
     public Call<ArrayList<PositionModel>> forUser(UserModel user) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }

@@ -56,7 +56,7 @@ public class DishModel {
                     if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<DishModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
-                }).observeOn(AndroidSchedulers.mainThread());
+                });
     }
     // endregion
 
