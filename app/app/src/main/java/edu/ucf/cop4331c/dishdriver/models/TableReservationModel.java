@@ -4,18 +4,26 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import retrofit2.Call;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by rebeca on 3/14/2017.
  */
 
-public class TableReservationsModel {
+public class TableReservationModel {
+
+    // region Field Definitions
     @SerializedName("ID")
     @Expose
     private Integer id;
+
     @SerializedName("Table_ID")
     @Expose
     private Integer tableId;
@@ -23,20 +31,26 @@ public class TableReservationsModel {
     @SerializedName("Party_Name")
     @Expose
     private String partyName;
+
     @SerializedName("Party_Size")
     @Expose
     private Integer partySize;
+
     @SerializedName("Deposit")
     @Expose
     private Integer deposit;
+
     @SerializedName("DT_Requested")
     @Expose
     private Date dTRequested;
+
     @SerializedName("DT_Accepted")
     @Expose
     private Date dTAccepted;
+    // endregion
 
-    public TableReservationsModel(Integer id, Integer tableId, String partyName, Integer partySize, Integer deposit, Date dTRequested, Date dTAccepted) {
+    // region Constructors
+    public TableReservationModel(Integer id, Integer tableId, String partyName, Integer partySize, Integer deposit, Date dTRequested, Date dTAccepted) {
         this.id = id;
         this.tableId = tableId;
         this.partyName = partyName;
@@ -45,9 +59,31 @@ public class TableReservationsModel {
         this.dTRequested = dTRequested;
         this.dTAccepted = dTAccepted;
     }
+    // endregion
 
-    public static Call<ArrayList<TableReservationsModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    // region query() implementation
+    public static Observable<List<TableReservationModel>> query(String sql, String[] args) {
 
+        return DishDriverProvider.getInstance().queryTableReservations(
+                DishDriverProvider.DD_HEADER_CLIENT,
+                new SqlModel(sql, args)
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(qm -> {
+
+                    // If no response was sent, just give back an empty list so things don't
+                    // explode in UI
+                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<TableReservationModel>());
+                    return Observable.just(Arrays.asList(qm.getResults()));
+
+                });
+    }
+    // endregion
+
+    public static Call<ArrayList<TableReservationModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+
+    // region Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -103,4 +139,5 @@ public class TableReservationsModel {
     public void setdTAccepted(Date dTAccepted) {
         this.dTAccepted = dTAccepted;
     }
+    // endregion
 }

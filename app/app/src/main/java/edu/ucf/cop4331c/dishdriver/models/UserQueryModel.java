@@ -1,14 +1,14 @@
 package edu.ucf.cop4331c.dishdriver.models;
 
 /**
- * Created by rebeca on 3/14/2017.
+ * Created by copper on 3/14/17.
  */
 
-public class TablesQueryModel {
+public class UserQueryModel {
     private String code;
-    private TablesModel[] results;
+    private UserModel[] results;
 
-    public TablesQueryModel(String code,  TablesModel[] results) {
+    public UserQueryModel(String code, UserModel[] results) {
         this.code = code;
         this.results = results;
     }
@@ -21,11 +21,11 @@ public class TablesQueryModel {
         this.code = code;
     }
 
-    public  TablesModel[] getResults() {
+    public UserModel[] getResults() {
         return results;
     }
 
-    public void setResults( TablesModel[] results) {
+    public void setResults(UserModel[] results) {
         this.results = results;
     }
 }

@@ -5,13 +5,15 @@ import edu.ucf.cop4331c.dishdriver.models.DishQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.LogoutResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
-import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.PositionQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.ReviewQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
+import edu.ucf.cop4331c.dishdriver.models.TableQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.TableReservationQueryModel;
 import edu.ucf.cop4331c.dishdriver.models.TokenLoginModel;
-import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.UserQueryModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -25,7 +27,7 @@ import rx.Observable;
 public interface DishDriverService {
     // Query d00dz
     @POST("/query")
-    Call<UsersQueryModel> queryUsers(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+    Observable<UserQueryModel> queryUsers(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
     @POST("/query")
     Observable<RestaurantQueryModel> queryRestaurants(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
@@ -38,6 +40,15 @@ public interface DishDriverService {
 
     @POST("/query")
     Observable<OrderedDishQueryModel> queryOrderedDishes(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<ReviewQueryModel> queryReviews(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<TableReservationQueryModel> queryTableReservations(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
+
+    @POST("/query")
+    Observable<TableQueryModel> queryTables(@Header("dd-token-client") String token, @Body SqlModel sqlModel);
 
     // Non-Query Stuffages (for INSERTs, UPDATEs, and DELETEs)
     @POST("/query")

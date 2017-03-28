@@ -8,9 +8,8 @@ import android.util.Log;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
-import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
+import edu.ucf.cop4331c.dishdriver.models.UserQueryModel;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import edu.ucf.cop4331c.dishdriver.network.DishDriverService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
         DishDriverProvider.getInstance().queryUsers(
                 DishDriverProvider.DD_HEADER_CLIENT,
                 new SqlModel("SELECT * FROM Users", new String[] {""})
-        ).enqueue(new Callback<UsersQueryModel>() {
+        ).enqueue(new Callback<UserQueryModel>() {
             @Override
-            public void onResponse(Call<UsersQueryModel> call, Response<UsersQueryModel> response) {
+            public void onResponse(Call<UserQueryModel> call, Response<UserQueryModel> response) {
                 Log.d(TAG, "onResponse: Some bullshit");
             }
 
             @Override
-            public void onFailure(Call<UsersQueryModel> call, Throwable t) {
+            public void onFailure(Call<UserQueryModel> call, Throwable t) {
                 Log.d(TAG, "onFailure: Some bullshit");
             }
         });
