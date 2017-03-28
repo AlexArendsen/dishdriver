@@ -93,7 +93,7 @@ public class RestaurantModel {
                     if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<RestaurantModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
-                }).observeOn(AndroidSchedulers.mainThread());
+                });
     }
     // endregion
 
