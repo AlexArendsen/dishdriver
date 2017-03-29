@@ -23,21 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        DishDriverProvider.getInstance().queryUsers(
-                DishDriverProvider.DD_HEADER_CLIENT,
-                new SqlModel("SELECT * FROM Users", new String[] {""})
-        ).enqueue(new Callback<UserQueryModel>() {
-            @Override
-            public void onResponse(Call<UserQueryModel> call, Response<UserQueryModel> response) {
-                Log.d(TAG, "onResponse: Some bullshit");
-            }
-
-            @Override
-            public void onFailure(Call<UserQueryModel> call, Throwable t) {
-                Log.d(TAG, "onFailure: Some bullshit");
-            }
-        });
     }
 
     @OnClick(R.id.takeMeToAppButton)
