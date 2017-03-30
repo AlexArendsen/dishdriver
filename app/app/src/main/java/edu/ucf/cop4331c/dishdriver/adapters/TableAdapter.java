@@ -28,7 +28,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
     public TableAdapter(Context context) {
         mContextWeakReference = new WeakReference<Context>(context);
-    }
+}
 
     @Override
     public TableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

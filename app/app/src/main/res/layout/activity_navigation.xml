@@ -8,19 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:id="@+id/linearLayout">
+        android:id="@+id/menuBarLinearLayout">
 
-        <Button
-            android:id="@+id/menuButton"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/menuSpinner"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Menu" />
+            />
 
-        <Button
-            android:id="@+id/beverageButton"
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/beverageSpinner"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Beverage" />
 
@@ -45,6 +45,13 @@
 
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menuItemRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/menuBarLinearLayout"
+        android:layout_toEndOf="@+id/divider" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="3dp"
@@ -60,14 +67,6 @@
         <!--android:layout_alignParentEnd="true"-->
         <!--android:layout_alignParentTop="true"-->
         <!--android:text="Check" />-->
-
-    <TextView
-        android:id="@+id/tableNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BLAH"
-        android:textSize="84sp"
-        android:layout_below="@+id/linearLayout" />
 
 
 </RelativeLayout>

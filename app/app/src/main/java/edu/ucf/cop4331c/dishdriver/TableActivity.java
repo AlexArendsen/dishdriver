@@ -92,12 +92,11 @@ public class TableActivity extends AppCompatActivity {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-        // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkbox_deposit:
-                if (checked)
+               if (checked)
                     Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
-                else
+                //else
                 break;
 
 
