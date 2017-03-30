@@ -53,6 +53,9 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onNext(LoginResponseModel loginResponseModel) {
                 startActivity(new Intent(SignInActivity.this, CookActivity.class));
+                UserName.setText("");//overkill
+                Password.setText("");//overkill but maybe useful with signoutbutton probably not
+                finish();
             }
         });
     }
