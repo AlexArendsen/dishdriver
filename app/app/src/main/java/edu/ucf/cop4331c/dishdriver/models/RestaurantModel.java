@@ -70,15 +70,6 @@ public class RestaurantModel {
 
     // endregion
 
-    // region Constructors
-    public RestaurantModel(Integer id, String name, Date dTOpened, Date dTClosed) {
-        this.id = id;
-        this.name = name;
-        this.dTOpened = dTOpened;
-        this.dTClosed = dTClosed;
-    }
-    // endregion
-
     // region query() Definition
     public static Observable<List<RestaurantModel>> query(String sql, String[] args) {
 
@@ -107,7 +98,7 @@ public class RestaurantModel {
      * @return A list containing either the one restaurant with the ID, or no restaurants.
      */
     public static Observable<List<RestaurantModel>> get(int id) {
-        return query("SELECT * FROM Restaurant WHERE Id = ?", new String[] {Integer.toString(id)});
+        return query("SELECT * FROM Restaurants WHERE Id = ?", new String[] {Integer.toString(id)});
     }
 
     /**
@@ -134,7 +125,7 @@ public class RestaurantModel {
 
         return query(
                 "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
-                new String[] { Integer.toString(position.getId()) }
+                new String[] { Integer.toString(position.getID()) }
         );
 
     }

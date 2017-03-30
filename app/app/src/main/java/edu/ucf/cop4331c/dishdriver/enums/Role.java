@@ -5,5 +5,5 @@ package edu.ucf.cop4331c.dishdriver.enums;
  */
 
 public enum Role {
-    Waiter, Cook, Admin, Unknown
+    Admin, Waiter, Cook, Unknown
 }

@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import edu.ucf.cop4331c.dishdriver.enums.Role;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
@@ -19,21 +20,22 @@ import java.util.List;
 public class PositionModel {
 
     // region Field Definitions
+
     @SerializedName("ID")
     @Expose
     private Integer id;
 
     @SerializedName("Employee_ID")
     @Expose
-    private Integer employeeId;
+    private Integer employeeID;
 
     @SerializedName("Role_ID")
     @Expose
-    private Integer roleId;
+    private Integer roleID;
 
     @SerializedName("Restaurant_ID")
     @Expose
-    private Integer restaurantId;
+    private Integer restaurantID;
 
     @SerializedName("DT_Hired")
     @Expose
@@ -46,6 +48,11 @@ public class PositionModel {
     @SerializedName("Restaurant_Name")
     @Expose
     private String restaurantName;
+
+    @SerializedName("Employee_Name")
+    @Expose
+    private String employeeName;
+
     // endregion
 
     // region query() implementation
@@ -69,24 +76,37 @@ public class PositionModel {
     // endregion
 
     // region DB Retrieval
+
     /**
      * Fetch all positions currently held by the provided user from the database.
      *
      * @param user The user whose current positions are to be fetched
      * @return The list of positions held by the provided user.
      */
-    public Observable<List<PositionModel>> forUser(UserModel user) {
+    public static Observable<List<PositionModel>> forUser(UserModel user) {
+
+        // UGGGGGGGGGGGGGGH Java WHY??!?
+        // WHY in 20-freaking-17 do you not have MULTILINE. STRING. LITERALS.
+        // *freaks out into the sunset*
+        // #ThanksOracle
+
         return query(
-                "SELECT " +
-                    "P.*, " +
-                    "R.Name AS Restaurant_Name" +
-                "FROM " +
-                    "Positions P " +
-                    "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
-                "WHERE " +
-                    "P.Employee_ID = ? " +
-                    "AND P.DT_Unhired IS NULL",
-                new String[] { Integer.toString(user.getID()) }
+            "SELECT " +
+                "P.*, " +
+                "R.Name AS Restaurant_Name, " +
+                "IF( " +
+                    "NULLIF(U.FirstName, '') IS NULL, " +
+                    "U.Email, " +
+                    "CONCAT(U.FirstName, ' ', U.LastName) " +
+                ") AS Employee_Name " +
+            "FROM " +
+                "Positions P " +
+                "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+            "WHERE " +
+                "P.Employee_ID = ? " +
+                "AND P.DT_Unhired IS NULL",
+            new String[] { Integer.toString(user.getID()) }
         );
     }
 
@@ -94,13 +114,27 @@ public class PositionModel {
      * Fetch all positions currently working at the provided restaurant. Unhired positions are
      * excluded.
      *
-     * @param restaurant The restaurant whose positions are to be fetched
      * @return The list of the positions currently working at the provided restaurant.
      */
-    public Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant) {
+    public static Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant) {
+
         return query(
-                "SELECT * FROM Positions WHERE Restaurant_ID = ? AND DT_Unhired IS NULL",
-                new String[] { Integer.toString(restaurant.getId()) }
+            "SELECT " +
+                "P.*, " +
+                "R.Name AS Restaurant_Name, " +
+                "IF( " +
+                    "NULLIF(U.FirstName, '') IS NULL, " +
+                    "U.Email, " +
+                    "CONCAT(U.FirstName, ' ', U.LastName) " +
+                ") AS Employee_Name " +
+            "FROM " +
+                "Positions P " +
+                "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+            "WHERE " +
+                "P.Restaurant_ID = ? " +
+                "AND P.DT_Unhired IS NULL",
+            new String[] { Integer.toString(restaurant.getId()) }
         );
     }
 
@@ -113,7 +147,7 @@ public class PositionModel {
      * @param role The role
      * @return The list of the positions currently working at the provided restaurant.
      */
-    public Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant, Role role) {
+    public static Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant, Role role) {
 
         // So clunky T_T
         return forRestaurant(restaurant)
@@ -187,12 +221,12 @@ public class PositionModel {
      * A friendly, human-readable name for this position in the format "[Role] at [Restaurant]"
      * @return A string in the format "[Role] at [Restaurant]"
      */
-    public String getName() {
+    public String getPositionName() {
         return getRole().toString() + " at " + restaurantName;
     }
 
     public Role getRole() {
-        switch(roleId) {
+        switch(roleID) {
             case 1:  return Role.Admin;
             case 2:  return Role.Waiter;
             case 3:  return Role.Cook;
@@ -202,51 +236,52 @@ public class PositionModel {
     // endregion
 
     // region Getters and Setters
-    public Integer getId() {
+
+    public Integer getID() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setID(Integer id) {
         this.id = id;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Integer getEmployeeID() {
+        return employeeID;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeID(Integer employeeID) {
+        this.employeeID = employeeID;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Integer getRoleID() {
+        return roleID;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRoleID(Integer roleID) {
+        this.roleID = roleID;
     }
 
-    public Integer getRestaurantId() {
-        return restaurantId;
+    public Integer getRestaurantID() {
+        return restaurantID;
     }
 
-    public void setRestaurantId(Integer restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurantID(Integer restaurantID) {
+        this.restaurantID = restaurantID;
     }
 
-    public Date getdTHired() {
+    public Date getDTHired() {
         return dTHired;
     }
 
-    public void setdTHired(Date dTHired) {
+    public void setDTHired(Date dTHired) {
         this.dTHired = dTHired;
     }
 
-    public Date getdTUnhired() {
+    public Date getDTUnhired() {
         return dTUnhired;
     }
 
-    public void setdTUnhired(Date dTUnhired) {
+    public void setDTUnhired(Date dTUnhired) {
         this.dTUnhired = dTUnhired;
     }
 
@@ -256,6 +291,14 @@ public class PositionModel {
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
     // endregion
 }
