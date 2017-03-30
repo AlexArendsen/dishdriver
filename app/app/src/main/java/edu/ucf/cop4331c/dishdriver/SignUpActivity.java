@@ -37,10 +37,10 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.loginButton)
     public void login(View v){
 
-        EditText UserName = (EditText) findViewById(R.id.UserName);
+        EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         String userName = UserName.getText().toString();
 
-        EditText Password = (EditText) findViewById(R.id.Password);
+        EditText Password = (EditText) findViewById(R.id.passwordEditText);
         String password = Password.getText().toString();
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onNext(LoginResponseModel loginResponseModel) {
-                //startActivity(new Intent(this, CookActivity.class));
+                startActivity(new Intent(SignUpActivity.this, CookActivity.class));
             }
         });
     }
