@@ -10,7 +10,6 @@ import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.models.SqlModel;
 import edu.ucf.cop4331c.dishdriver.models.UsersQueryModel;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import edu.ucf.cop4331c.dishdriver.network.DishDriverService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.takeMeToAppButton)
     public void navigateToApp() {
-        startActivity(new Intent(this, SignUpActivity.class));
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
     @OnClick(R.id.takeMeToLibraryButton)

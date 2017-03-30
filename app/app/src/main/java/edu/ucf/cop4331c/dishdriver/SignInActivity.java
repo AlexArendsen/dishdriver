@@ -6,26 +6,22 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
-import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
 
 /**
  * Created by Melissa on 3/14/2017.
+ * @author Ashton Ansag
  */
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignUpActivity";
+    private static final String TAG = "SignInActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onNext(LoginResponseModel loginResponseModel) {
-                startActivity(new Intent(SignUpActivity.this, CookActivity.class));
+                startActivity(new Intent(SignInActivity.this, CookActivity.class));
             }
         });
     }
