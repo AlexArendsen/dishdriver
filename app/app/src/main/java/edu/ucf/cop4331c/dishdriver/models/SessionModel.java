@@ -44,8 +44,7 @@ public class SessionModel {
                     sUser = loginResponseModel.getResults().get(0);
                     sToken = sUser.sessionToken;
                     return Observable.just(loginResponseModel);
-                })
-                .observeOn(AndroidSchedulers.mainThread());
+                });
     }
 
     public static Call logout() throws UnsupportedOperationException {

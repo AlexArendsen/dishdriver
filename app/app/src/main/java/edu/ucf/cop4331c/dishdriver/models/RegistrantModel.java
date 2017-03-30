@@ -9,6 +9,7 @@ import retrofit2.Call;
 public class RegistrantModel extends UserModel {
     private String password;
 
+    // region Constructors
     public RegistrantModel(String email, String password) {
         super();
         this.email = email;
@@ -29,7 +30,9 @@ public class RegistrantModel extends UserModel {
         this.firstName = user.firstName;
         this.lastName = user.lastName;
     }
+    // endregion
 
+    // region Getters and Setters
     @Override
     public String getPassword() {
         return password;
@@ -39,13 +42,15 @@ public class RegistrantModel extends UserModel {
     public void setPassword(String password) {
         this.password = password;
     }
+    // endregion
 
-    public Call<Integer> create() {
+    public Call<Integer> create() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 
-    public Call<Boolean> update() {
+    public Call<Boolean> update() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
+
 
 }

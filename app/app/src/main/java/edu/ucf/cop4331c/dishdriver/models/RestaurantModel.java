@@ -8,10 +8,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import edu.ucf.cop4331c.dishdriver.enums.Roles;
+import edu.ucf.cop4331c.dishdriver.enums.Role;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -25,28 +24,31 @@ public class RestaurantModel {
      * Please use this RestaurantModel class as a template for implementing the rest of the
      * DishDriver library classes. Here's a checklist:
      *
-     * [] First: create a branch from meeting-two-library-implement called library-<MODEL>-implement-<YOUR_NAME>
-     * [] Implement the query() method. It should return an Observable<List<Model>>, where the inner
-     *      result list is never null (in all error and degenerate cases, it should simply be an
-     *      empty list).
-     * [] All methods that return a "Call<M>" instance should return an "Observable<M>" instead.
+     * [] First: create a branch from meeting-two-library called library-<MODEL>-implement-<YOUR_NAME>
+     *
+     * [] You can skip writing SQL if you aren't confident in writing SQL.
+     *
      * [] Implement the methods for that class:
      *      If the method returns instances of its own class, use the query() method from the
-     *          first checklist item.
+     *          first checklist item (eg, the `get()` method).
      *      If the method returns instances of a different class, use the query() method of that class
-     *          to obtain the Observable.
+     *          to obtain the Observable (eg, the `menu()` method).
      *      If the method does some kind of mutation of the database (and INSERT or UPDATE), the
      *          associated method should return Observable<NonQueryResponseModel>, and use the
-     *          NonQueryResponseModel.run() method.
+     *          NonQueryResponseModel.run() method (eg, the `addEmployee()` method).
+     *
      * [] No implemented method should throw or declare an UnsupportedOperationException
-     * [] When all the methods have been implemented, commit and push your changes to VSTS, and then
-     *      let me know so I can merge them in.
-     * [] (If you have time) Add JavaDoc. If you enter "/**" and press enter on the line above a method,
+     *
+     * [] (Optional) Add JavaDoc. If you enter "/**" and press enter on the line above a method,
      *      Android Studio will spit out a block ready for you to fill out. This documentation step
      *      can take a long time-- I recommend you return to it only once you have completed
      *      implementing all of the classes you wish to implement. See the "DB Retrieval" section
      *      of this class for examples.
+     *
      * [] (Optional) Add code regions to the class
+     *
+     * [] When all the methods have been implemented, commit and push your branch to VSTS, and then
+     *      let me know so I can review it and merge it in.
      */
 
     // region Field Definitions
@@ -68,15 +70,6 @@ public class RestaurantModel {
 
     // endregion
 
-    // region Constructors
-    public RestaurantModel(Integer id, String name, Date dTOpened, Date dTClosed) {
-        this.id = id;
-        this.name = name;
-        this.dTOpened = dTOpened;
-        this.dTClosed = dTClosed;
-    }
-    // endregion
-
     // region query() Definition
     public static Observable<List<RestaurantModel>> query(String sql, String[] args) {
 
@@ -93,7 +86,7 @@ public class RestaurantModel {
                     if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<RestaurantModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
-                }).observeOn(AndroidSchedulers.mainThread());
+                });
     }
     // endregion
 
@@ -105,7 +98,7 @@ public class RestaurantModel {
      * @return A list containing either the one restaurant with the ID, or no restaurants.
      */
     public static Observable<List<RestaurantModel>> get(int id) {
-        return query("SELECT * FROM Restaurant WHERE Id = ?", new String[] {Integer.toString(id)});
+        return query("SELECT * FROM Restaurants WHERE Id = ?", new String[] {Integer.toString(id)});
     }
 
     /**
@@ -132,7 +125,7 @@ public class RestaurantModel {
 
         return query(
                 "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
-                new String[] { Integer.toString(position.getId()) }
+                new String[] { Integer.toString(position.getID()) }
         );
 
     }
@@ -202,7 +195,7 @@ public class RestaurantModel {
     // endregion
 
     // region Employees Modification
-    public Observable<NonQueryResponseModel> addEmployee(UserModel user, Roles role) {
+    public Observable<NonQueryResponseModel> addEmployee(UserModel user, Role role) {
 
         // Note: we don't have to check if the employee included doesn't work for the restaurant
         // already because the DB will simply throw an error if they do.

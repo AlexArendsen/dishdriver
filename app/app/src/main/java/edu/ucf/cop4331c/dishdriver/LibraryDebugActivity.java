@@ -19,6 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static android.R.id.message;
 
@@ -39,8 +41,9 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v){
 
-        // We will "search" for a restaurant. This will just return all of the restaurants
-        RestaurantModel.search("").subscribe(new Subscriber<List<RestaurantModel>>() {
+        // We will search for Chad Thai
+        RestaurantModel.search("Chad").observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RestaurantModel>>() {
             @Override
             public void onCompleted() { }
 
