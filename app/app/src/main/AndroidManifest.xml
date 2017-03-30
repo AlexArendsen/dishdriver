@@ -6,39 +6,38 @@
 
 
     <application
-        android:screenOrientation="sensorLandscape"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignInActivity"
-            android:screenOrientation="sensorLandscape"
-            android:windowSoftInputMode="stateHidden" >
+        <activity android:name=".MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".LibraryDebugActivity"
-            android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".LibraryDebugActivity" />
+        <activity android:name=".LogInActivity"></activity>
 
         <activity android:name=".TableActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="landscape"/>
 
         <activity android:name=".CookActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="landscape"/>
 
-        <activity android:name=".MainActivity"
-            android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".SignUpActivity"
+            android:screenOrientation="landscape" />
 
         <activity android:name=".RegisterActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="landscape" />
 
         <activity android:name=".CreateReviewActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
