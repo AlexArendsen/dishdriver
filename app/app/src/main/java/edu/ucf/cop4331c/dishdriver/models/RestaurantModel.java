@@ -8,10 +8,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import edu.ucf.cop4331c.dishdriver.enums.Roles;
+import edu.ucf.cop4331c.dishdriver.enums.Role;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -205,7 +204,7 @@ public class RestaurantModel {
     // endregion
 
     // region Employees Modification
-    public Observable<NonQueryResponseModel> addEmployee(UserModel user, Roles role) {
+    public Observable<NonQueryResponseModel> addEmployee(UserModel user, Role role) {
 
         // Note: we don't have to check if the employee included doesn't work for the restaurant
         // already because the DB will simply throw an error if they do.
