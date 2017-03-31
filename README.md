@@ -18,9 +18,7 @@ Team Members:
 1. Clone using HTTPS
     1. Get the repo URL (the one that begins with `https`, and ends with `.git`)
     1. Clone the repo, either via CLI (`git clone <repo-url>`) or a GUI (like SourceTree)
-    1. Use the following credentials when pushing or pulling:
-        * Username: `poosusername`
-        * Password: `c=299792458`
+    1. When prompted for login credentials, use your BitBucket username and password
 1. Clone using SSH
     1. Register your public SSH key with BitBucket
     1. Grab the repo UTL (the one that begins with `git@`, and ends with `.git`)
