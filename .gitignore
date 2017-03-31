@@ -1,4 +1,5 @@
 # Node packages
+/app/app/.idea/* 
 node_modules/
 
 # Vim swap files
