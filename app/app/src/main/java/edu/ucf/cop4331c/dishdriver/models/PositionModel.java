@@ -89,6 +89,8 @@ public class PositionModel {
         // WHY in 20-freaking-17 do you not have MULTILINE. STRING. LITERALS.
         // *freaks out into the sunset*
         // #ThanksOracle
+        // TIL
+        // hey alex it is funny android studio literally does not allow me to press \n inside "" it makes it ""+\n""
 
         return query(
             "SELECT " +
