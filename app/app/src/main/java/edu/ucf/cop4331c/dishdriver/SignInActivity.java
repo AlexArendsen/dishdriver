@@ -28,11 +28,16 @@ import rx.Subscriber;
 public class SignInActivity extends AppCompatActivity {
 
     private static final String TAG = "SignInActivity";
+    private UserModel userModel;
+
+    void setUserModel(UserModel userModel){
+        this.userModel = userModel;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
     }
 
@@ -40,14 +45,42 @@ public class SignInActivity extends AppCompatActivity {
     public void login(View v){
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
-        String userName = UserName.getText().toString();
-
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
+
+        String userName = UserName.getText().toString();
         String password = Password.getText().toString();
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
             public void onCompleted() {
+                //Toaster.toast("onComplete");
+            
+
+                if (SessionModel.currentUser() != null) {
+                    PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
+                        @Override
+                        public void onCompleted() {
+                           // Toaster.toast("test");
+
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d(TAG, e.getMessage());// "onError: ERROR ttt");
+                            return;
+                        }
+
+                        @Override
+                        public void onNext(List<PositionModel> positionModels) {
+                            Toaster.toast(positionModels.get(0).getRestaurantID());
+                            //Toaster.toast(""+ positionModels.size());
+
+                        }
+                    });
+                }else
+                    Toaster.toast("Not an employee");
+
 
             }
 
@@ -60,26 +93,40 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onNext(LoginResponseModel loginResponseModel) {
 
-                startActivity(new Intent(SignInActivity.this, CookActivity.class));
-
-                //Toast.makeText(SignInActivity.this, "size: "+ loginResponseModel.getResults().get(0).getEmail(), Toast.LENGTH_SHORT).show();
-                //UserModel userModel = loginResponseModel.getResults().get(0);
-
-                //Toast.makeText(SignInActivity.this, PositionModel.forUser(userModel).isEmpty();
-
-
-                 //   return; // this is a customer
-
-                //toPage(loginResponseModel.getResults().get(0));
-
+                //Toast.makeText(SignInActivity.this, "onComplete", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(SignInActivity.this, CookActivity.class));
                 UserName.setText("");//overkill
                 Password.setText("");//overkill but maybe useful with signoutbutton probably not
                 //finish();
             }
         });
+
     }
 
     public void toPage(UserModel userModel){
+
+
+        if (userModel != null) {
+            PositionModel.forUser(userModel).subscribe(new Subscriber<List<PositionModel>>() {
+                @Override
+                public void onCompleted() {
+                    Toast.makeText(SignInActivity.this, "hey", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(List<PositionModel> positionModels) {
+                    Toast.makeText(SignInActivity.this, positionModels.size(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else
+            Toast.makeText(SignInActivity.this, "This guy is not an employee", Toast.LENGTH_SHORT).show();
 
 
     }
