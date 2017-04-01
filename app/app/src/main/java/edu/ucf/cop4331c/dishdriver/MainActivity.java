@@ -6,6 +6,12 @@ import android.os.Bundle;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.ucf.cop4331c.dishdriver.models.SqlModel;
+import edu.ucf.cop4331c.dishdriver.models.UserQueryModel;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
