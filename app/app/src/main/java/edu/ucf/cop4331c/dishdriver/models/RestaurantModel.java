@@ -125,8 +125,8 @@ public class RestaurantModel {
 
         return query(
                 "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
-                //new String[] { Integer.toString(user.getID()) } /*hey can you verify this is the right one to remove*/
-                new String[] { Integer.toString(position.getID()) }
+                new String[] { Integer.toString(user.getID()) } /*hey can you verify this is the right one to remove*/
+                //new String[] { Integer.toString(position.getID()) }
         );
 
     }

@@ -19,6 +19,7 @@ import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.UserModel;
 import rx.Observable;
 import rx.Subscriber;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by Melissa on 3/14/2017.
@@ -47,35 +48,48 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
+        UserName.setText("tj@dishdriver.com");
+        Password.setText("password");
+
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
             public void onCompleted() {
-                //Toaster.toast("onComplete");
-            
+
 
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
                         public void onCompleted() {
-                           // Toaster.toast("test");
-
 
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d(TAG, e.getMessage());// "onError: ERROR ttt");
+                            Log.d(TAG, e.getMessage());
                             return;
                         }
 
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
-                            Toaster.toast(positionModels.get(0).getRestaurantID());
-                            //Toaster.toast(""+ positionModels.size());
+                            Toaster.toast(positionModels.get(0).getRole().toString());
 
+                            switch(positionModels.get(0).getRoleID()){
+                                case 1:
+                                    startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
+                                    break;
+                                case 2:
+                                    startActivity(new Intent(SignInActivity.this, CookActivity.class));
+                                    break;
+                                case 3:
+                                    startActivity(new Intent(SignInActivity.this, TableActivity.class));
+                                    break;
+                                default:
+                                    Toaster.toast("fail...");
+                            }
+                            finish();
                         }
                     });
                 }else
@@ -100,34 +114,6 @@ public class SignInActivity extends AppCompatActivity {
                 //finish();
             }
         });
-
-    }
-
-    public void toPage(UserModel userModel){
-
-
-        if (userModel != null) {
-            PositionModel.forUser(userModel).subscribe(new Subscriber<List<PositionModel>>() {
-                @Override
-                public void onCompleted() {
-                    Toast.makeText(SignInActivity.this, "hey", Toast.LENGTH_SHORT).show();
-
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(List<PositionModel> positionModels) {
-                    Toast.makeText(SignInActivity.this, positionModels.size(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else
-            Toast.makeText(SignInActivity.this, "This guy is not an employee", Toast.LENGTH_SHORT).show();
-
 
     }
 }
