@@ -17,6 +17,7 @@ node_modules/
 *.class
 
 # Generated files
+.idea/
 bin/
 gen/
 out/

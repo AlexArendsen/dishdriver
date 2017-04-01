@@ -1,6 +1,6 @@
 port: 6789
-cert: "dishdriver-crt.pem"
-key:  "dishdriver-key.pem"
+# cert: "dishdriver-crt.pem"
+# key:  "dishdriver-key.pem"
 clientToken: "asdf123"
 db:
   host: 'localhost'

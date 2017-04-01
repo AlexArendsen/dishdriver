@@ -2,16 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.ucf.cop4331c.dishdriver">
 
-    <application
+    <uses-permission android:name="android.permission.INTERNET"/>
 
+
+    <application
+        android:screenOrientation="sensorLandscape"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
+        <activity android:name=".SignInActivity"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,25 +22,28 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".LibraryDebugActivity"
+            android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".LogInActivity"
+            android:screenOrientation="sensorLandscape"/>
+
         <activity android:name=".TableActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".CookActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
 
         <activity android:name=".SignInActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".RegisterActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".CreateReviewActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".NavigationActivity"
-            android:screenOrientation="landscape" />
-
-
+            android:screenOrientation="sensorLandscape" />
 
     </application>
 
