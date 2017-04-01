@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:layout_margin="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/itemImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_insert_emoticon_black_24dp"/>
+
+        <TextView
+            android:id="@+id/itemTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/itemImageView"
+            android:layout_marginStart="16dp"
+            android:textSize="25sp"
+            android:text="SAMPLE"/>
+
+        <TextView
+            android:id="@+id/itemPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/itemClearImageView"
+            android:textSize="25sp"
+            android:text="$1.00"/>
+
+        <ImageView
+            android:id="@+id/itemClearImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_clear_black_24dp"/>
+
+
+
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>

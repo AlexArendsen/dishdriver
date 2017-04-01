@@ -6,6 +6,7 @@
 
 
     <application
+        android:screenOrientation="sensorLandscape"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name="DishDriverApplication">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="landscape">
+        <!--android:theme="@style/AppTheme" idk what this does-->
+        <activity android:name=".SignInActivity"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,23 +24,29 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LibraryDebugActivity" />
-        <activity android:name=".LogInActivity"></activity>
+        <activity android:name=".LibraryDebugActivity"
+            android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".LogInActivity"
+            android:screenOrientation="sensorLandscape"/>
 
         <activity android:name=".TableActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".CookActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
 
-        <activity android:name=".SignUpActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".SignInActivity"
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".RegisterActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".CreateReviewActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensorLandscape" />
+
+        <activity android:name=".NavigationActivity"
+            android:screenOrientation="sensorLandscape" />
+
     </application>
 
 </manifest>

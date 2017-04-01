@@ -2,10 +2,14 @@ package edu.ucf.cop4331c.dishdriver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -14,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
+import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 
@@ -30,6 +35,7 @@ public class TableActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
         ButterKnife.bind(this);
@@ -42,6 +48,17 @@ public class TableActivity extends AppCompatActivity {
         mTableAdapter = new TableAdapter(getApplicationContext());
 
         mTableRecyclerView.setAdapter(mTableAdapter);
+
+//        final Button button = (Button) findViewById(R.id.reserveButton);
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//               showEditDialog();
+//        }
+//        });
+
+
+
     }
 
     @Override
@@ -60,4 +77,33 @@ public class TableActivity extends AppCompatActivity {
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
         new PartySizeDialog().show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
+
+    public void selfDestruct(View view) {
+        showEditDialog();
+    }
+
+    public void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "dialog_reservation");
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.checkbox_deposit:
+               if (checked)
+                    Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
+                //else
+                break;
+
+
+        }
+    }
+
+
+
+
 }

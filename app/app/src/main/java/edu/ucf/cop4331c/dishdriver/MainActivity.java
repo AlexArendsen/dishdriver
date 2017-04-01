@@ -3,7 +3,6 @@ package edu.ucf.cop4331c.dishdriver;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.takeMeToAppButton)
     public void navigateToApp() {
-        startActivity(new Intent(this, SignUpActivity.class));
+        startActivity(new Intent(this, SignInActivity.class));
     }
 
     @OnClick(R.id.takeMeToLibraryButton)
