@@ -33,7 +33,7 @@
         <activity android:name=".CookActivity"
             android:screenOrientation="sensorLandscape"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".SignInActivity"
             android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".RegisterActivity"
@@ -41,6 +41,10 @@
 
         <activity android:name=".CreateReviewActivity"
             android:screenOrientation="sensorLandscape" />
+
+        <activity android:name=".NavigationActivity"
+            android:screenOrientation="sensorLandscape" />
+
     </application>
 
 </manifest>
