@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
+import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import xdroid.toaster.Toaster;
 
 //class Dishes {
 //    private String name;
@@ -60,7 +63,6 @@ public class NavigationActivity extends AppCompatActivity {
 //                break;
 //            //...
 //        }
-
 
 
         final ArrayList<String> menuItemsList = new ArrayList<>();

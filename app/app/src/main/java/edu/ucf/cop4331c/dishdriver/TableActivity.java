@@ -75,17 +75,7 @@ public class TableActivity extends AppCompatActivity {
 
     @Subscribe (threadMode = ThreadMode.MAIN)
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
-        new PartySizeDialog().show(getSupportFragmentManager(), "PARTY_DIALOG");
-    }
-
-    public void selfDestruct(View view) {
-        showEditDialog();
-    }
-
-    public void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "dialog_reservation");
+        PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
 
     public void onCheckboxClicked(View view) {

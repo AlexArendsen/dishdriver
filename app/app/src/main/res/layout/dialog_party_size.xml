@@ -45,6 +45,5 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:text="RESERVE"
-        android:onClick="selfDestruct"
         />
 </LinearLayout>

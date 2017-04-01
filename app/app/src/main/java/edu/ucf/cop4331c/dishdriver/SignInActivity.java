@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        UserName.setText("tj@dishdriver.com");
+        UserName.setText("melissa@dishdriver.com");
         Password.setText("password");
 
         String userName = UserName.getText().toString();
@@ -76,7 +76,7 @@ public class SignInActivity extends AppCompatActivity {
                         public void onNext(List<PositionModel> positionModels) {
                             Toaster.toast(positionModels.get(0).getRole().toString());
 
-                            switch(positionModels.get(0).getRoleID()){
+                            switch(3){//(positionModels.get(0).getRoleID()){
                                 case 1:
                                     startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
                                     break;

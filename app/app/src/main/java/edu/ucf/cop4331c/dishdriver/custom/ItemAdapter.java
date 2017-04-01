@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.ucf.cop4331c.dishdriver.R;
 
@@ -17,7 +18,9 @@ import edu.ucf.cop4331c.dishdriver.R;
  * Created by viviennedo on 3/25/17.
  */
 
+
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+
 
     private ArrayList<String> mItems;
 
@@ -65,6 +68,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void removeItem(int position) {
         mItems.remove(position);
         notifyDataSetChanged();
+    }
+
+    public void getCheckTotalAmount() {
+        // Iterate through item models and sum the price.
+        double sum = 0.0;
+
+        // This will not be a string, but an item model object that has a getter for the item price.
+        for(String item: mItems) {
+//            sum+= item.getPrice
+        }
     }
 
     // create remove method somewhere

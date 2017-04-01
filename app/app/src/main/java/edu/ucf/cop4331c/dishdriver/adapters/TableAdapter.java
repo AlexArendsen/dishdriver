@@ -42,7 +42,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     Context context = mContextWeakReference.get();
                     Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
                     caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
-                    EventBus.getDefault().post(new ShowPartyDialogEvent());
+                    EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
                 }
             });
 
