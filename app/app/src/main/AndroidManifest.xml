@@ -26,8 +26,6 @@
 
         <activity android:name=".LibraryDebugActivity"
             android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".LogInActivity"
-            android:screenOrientation="sensorLandscape"/>
 
         <activity android:name=".TableActivity"
             android:screenOrientation="sensorLandscape" />
@@ -35,8 +33,6 @@
         <activity android:name=".CookActivity"
             android:screenOrientation="sensorLandscape"/>
 
-        <activity android:name=".SignInActivity"
-            android:screenOrientation="sensorLandscape" />
 
         <activity android:name=".RegisterActivity"
             android:screenOrientation="sensorLandscape" />

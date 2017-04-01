@@ -19,6 +19,7 @@ import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.UserModel;
 import rx.Observable;
 import rx.Subscriber;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by Melissa on 3/14/2017.
@@ -47,20 +48,22 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
+        UserName.setText("ashton@dishdriver.com");
+        Password.setText("password");
+
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
             public void onCompleted() {
-                //Toaster.toast("onComplete");
-            
+
 
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
                         public void onCompleted() {
-                           // Toaster.toast("test");
+                            //Toaster.toast("onComplete");
 
 
                         }
@@ -73,7 +76,7 @@ public class SignInActivity extends AppCompatActivity {
 
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
-                            Toaster.toast(positionModels.get(0).getRestaurantID());
+                            Toaster.toast(""+ positionModels.get(0).getRestaurantID());
                             //Toaster.toast(""+ positionModels.size());
 
                         }
@@ -110,9 +113,6 @@ public class SignInActivity extends AppCompatActivity {
             PositionModel.forUser(userModel).subscribe(new Subscriber<List<PositionModel>>() {
                 @Override
                 public void onCompleted() {
-                    Toast.makeText(SignInActivity.this, "hey", Toast.LENGTH_SHORT).show();
-
-
                 }
 
                 @Override
@@ -122,7 +122,6 @@ public class SignInActivity extends AppCompatActivity {
 
                 @Override
                 public void onNext(List<PositionModel> positionModels) {
-                    Toast.makeText(SignInActivity.this, positionModels.size(), Toast.LENGTH_SHORT).show();
                 }
             });
         }else
