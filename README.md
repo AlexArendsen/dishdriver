@@ -1,38 +1,36 @@
-### What is this repository for? ###
+# DishDriver
 
-COP4331C Spring 2017 : Group 2 ("The Cardigans of Nassiff")
+COP4331C Spring 2017: Group 2 ("The Cardigans of Nassiff")
 
-Project: Restaurant Management Mobile APP
+Project: "DishDriver" -- Restaurant Management Mobile App
 
-Team Members: Rebeca Amaya, Ashton Ansag,
-Alexander Arendsen, Thomas "TJ" Cleary,
-Melissa Gramajo, Vivienne Do
+Team Members:
 
-### How do I get set up? ###
+* Rebeca Amaya
+* Ashton Ansag
+* Alex Arendsen
+* Thomas "TJ" Cleary
+* Melissa Gramajo
+* Vivienne Do
 
-0.How to Clone repositories by URL in VSO
+## Getting Started
 
-    Step0.0: Obtain URL 
-    "Code" (top tool bar) >> "Restaurant Management" >> "Clone" (right corner) 
-    
-    Step0.1: Add new repo using git command line | | SourceTree 
-    
-    *note: You may be prompted for username and password when adding remote repo
-    username: poosusername
-    password: c=299792458 
-    end of note. 
-    
-git clone command line:
+1. Clone using HTTPS
+    1. Get the repo URL (the one that begins with `https`, and ends with `.git`)
+    1. Clone the repo, either via CLI (`git clone <repo-url>`) or a GUI (like SourceTree)
+    1. When prompted for login credentials, use your BitBucket username and password
+1. Clone using SSH
+    1. Register your public SSH key with BitBucket
+    1. Grab the repo UTL (the one that begins with `git@`, and ends with `.git`)
+    1. Clone the repo using the CLI (`git clone <repo-url>`)
 
-    git clone https://projectrest.visualstudio.com/_git/Restaurant%20Management
-
-### Contribution guidelines ###
+## Contribution Guidelines
 
 * Writing tests
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+## Who To Talk To
 
 * Repo owner or admin
 * Other community or team contact
