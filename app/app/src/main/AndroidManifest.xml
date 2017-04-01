@@ -51,7 +51,7 @@
         <activity
             android:name=".NavigationActivity"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".admin_manage_restaurant_activity"></activity>
+        <activity android:name=".AdminManagementActivity"></activity>
     </application>
 
 </manifest>
