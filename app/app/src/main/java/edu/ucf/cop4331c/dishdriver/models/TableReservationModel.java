@@ -83,6 +83,22 @@ public class TableReservationModel {
 
     public static Call<ArrayList<TableReservationModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
+    /**
+     *
+     * @return deletes all reserved tables that haven't been accepted
+     * @throws UnsupportedOperationException
+     */
+    public Observable<NonQueryResponseModel> unreserved(){
+
+        return NonQueryResponseModel.run(
+                "DELETE FROM Table_Reservations" +
+                "WHERE Id = ?" +
+                "AND DT_Accepted = NULL",
+                new String[] {getId()}
+        );
+
+    }
+
     // region Getters and Setters
     public Integer getId() {
         return id;
