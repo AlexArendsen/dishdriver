@@ -51,11 +51,11 @@
         <activity
             android:name=".NavigationActivity"
             android:screenOrientation="sensorLandscape" />
-   	<activity 
-	    android:name=".AdminManagementActivity"
+				<activity 
+						android:name=".AdminManagementActivity"
             android:screenOrientation="sensorLandscape" />
-    <activity 
-	    android:name=".Admin_email_activity"
+				<activity 
+						android:name=".Admin_email_activity"
             android:screenOrientation="sensorLandscape" />
     </application>
 
