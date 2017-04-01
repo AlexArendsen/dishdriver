@@ -118,13 +118,14 @@ public class RestaurantModel {
 
     /**
      * Gets all restaurants that the given user works for
-     * @param position The user to use when finding restaurants
+     * @param user The user to use when finding restaurants
      * @return A list of the restaurants for which the given user works
      */
-    public static Observable<List<RestaurantModel>> forUser(PositionModel position) {
+    public static Observable<List<RestaurantModel>> forUser(UserModel user) {
 
         return query(
                 "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
+                //new String[] { Integer.toString(user.getID()) } /*hey can you verify this is the right one to remove*/
                 new String[] { Integer.toString(position.getID()) }
         );
 
