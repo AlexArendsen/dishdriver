@@ -52,7 +52,7 @@
             android:name=".NavigationActivity"
             android:screenOrientation="sensorLandscape" />
    	<activity 
-	    android:name=".Admin_email_activity"
+	    android:name=".AdminManagementActivity"
             android:screenOrientation="sensorLandscape" />
     <activity 
 	    android:name=".Admin_email_activity"
