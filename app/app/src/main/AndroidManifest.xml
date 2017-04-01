@@ -27,6 +27,12 @@
         <activity android:name=".LibraryDebugActivity"
             android:screenOrientation="sensorLandscape"/>
 
+        <activity android:name=".AdminNavigationActivity"
+            android:screenOrientation="sensorLandscape"/>
+
+        <!--activity android:name=".LibraryDebugActivity"
+            android:screenOrientation="sensorLandscape"/-->
+
         <activity android:name=".TableActivity"
             android:screenOrientation="sensorLandscape" />
 

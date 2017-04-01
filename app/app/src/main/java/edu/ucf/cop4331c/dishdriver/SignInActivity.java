@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        UserName.setText("ashton@dishdriver.com");
+        UserName.setText("tj@dishdriver.com");
         Password.setText("password");
 
         String userName = UserName.getText().toString();
@@ -63,22 +63,33 @@ public class SignInActivity extends AppCompatActivity {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
                         public void onCompleted() {
-                            //Toaster.toast("onComplete");
-
 
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d(TAG, e.getMessage());// "onError: ERROR ttt");
+                            Log.d(TAG, e.getMessage());
                             return;
                         }
 
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
-                            Toaster.toast(""+ positionModels.get(0).getRestaurantID());
-                            //Toaster.toast(""+ positionModels.size());
+                            Toaster.toast(positionModels.get(0).getRole().toString());
 
+                            switch(positionModels.get(0).getRoleID()){
+                                case 1:
+                                    startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
+                                    break;
+                                case 2:
+                                    startActivity(new Intent(SignInActivity.this, CookActivity.class));
+                                    break;
+                                case 3:
+                                    startActivity(new Intent(SignInActivity.this, TableActivity.class));
+                                    break;
+                                default:
+                                    Toaster.toast("fail...");
+                            }
+                            finish();
                         }
                     });
                 }else
@@ -103,30 +114,6 @@ public class SignInActivity extends AppCompatActivity {
                 //finish();
             }
         });
-
-    }
-
-    public void toPage(UserModel userModel){
-
-
-        if (userModel != null) {
-            PositionModel.forUser(userModel).subscribe(new Subscriber<List<PositionModel>>() {
-                @Override
-                public void onCompleted() {
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(List<PositionModel> positionModels) {
-                }
-            });
-        }else
-            Toast.makeText(SignInActivity.this, "This guy is not an employee", Toast.LENGTH_SHORT).show();
-
 
     }
 }
