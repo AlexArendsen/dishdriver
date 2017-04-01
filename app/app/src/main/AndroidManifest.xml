@@ -2,20 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.ucf.cop4331c.dishdriver">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:screenOrientation="sensorLandscape"
+        android:name=".DishDriverApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="sensorLandscape"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="DishDriverApplication">
-        <!--android:theme="@style/AppTheme" idk what this does-->
-        <activity android:name=".SignInActivity"
+        android:theme="@style/AppTheme">
+
+        <!-- android:theme="@style/AppTheme" idk what this does -->
+        <activity
+            android:name=".SignInActivity"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,32 +24,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".LibraryDebugActivity"
-            android:screenOrientation="sensorLandscape"/>
-
-        <activity android:name=".AdminNavigationActivity"
-            android:screenOrientation="sensorLandscape"/>
-
-        <!--activity android:name=".LibraryDebugActivity"
-            android:screenOrientation="sensorLandscape"/-->
-
-        <activity android:name=".TableActivity"
+        <activity
+            android:name=".LibraryDebugActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".AdminNavigationActivity"
             android:screenOrientation="sensorLandscape" />
 
-        <activity android:name=".CookActivity"
-            android:screenOrientation="sensorLandscape"/>
+        <!--
+            activity android:name=".LibraryDebugActivity"
+            android:screenOrientation="sensorLandscape"/
+        -->
 
-
-        <activity android:name=".RegisterActivity"
+        <activity
+            android:name=".TableActivity"
             android:screenOrientation="sensorLandscape" />
-
-        <activity android:name=".CreateReviewActivity"
+        <activity
+            android:name=".CookActivity"
             android:screenOrientation="sensorLandscape" />
-
-        <activity android:name=".NavigationActivity"
+        <activity
+            android:name=".RegisterActivity"
             android:screenOrientation="sensorLandscape" />
-
+        <activity
+            android:name=".CreateReviewActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".NavigationActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Admin_email_activity"></activity>
     </application>
 
 </manifest>
