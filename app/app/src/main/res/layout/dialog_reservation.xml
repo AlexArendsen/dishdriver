@@ -1,0 +1,82 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/party_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Party Name"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_your_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/party_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Party Size"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_party_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/reservation_time"
+            android:layout_width="800dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Reservation Time"
+            android:textSize="20sp" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="365dp" />
+
+        <TextView
+            android:id="@+id/reservation_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Reservation Date"
+            android:textSize="20sp" />
+
+        <CalendarView
+            android:id="@+id/calendarView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/checkbox_deposit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:text="I have paid my reservation"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/confirmation_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm" />
+    </LinearLayout>
+</ScrollView>

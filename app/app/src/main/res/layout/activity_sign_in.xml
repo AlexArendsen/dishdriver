@@ -66,7 +66,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:text="Login In"
+        android:text="Login"
         android:background="@color/white"
         android:id="@+id/loginButton"
         android:textColor="@color/colorPrimaryDark"

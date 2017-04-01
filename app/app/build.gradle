@@ -10,6 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [ onesignal_app_id: "1e530e46-32e0-4ec7-b971-823e23909f4a",
+                                 onesignal_google_project_number: "582567254931" ]
+        vectorDrawables.useSupportLibrary = true
     }
 
     testOptions {
@@ -43,6 +46,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    // OneSignal SDK
+    compile 'com.onesignal:OneSignal:3.+@aar'
+    compile 'com.google.android.gms:play-services-gcm:+'
+    compile 'com.google.android.gms:play-services-location:+'
+    compile 'com.shamanland:xdroid-toaster:0.0.5'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:support-v4:25.1.1'
     compile 'com.android.support:recyclerview-v7:25.1.1'

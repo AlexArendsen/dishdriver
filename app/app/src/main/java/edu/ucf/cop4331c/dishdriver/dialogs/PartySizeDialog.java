@@ -1,9 +1,11 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +14,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 
 /**
  * Created by viviennedo on 3/14/17.
  */
+
+
 
 public class PartySizeDialog extends DialogFragment {
     @NonNull
@@ -44,25 +50,36 @@ public class PartySizeDialog extends DialogFragment {
         cardParty3TextView.setText("3");
         cardParty4TextView.setText("4");
 
-        Button reserveButton = (Button) dialogView.findViewById(R.id.reserveButton);
-        reserveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Reserve Button Pressed", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        This was causing problems, so I commented it out. But, this is how you would create an onClickListener
+//        Button reserveButton = (Button) dialogView.findViewById(R.id.reserveButton);
+//        reserveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "Reserve Button Pressed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         cardParty1RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Table 1 Button Pressed", Toast.LENGTH_SHORT).show();
+                // Here we are making an intent to the Navigation Activity.
+                Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
+                // We pass in an extra keyed "PARTY_NUMBER" that contains the integer value that represents the party size.
+                tableIntent.putExtra("PARTY_NUMBER", 1);
+                getActivity().startActivity(tableIntent);
             }
         });
+
+        // We do the same thing for all the other party sizes
 
         cardParty2RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Table 2 Button Pressed", Toast.LENGTH_SHORT).show();
+                Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
+                tableIntent.putExtra("PARTY_NUMBER", 2);
+                getActivity().startActivity(tableIntent);
             }
         });
 
@@ -70,6 +87,9 @@ public class PartySizeDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Table 3 Button Pressed", Toast.LENGTH_SHORT).show();
+                Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
+                tableIntent.putExtra("PARTY_NUMBER", 3);
+                getActivity().startActivity(tableIntent);
             }
         });
 
@@ -77,9 +97,15 @@ public class PartySizeDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Table 4 Button Pressed", Toast.LENGTH_SHORT).show();
+                Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
+                tableIntent.putExtra("PARTY_NUMBER", 4);
+                getActivity().startActivity(tableIntent);
             }
         });
 
         return alertDialog;
     }
+
+
+
 }
