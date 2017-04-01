@@ -1,8 +1,10 @@
 package edu.ucf.cop4331c.dishdriver.network;
 
-import com.onesignal.OneSignal;
-
-import org.json.JSONObject;
+import edu.ucf.cop4331c.dishdriver.models.PostNotificationModel;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by copper on 4/1/17.
@@ -11,14 +13,23 @@ import org.json.JSONObject;
 public class NotificationService {
 
     public static void broadcast(String title, String body) {
+        OneSignalProvider.getInstance().broadcast(
+                "Basic " + OneSignalProvider.REST_KEY,
+                new PostNotificationModel(title, body)
+        )
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribe(new Subscriber<Void>() {
 
-        body  = body.replaceAll("'", "");
-        title = title.replaceAll("'", "");
+            @Override
+            public void onCompleted() { }
 
-        try {
-            OneSignal.postNotification(new JSONObject("{'contents': {'en':'" + body + "'}, 'headings': {'en': '" + title + "'}}"), null);
-        } catch (Exception e) { }
+            @Override
+            public void onError(Throwable e) { }
 
+            @Override
+            public void onNext(Void aVoid) { }
+        });
     }
 
 }
