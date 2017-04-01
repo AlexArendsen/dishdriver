@@ -68,6 +68,10 @@ public class UserModel {
     public UserModel() { }
     // endregion
 
+    public String toString(){
+        return "id: "+ this.id +", email: "+ this.email;
+    }
+    
     // region query() implementation
     public static Observable<List<UserModel>> query(String sql, String[] args) {
 

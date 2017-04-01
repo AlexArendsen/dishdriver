@@ -12,14 +12,18 @@
         android:id="@+id/takeMeToAppButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1"
+        android:layout_margin="100dp"
         android:text="TAKE ME TO APP"/>
 
     <Button
         android:id="@+id/takeMeToLibraryButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1"
+        android:layout_margin="100dp"
         android:text="TAKE ME TO LIBRARY TEST"/>
 
 </LinearLayout>
