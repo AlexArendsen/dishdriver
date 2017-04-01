@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class DishModel {
@@ -57,6 +56,58 @@ public class DishModel {
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
+    }
+    // endregion
+
+    // region DB Retrieval
+    public static Observable<List<DishModel>> forRestaurant(RestaurantModel r) {
+        return query(
+                "SELECT * FROM Dishes WHERE Restaurant_ID = ?",
+                new String[] { Integer.toString(r.getId()) }
+        );
+    }
+
+    public static Observable<List<DishModel>> search(RestaurantModel r, String query) {
+
+        query += "%";
+
+        return query(
+                "SELECT * FROM Dishes WHERE Restaurant_ID = ? AND Name LIKE ?",
+                new String[] { Integer.toString(r.getId()), query }
+        );
+    }
+    // endregion
+
+    // region DB Modifications
+    public Observable<NonQueryResponseModel> create() {
+        return NonQueryResponseModel.run(
+                "INSERT INTO Dishes (Restaurant_ID, Price, Name, Description) VALUES (?, ?, ?, ?)",
+                new String[] {
+                        Integer.toString(this.restaurantID),
+                        Integer.toString(this.price),
+                        this.name,
+                        this.description
+                }
+        );
+    }
+
+    public Observable<NonQueryResponseModel> update() {
+        return NonQueryResponseModel.run(
+                "UPDATE Dishes SET Price = ?, Name = ?, Description = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString(this.price),
+                        this.name,
+                        this.description,
+                        Integer.toString(this.id)
+                }
+        );
+    }
+
+    public Observable<NonQueryResponseModel> delete() {
+        return NonQueryResponseModel.run(
+                "DELETE FROM Dishes WHERE Id = ?",
+                new String[] { Integer.toString(this.id) }
+        );
     }
     // endregion
 
