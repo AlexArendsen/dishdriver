@@ -48,8 +48,6 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.loginButton)
     public void login(View v){
 
-        NotificationService.broadcast("A Test Notification", "'''''There should be no single-quotes at the beginning of this message");
-
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
