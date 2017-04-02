@@ -78,7 +78,7 @@ public class NavigationActivity extends AppCompatActivity {
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.pinkRed));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(new ArrayList<String>());
+        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<String>());
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

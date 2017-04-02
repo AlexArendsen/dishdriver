@@ -24,6 +24,7 @@ import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
  */
 
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHolder> {
+
     private WeakReference<Context> mContextWeakReference;
 
     public TableAdapter(Context context) {
