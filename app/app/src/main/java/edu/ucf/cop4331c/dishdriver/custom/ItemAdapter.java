@@ -26,12 +26,16 @@ import xdroid.toaster.Toaster;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
+
+    // WeakReference will ensure that the activity context is not leaked if the activity is killed by the app.
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
     private ArrayList<String> mItems;
+    private boolean mShowRemoveButton;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<String> items) {
+    public ItemAdapter(AppCompatActivity activity, ArrayList<String> items, boolean showRemoveButton) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
+        mShowRemoveButton = showRemoveButton;
     }
 
 
@@ -51,9 +55,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             @Override
+
+            // this is checking weak reference
             public void addNoteForItemAtPosition(int position) {
                 AppCompatActivity appCompatActivity = appCompatActivityWeakReference.get();
                 if (appCompatActivity != null)
+                    // If there is something there, then we want to create a dialog
                     new ItemModifyDialog().show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
             }
         });
@@ -69,7 +76,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         // holder.mItemDescriptionTextView.setText(mItems.get(position));
         holder.mMenuItemTextView.setText(mItems.get(position));
 
+        // Here we check whether or not we should show the remove button.
+        if (mShowRemoveButton) {
+            holder.mDeleteItemImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.mDeleteItemImageView.setVisibility(View.GONE);
+        }
+
         // [ x ] <--- info here.... access it.
+
     }
 
     @Override
@@ -85,6 +100,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void removeItem(int position) {
         mItems.remove(position);
         notifyDataSetChanged();
+    }
+    public ArrayList<String> getItems() {
+        return mItems;
     }
 
     public void getCheckTotalAmount() {
@@ -137,7 +155,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 public void onClick(View v) {
 
                     Toaster.toast("This modify button is working");
-
+                    mListener.addNoteForItemAtPosition(getAdapterPosition());
                 }
             });
         }

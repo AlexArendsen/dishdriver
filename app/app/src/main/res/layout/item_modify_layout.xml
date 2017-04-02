@@ -8,16 +8,16 @@
 
     <EditText
         android:id="@+id/itemModifyEditText"
-        android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
         android:gravity="top"
         android:hint="Add Special Request" />
 
     <Button
-        android:text="Button"
+        android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom"
         android:id="@+id/submitButton" />
 
 

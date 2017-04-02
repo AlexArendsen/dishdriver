@@ -46,7 +46,10 @@ public class ItemModifyDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!isEmpty(mModifyEditText)) mSubmitButton.setEnabled(true);
+                if(!isEmpty(mModifyEditText))
+                    mSubmitButton.setEnabled(true);
+                else
+                    mSubmitButton.setEnabled(false);
             }
 
             @Override

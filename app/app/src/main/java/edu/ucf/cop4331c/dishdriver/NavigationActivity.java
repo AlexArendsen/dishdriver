@@ -9,16 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
-import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import edu.ucf.cop4331c.dishdriver.models.SessionModel;
-import xdroid.toaster.Toaster;
+import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 
 //class Dishes {
 //    private String name;
@@ -40,6 +40,8 @@ public class NavigationActivity extends AppCompatActivity {
     RecyclerView mMenuItemRecyclerView;
     @BindView(R.id.beverageSpinner)
     Spinner mBeverageSpinner;
+    @BindView(R.id.checkButton)
+    Button mCheckButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class NavigationActivity extends AppCompatActivity {
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.pinkRed));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<String>());
+        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<String>(), true);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -86,6 +88,7 @@ public class NavigationActivity extends AppCompatActivity {
                 if(position != 0) {
 
                     ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(menuItemsList.get(position));
+                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
                     mMenuSpinner.setSelection(0);
 
                 }
@@ -119,6 +122,7 @@ public class NavigationActivity extends AppCompatActivity {
 
                 if(position != 0) {
                     ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
+                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
                     mBeverageSpinner.setSelection(0);
                 }
             }
@@ -128,5 +132,10 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @OnClick(R.id.checkButton)
+    public void onCheckButtonClicked() {
+        CheckDialog.newInstance(((ItemAdapter)mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
     }
 }
