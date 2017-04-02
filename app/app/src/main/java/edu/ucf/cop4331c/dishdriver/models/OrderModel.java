@@ -75,10 +75,62 @@ public class OrderModel {
         this.instructions = instructions;
     }
 
-    public Call<ArrayList<OrderedDishModel>> dishes() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Integer> grandTotal() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Status getStatus() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<OrderModel> create(PositionModel waiter) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    /**
+     *
+     * @return Return all the dishes for the order
+     */
+    public Observable<List<OrderedDishModel>> dishes(){
+        return OrderedDishModel.query(
+                "SELECT * FROM Ordered_Dishes WHERE Order_Id = ?",
+                new String[] {Integer.toString(getId())}
+        );
+    }
+
+    /**
+     *
+     * @return Returns the total amount of $$$ due for the order
+     */
+    public Observable<Integer> grandTotal(){
+        return OrderedDishModel.query(
+            "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
+            "WHERE Order_Id = ?",
+            new String[] {Integer.toString(getId())}
+        );
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Status getStatus(){
+        if( dTPayed == null )
+            if (dTCooked == null)
+                if (dTCancelled == null)
+                    if (dTAccepted == null)
+                        if (dTRejected == null)
+                            if (dTPlaced == null)
+                                return NEW;
+                            else return PLACED;
+                        else return CANCELLED;
+                    else return REJECTED;
+                else return ACCEPTED;
+            else return COOKED;
+        else return PAID;
+    }
+
+    /**
+     *
+     * @param waiter
+     * @return Creates an order in the database associated with the given waiter
+     */
+    public Observable<NonQueryResponseModel> create(PositionModel waiter){
+
+        return NonQueryResponseModel.run(
+            "INSERT INTO Orders (Waiter_ID, Table_ID) VALUES (?, ?)",
+            new String[] {Integer.toString(waiter.getId()), Integer.toString(getTableId())}
+        );
+    }
+
     public Call<OrderModel> place(ArrayList<DishModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
 
     public void accept(PositionModel cook) {
