@@ -51,8 +51,8 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        // TODO -- Remove this
-        UserName.setText("tj@dishdriver.com");
+
+        UserName.setText("melissa@dishdriver.com");
         Password.setText("password");
 
         String userName = UserName.getText().toString();
