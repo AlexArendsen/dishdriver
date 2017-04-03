@@ -1,5 +1,6 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -14,7 +15,10 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
+import edu.ucf.cop4331c.dishdriver.MainActivity;
+import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.SignInActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import xdroid.toaster.Toaster;
 
@@ -79,6 +83,7 @@ public class CheckDialog extends DialogFragment {
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button addTipButton = (Button) view.findViewById(R.id.tipButton);
+        Button submitButton = (Button) view.findViewById(R.id.submitButton);
 
         // TODO: bind the TextView to
         addTipButton.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +91,14 @@ public class CheckDialog extends DialogFragment {
             public void onClick(View v) {
                 Toaster.toast("hello this button works");
 
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent orderIntent = new Intent(getActivity(), SignInActivity.class);
+                getActivity().startActivity(orderIntent);
             }
         });
 

@@ -1,5 +1,7 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +44,8 @@ public class NavigationActivity extends AppCompatActivity {
     Spinner mBeverageSpinner;
     @BindView(R.id.checkButton)
     Button mCheckButton;
+    @BindView(R.id.sendOrderToKitchenButton)
+    Button mOrderButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,4 +142,14 @@ public class NavigationActivity extends AppCompatActivity {
     public void onCheckButtonClicked() {
         CheckDialog.newInstance(((ItemAdapter)mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
     }
+
+    // go back to SignInActivity
+
+    @OnClick(R.id.sendOrderToKitchenButton)
+    public void onOrderButtonClicked() {
+        startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+    }
+
+
+
 }

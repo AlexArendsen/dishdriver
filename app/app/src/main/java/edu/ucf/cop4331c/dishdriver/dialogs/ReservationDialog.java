@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.SignInActivity;
 
 /**
  * Created by viviennedo on 3/15/17.
@@ -89,10 +91,9 @@ public class ReservationDialog extends DialogFragment {
                     return;
                 }
 
-
-
-
-                getDialog().dismiss();
+                // go back to SignInActivity
+                Intent reservationIntent = new Intent(getActivity(), SignInActivity.class);
+                getActivity().startActivity(reservationIntent);
 
             }
         });
@@ -109,6 +110,8 @@ public class ReservationDialog extends DialogFragment {
                 }
             }
         });
+
+
 
 
 
