@@ -38,6 +38,14 @@ public class SignInActivity extends AppCompatActivity {
         this.userModel = userModel;
     }
 
+    // TODO: remove these buttons
+    @OnClick(R.id.goToAdmin)
+    void admin(){ startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class )); }
+    @OnClick(R.id.goToCook)
+    void cook(){ startActivity(new Intent(SignInActivity.this, CookActivity.class )); }
+    @OnClick(R.id.goToWaiter)
+    void waiter(){ startActivity(new Intent(SignInActivity.this, TableActivity.class )); }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
