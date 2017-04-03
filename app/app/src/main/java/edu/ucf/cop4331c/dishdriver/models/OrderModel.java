@@ -84,7 +84,7 @@ public class OrderModel {
      * @return Return all the dishes for the order
      */
     public Observable<List<OrderedDishModel>> dishes(){
-        return OrderedDishModel.query(
+        return OrderedDishModel.odQuery(
                 "SELECT * FROM Ordered_Dishes WHERE Order_Id = ?",
                 new String[] {Integer.toString(getId())}
         );
@@ -95,7 +95,7 @@ public class OrderModel {
      * @return Returns the total amount of $$$ due for the order
      */
     public Observable<List<OrderedDishModel>> grandTotal(){
-        return OrderedDishModel.query(
+        return OrderedDishModel.odQuery(
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
             new String[] {Integer.toString(getId())}
