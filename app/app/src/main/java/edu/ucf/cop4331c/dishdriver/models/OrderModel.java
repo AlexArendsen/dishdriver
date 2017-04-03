@@ -3,11 +3,15 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import edu.ucf.cop4331c.dishdriver.enums.Status;
+//import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import retrofit2.Call;
 import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static edu.ucf.cop4331c.dishdriver.enums.Status.*;
 
 
 /**
@@ -90,7 +94,7 @@ public class OrderModel {
      *
      * @return Returns the total amount of $$$ due for the order
      */
-    public Observable<Integer> grandTotal(){
+    public Observable<List<OrderedDishModel>> grandTotal(){
         return OrderedDishModel.query(
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
@@ -127,7 +131,7 @@ public class OrderModel {
 
         return NonQueryResponseModel.run(
             "INSERT INTO Orders (Waiter_ID, Table_ID) VALUES (?, ?)",
-            new String[] {Integer.toString(waiter.getId()), Integer.toString(getTableId())}
+            new String[] {Integer.toString(waiter.getID()), Integer.toString(getTableId())}
         );
     }
 
