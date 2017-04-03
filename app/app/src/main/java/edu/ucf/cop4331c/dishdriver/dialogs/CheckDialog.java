@@ -9,14 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 4/2/17.
@@ -77,5 +77,23 @@ public class CheckDialog extends DialogFragment {
 
         ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false);
         receiptRecyclerView.setAdapter(itemAdapter);
+
+        Button addTipButton = (Button) view.findViewById(R.id.tipButton);
+
+        // TODO: bind the TextView to
+        addTipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toaster.toast("hello this button works");
+
+            }
+        });
+
     }
+
+    private boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
+    }
+
+
 }

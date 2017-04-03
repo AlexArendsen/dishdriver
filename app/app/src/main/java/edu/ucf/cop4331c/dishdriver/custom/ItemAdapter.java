@@ -105,7 +105,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return mItems;
     }
 
-    public void getCheckTotalAmount() {
+    // TODO: add in correct parameter of OrderDish objects
+    public double getCheckTotalAmount() {
         // Iterate through item models and sum the price.
         double sum = 0.0;
 
@@ -113,6 +114,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         for(String item: mItems) {
 //            sum+= item.getPrice
         }
+
+        return 0.0;
+    }
+
+    // TODO: add in correct parameter of OrderDish objects
+
+    public double getTipAmount() {
+
+        //generate tip amount.
+        return ( getCheckTotalAmount()*0.18);
+
+    }
+
+    public double getSubtotal() {
+
+        if(true) // if gratuityEditTextView is populated
+            return ( getCheckTotalAmount() + getTipAmount() );
+
+        else return getCheckTotalAmount();
     }
 
     // create remove method somewhere
