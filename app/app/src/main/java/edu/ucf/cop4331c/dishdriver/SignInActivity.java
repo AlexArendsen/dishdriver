@@ -18,8 +18,11 @@ import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.PositionModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.UserModel;
+import edu.ucf.cop4331c.dishdriver.network.NotificationService;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import xdroid.toaster.Toaster;
 
 /**

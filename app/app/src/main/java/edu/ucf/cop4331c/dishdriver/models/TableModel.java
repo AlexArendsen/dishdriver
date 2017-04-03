@@ -41,7 +41,12 @@ public class TableModel {
 
     @SerializedName("Capacity")
     @Expose
-    private Integer capacity;
+    private Integer capacity = 4;
+
+    @SerializedName("TableStatus_ID")
+    @Expose
+    private Integer tableStatusId;
+
     // endregion
 
     // region Constructors
@@ -75,11 +80,55 @@ public class TableModel {
     }
     // endregion
 
-    public static Call<ArrayList<TableModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<TableReservationModel> reserve() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Boolean> unreserved() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Boolean> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    /**
+     *
+     * @param r The restaurant we want information for
+     * @return A list containing all the tables for the given restaurant
+     */
+    public static Observable<List<TableModel>> forRestaurant(RestaurantModel r){
+
+        return query(
+          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID =?",
+                new String[]{Integer.toString(r.getId())}
+        );
+    }
+
+    /**
+     *
+     * @return A table reservatin model, if the table is already reserved throw an exception
+     * NOTE: THIS HAS PLACEHOLDER VALUES FOR THE RESERVATION, PULLING THE DATA FROM THE UI STILL NEEDS TO BE IMPLEMENTED
+     * @throws UnsupportedOperationException
+     */
+    public Observable<TableReservationModel> reserve() throws UnsupportedOperationException{
+        Integer reservationId = this.positionX + (this.positionY * 3) + 1;
+
+        // check if a table is already reserved, if so throw an exception
+        if(this.tableStatusId == 1) {
+            throw new UnsupportedOperationException();
+        }
+
+        this.tableStatusId = 1; // mark table as reserved
+        return new TableReservationModel(reservationId, this.id, "PartyName", 4, 25, getDate(), getDate());
+    }
+
+    public Observable<Boolean> create(){
+        return NonQueryResponseModel.run(
+                "INSERT INTO Tables" +
+                        "(Restaurant_ID, Name, Capacity)" +
+                        "VALUES" +
+                        "(?, ?, 4)",
+               new String[] { getName(), Integer.toString(SessionModel.currentRestaurant.getId()) }
+        );
+    }
+
+    public Observable<Boolean> update(){
+        return NonQueryResponseModel.run(
+                "UPDATE Tables SET" +
+                        "Name = ?" +
+                        "WHERE Id = ?",
+                new String[] { getName(), Integer.toString(getId()) }
+        );
+    }
 
     // region Getters and Setters
     public Integer getId() {
@@ -128,6 +177,18 @@ public class TableModel {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Integer getTableStatus() {
+        switch(tableStatusId) {
+            case 1:  return TableStatus.RESERVED;
+            case 2:  return TableStatus.UNRESERVED;
+            default TableStatus.OCCUPIED;
+        }
+    }
+
+    public void setTableStatus(Integer tableStatusId) {
+        TableStatusId = tableStatusId;
     }
     // endregion
 }
