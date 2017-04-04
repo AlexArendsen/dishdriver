@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.annotation.Nullable;
@@ -14,9 +15,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.SignInActivity;
 
 /**
  * Created by viviennedo on 3/15/17.
@@ -25,6 +30,8 @@ import edu.ucf.cop4331c.dishdriver.R;
 public class ReservationDialog extends DialogFragment {
 
     private EditText mEditText;
+    private  EditText mEditTextSize;
+    private TimePicker mTimePicker;
     private CheckBox mDepositCheckBox;
     private Button mSubmitButton;
 
@@ -35,12 +42,17 @@ public class ReservationDialog extends DialogFragment {
         // Use `newInstance` instead as shown below
     }
 
-    public static ReservationDialog newInstance(String title) {
+    public static ReservationDialog newInstance(String title, int tablePosition) {
         ReservationDialog frag = new ReservationDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putInt("TABLE_NUMBER", tablePosition);
         frag.setArguments(args);
         return frag;
+    }
+
+    private boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
     }
 
     @Override
@@ -53,8 +65,12 @@ public class ReservationDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        int tablePosition = getArguments().getInt("TABLE_NUMBER");
+
         // Get field from view
         mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+        mEditTextSize = (EditText) view.findViewById(R.id.txt_party_size);
         mDepositCheckBox = (CheckBox) view.findViewById(R.id.checkbox_deposit);
         mSubmitButton = (Button) view.findViewById(R.id.confirmation_button);
 
@@ -63,8 +79,22 @@ public class ReservationDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                // This is how you start the nag activity
-                // getActivity().startActivity();
+                Toast.makeText(getContext(), String.valueOf(tablePosition), Toast.LENGTH_SHORT).show();
+
+                if(isEmpty(mEditText)) {
+                    mEditText.setError("Please input a reservation name");
+                    return;
+                }
+
+                if(isEmpty(mEditTextSize)) {
+                    mEditTextSize.setError("Please input a party size");
+                    return;
+                }
+
+                // go back to SignInActivity
+                Intent reservationIntent = new Intent(getActivity(), SignInActivity.class);
+                getActivity().startActivity(reservationIntent);
+
             }
         });
 
@@ -73,18 +103,23 @@ public class ReservationDialog extends DialogFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mSubmitButton.setEnabled(true);
+                    //exit this out
                 } else {
+
                     mSubmitButton.setEnabled(false);
                 }
             }
         });
 
+
+
+
+
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-        mEditText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+
+
     }
 }

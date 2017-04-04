@@ -59,11 +59,13 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        UserName.setText("melissa@dishdriver.com");
-        Password.setText("password");
-
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
+
+        if (userName.equals(""))
+            UserName.setText("melissa@dishdriver.com");
+        if (password.equals(""))
+            Password.setText("password");
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
@@ -126,5 +128,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+>>>>>>> meeting-two-ui
     }
 }
