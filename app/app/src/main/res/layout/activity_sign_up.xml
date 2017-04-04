@@ -128,5 +128,15 @@
         app:layout_constraintHorizontal_bias="0.329"
         android:layout_marginEnd="240dp" />
 
+    <ImageView
+        android:id="@+id/hypeLoadingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_contraighnt_below="@id/loginButton"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/hype"
+        tools:layout_editor_absoluteX="624dp"
+        tools:layout_editor_absoluteY="579dp"
+        />
 
 </android.support.constraint.ConstraintLayout>
