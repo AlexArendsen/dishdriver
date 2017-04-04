@@ -39,12 +39,5 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/reserveButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="RESERVE"
-        android:onClick="selfDestruct"
-        />
+
 </LinearLayout>
