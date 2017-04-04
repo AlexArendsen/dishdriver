@@ -86,14 +86,14 @@ public class TableReservationModel {
      * @param restaurant The restaurant we want information for
      * @return A list containing all the table reservations for the given restaurant
      */
-    public static Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
+    public Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
         return query(
                 "SELECT TR.* FROM Table_Reservations TR " +
                 "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
                 "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
                 "WHERE R.Id = ? " +
                 "AND TR.Table_ID =?",
-                new String[]{Integer.toString(r.getId(), Integer.toString(getTableId))}
+                new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), r.getId())}
         );
     }
 
@@ -108,7 +108,7 @@ public class TableReservationModel {
                 "DELETE FROM Table_Reservations" +
                 "WHERE Id = ?" +
                 "AND DT_Accepted = NULL",
-                new String[] {getId()}
+                new String[] {String.valueOf(getId())}
         );
 
     }

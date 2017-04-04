@@ -2,12 +2,14 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import edu.ucf.cop4331c.dishdriver.enums.Status;
 import retrofit2.Call;
 import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -91,11 +93,12 @@ public class OrderModel {
      * @return Returns the total amount of $$$ due for the order
      */
     public Observable<Integer> grandTotal(){
-        return OrderedDishModel.query(
+        return null;
+        /*return OrderedDishModel.query(
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
             new String[] {Integer.toString(getId())}
-        );
+        );*/
     }
 
     /**
@@ -109,13 +112,13 @@ public class OrderModel {
                     if (dTAccepted == null)
                         if (dTRejected == null)
                             if (dTPlaced == null)
-                                return NEW;
-                            else return PLACED;
-                        else return CANCELLED;
-                    else return REJECTED;
-                else return ACCEPTED;
-            else return COOKED;
-        else return PAID;
+                                return Status.NEW;
+                            else return Status.PLACED;
+                        else return Status.CANCELLED;
+                    else return Status.REJECTED;
+                else return Status.ACCEPTED;
+            else return Status.COOKED;
+        else return Status.PAID;
     }
 
     /**
@@ -127,7 +130,7 @@ public class OrderModel {
 
         return NonQueryResponseModel.run(
             "INSERT INTO Orders (Waiter_ID, Table_ID) VALUES (?, ?)",
-            new String[] {Integer.toString(waiter.getId()), Integer.toString(getTableId())}
+            new String[] {Integer.toString(waiter.getID()), Integer.toString(getTableId())}
         );
     }
 

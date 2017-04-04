@@ -127,7 +127,5 @@ public class SignInActivity extends AppCompatActivity {
                 //finish();
             }
         });
-
->>>>>>> meeting-two-ui
     }
 }

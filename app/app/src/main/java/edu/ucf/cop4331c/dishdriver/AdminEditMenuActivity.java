@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import edu.ucf.cop4331c.dishdriver.R;
 
-public class AdminManagementActivity extends AppCompatActivity {
+public class AdminEditMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

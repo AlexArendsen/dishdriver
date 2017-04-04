@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import retrofit2.Call;
 import rx.Observable;
@@ -99,7 +100,7 @@ public class TableModel {
      * NOTE: THIS HAS PLACEHOLDER VALUES FOR THE RESERVATION, PULLING THE DATA FROM THE UI STILL NEEDS TO BE IMPLEMENTED
      * @throws UnsupportedOperationException
      */
-    public Observable<TableReservationModel> reserve() throws UnsupportedOperationException{
+    public TableReservationModel reserve() throws UnsupportedOperationException{
         Integer reservationId = this.positionX + (this.positionY * 3) + 1;
 
         // check if a table is already reserved, if so throw an exception
@@ -108,20 +109,20 @@ public class TableModel {
         }
 
         this.tableStatusId = 1; // mark table as reserved
-        return new TableReservationModel(reservationId, this.id, "PartyName", 4, 25, getDate(), getDate());
+        return new TableReservationModel(reservationId, this.id, "PartyName", 4, 25, null, null);
     }
 
-    public Observable<Boolean> create(){
+    public Observable<NonQueryResponseModel> create(){
         return NonQueryResponseModel.run(
                 "INSERT INTO Tables" +
                         "(Restaurant_ID, Name, Capacity)" +
                         "VALUES" +
                         "(?, ?, 4)",
-               new String[] { getName(), Integer.toString(SessionModel.currentRestaurant.getId()) }
+               new String[] { getName(), Integer.toString(SessionModel.currentRestaurant().getId()) }
         );
     }
 
-    public Observable<Boolean> update(){
+    public Observable<NonQueryResponseModel> update(){
         return NonQueryResponseModel.run(
                 "UPDATE Tables SET" +
                         "Name = ?" +
@@ -179,16 +180,16 @@ public class TableModel {
         this.capacity = capacity;
     }
 
-    public Integer getTableStatus() {
+    public TableStatus getTableStatus() {
         switch(tableStatusId) {
             case 1:  return TableStatus.RESERVED;
             case 2:  return TableStatus.UNRESERVED;
-            default TableStatus.OCCUPIED;
+            default: return TableStatus.OCCUPIED;
         }
     }
 
     public void setTableStatus(Integer tableStatusId) {
-        TableStatusId = tableStatusId;
+        this.tableStatusId = tableStatusId;
     }
     // endregion
 }
