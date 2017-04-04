@@ -4,12 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import edu.ucf.cop4331c.dishdriver.enums.Status;
+//import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import retrofit2.Call;
 import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static edu.ucf.cop4331c.dishdriver.enums.Status.*;
 
 
 /**
@@ -82,7 +85,7 @@ public class OrderModel {
      * @return Return all the dishes for the order
      */
     public Observable<List<OrderedDishModel>> dishes(){
-        return OrderedDishModel.query(
+        return OrderedDishModel.odQuery(
                 "SELECT * FROM Ordered_Dishes WHERE Order_Id = ?",
                 new String[] {Integer.toString(getId())}
         );
@@ -92,9 +95,14 @@ public class OrderModel {
      *
      * @return Returns the total amount of $$$ due for the order
      */
+<<<<<<< HEAD
     public Observable<Integer> grandTotal(){
         return null;
         /*return OrderedDishModel.query(
+=======
+    public Observable<List<OrderedDishModel>> grandTotal(){
+        return OrderedDishModel.odQuery(
+>>>>>>> meeting-two-library
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
             new String[] {Integer.toString(getId())}
