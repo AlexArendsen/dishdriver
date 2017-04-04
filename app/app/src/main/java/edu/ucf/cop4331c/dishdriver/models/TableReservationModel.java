@@ -110,11 +110,10 @@ public class TableReservationModel {
                 "DELETE FROM Table_Reservations" +
                 "WHERE Id = ?" +
                 "AND DT_Accepted = NULL",
-<<<<<<< HEAD
+
                 new String[] {String.valueOf(getId())}
-=======
-                new String[] { Integer.toString(getId())}
->>>>>>> meeting-two-library
+                //new String[] { Integer.toString(getId())}
+
         );
 
     }

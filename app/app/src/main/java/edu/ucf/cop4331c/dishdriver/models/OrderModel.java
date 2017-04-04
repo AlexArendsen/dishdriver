@@ -95,14 +95,9 @@ public class OrderModel {
      *
      * @return Returns the total amount of $$$ due for the order
      */
-<<<<<<< HEAD
     public Observable<Integer> grandTotal(){
         return null;
         /*return OrderedDishModel.query(
-=======
-    public Observable<List<OrderedDishModel>> grandTotal(){
-        return OrderedDishModel.odQuery(
->>>>>>> meeting-two-library
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
             new String[] {Integer.toString(getId())}
