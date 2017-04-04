@@ -46,6 +46,7 @@ public class Admin_email_activity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         //subject
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Monthly Report for ____");//TODO: add month, year entered (@id/startDateInput)
+        //message
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Profit made: ____. Favorite dish this month was: ____.");//TODO: add profit made this month and pul most orered dish here
 
         try {
