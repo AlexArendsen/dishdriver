@@ -132,7 +132,6 @@
         android:id="@+id/hypeLoadingIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_contraighnt_below="@id/loginButton"
         android:visibility="invisible"
         app:srcCompat="@drawable/hype"
         tools:layout_editor_absoluteX="624dp"
