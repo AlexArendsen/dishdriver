@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class Admin_email_activity extends AppCompatActivity {
@@ -29,15 +30,14 @@ public class Admin_email_activity extends AppCompatActivity {
     }
 
     protected void sendEmail() {
+
+        EditText emailToInput = (EditText) findViewById(R.id.emailToInput);
+        EditText emailCC      = (EditText) findViewById(R.id.ccEmailAddressInput);
+
         Log.i("Send email", "");
-        String[] TO = {R.id.emailToInput};
-        //check if they even had a CC'd email
-        if(R.id.ccEmailAddressInput.length() > 1) {
-            String[] CC = {R.id.ccEmailAddressInput};
-        }
-        else{
-            String[] CC = {""};
-        }
+        String TO = emailToInput.getText().toString();
+        String CC = emailCC.getText().toString();
+
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         emailIntent.setData(Uri.parse("mailto:"));
@@ -47,7 +47,7 @@ public class Admin_email_activity extends AppCompatActivity {
         //subject
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Monthly Report for ____");//TODO: add month, year entered (@id/startDateInput)
         //message
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Profit made: ____. Favorite dish this month was: ____.");//TODO: add profit made this month and pul most orered dish here
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Profit made: ____. Favorite dish this month was: ____.");//TODO: add profit made this month and pul most ordered dish here
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));

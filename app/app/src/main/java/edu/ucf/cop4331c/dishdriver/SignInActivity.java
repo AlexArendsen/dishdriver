@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,9 +57,6 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void login(View v){
-        ImageView imgView = (ImageView)findViewById(R.id.hypeLoadingIcon);
-        //show hype image
-        imgView.setVisibility(View.VISIBLE);
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
@@ -76,7 +74,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onCompleted() {
 
                 //hide loading icon:
-                findViewById(R.id.hypeLoadingIcon).setVisibility(View.GONE);
 
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
