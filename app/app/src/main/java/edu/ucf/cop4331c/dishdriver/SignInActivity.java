@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -52,6 +53,13 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
     }
+    @OnClick(R.id.goToAdmin)
+    public void admin(){ startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class)); }
+    @OnClick(R.id.goToCook)
+    public void cook(){ startActivity(new Intent(SignInActivity.this, CookActivity.class)); }
+    @OnClick(R.id.goToWaiter)
+    public void waiter(){ startActivity(new Intent(SignInActivity.this, TableActivity.class)); }
+
 
     @OnClick(R.id.loginButton)
     public void login(View v){
@@ -59,11 +67,13 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        UserName.setText("melissa@dishdriver.com");
-        Password.setText("password");
-
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
+
+        if (userName.equals(""))
+            UserName.setText("melissa@dishdriver.com");
+        if (password.equals(""))
+            Password.setText("password");
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
@@ -87,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
                         public void onNext(List<PositionModel> positionModels) {
                             Toaster.toast(positionModels.get(0).getRole().toString());
 
-                            switch(positionModels.get(0).getRoleID()){
+                            switch(3){//positionModels.get(0).getRoleID()){
                                 case 1:
                                     startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
                                     break;
@@ -125,6 +135,5 @@ public class SignInActivity extends AppCompatActivity {
                 //finish();
             }
         });
-
     }
 }

@@ -25,11 +25,11 @@
             android:text="Beverage" />
 
         <Button
-            android:id="@+id/potentialButton"
+            android:id="@+id/sendOrderToKitchenButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Potential"
+            android:text="Send Order to Kitchen"
             />
 
 

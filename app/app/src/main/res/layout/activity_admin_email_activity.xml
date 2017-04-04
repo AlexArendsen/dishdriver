@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ucf.cop4331c.dishdriver.Admin_email_activity">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Date:"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="132dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="1276dp"
+        android:layout_height="37dp"
+        android:text="Please fill out the following information before sending the email:"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteY="37dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="dd/mm/yyyy or mm/yyyy"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteY="119dp"
+        tools:layout_editor_absoluteX="217dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email To:"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="249dp" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="example@testing.com"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteY="228dp"
+        tools:layout_editor_absoluteX="217dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CC:"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteY="352dp"
+        tools:layout_editor_absoluteX="72dp" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="example@testing.com"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="331dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Email"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteY="436dp"
+        tools:layout_editor_absoluteX="589dp" />
+
+</android.support.constraint.ConstraintLayout>

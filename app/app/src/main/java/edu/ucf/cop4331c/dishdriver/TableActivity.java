@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,27 @@ public class TableActivity extends AppCompatActivity {
 
     TableAdapter mTableAdapter;
 
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -45,7 +67,7 @@ public class TableActivity extends AppCompatActivity {
 
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
 
-        mTableAdapter = new TableAdapter(getApplicationContext());
+        mTableAdapter = new TableAdapter(this);
 
         mTableRecyclerView.setAdapter(mTableAdapter);
 
@@ -75,17 +97,7 @@ public class TableActivity extends AppCompatActivity {
 
     @Subscribe (threadMode = ThreadMode.MAIN)
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
-        new PartySizeDialog().show(getSupportFragmentManager(), "PARTY_DIALOG");
-    }
-
-    public void selfDestruct(View view) {
-        showEditDialog();
-    }
-
-    public void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "dialog_reservation");
+        PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
 
     public void onCheckboxClicked(View view) {

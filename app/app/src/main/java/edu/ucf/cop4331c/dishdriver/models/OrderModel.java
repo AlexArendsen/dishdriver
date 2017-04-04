@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import edu.ucf.cop4331c.dishdriver.enums.Status;
 //import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import retrofit2.Call;
@@ -94,12 +95,15 @@ public class OrderModel {
      *
      * @return Returns the total amount of $$$ due for the order
      */
-    public Observable<List<OrderedDishModel>> grandTotal(){
-        return OrderedDishModel.odQuery(
+		//TODO implpment this correctly
+    public Observable<Integer> grandTotal(){
+        return null;
+        /*return OrderedDishModel.query(
+>>>>>>> origin/meeting-two
             "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
             "WHERE Order_Id = ?",
             new String[] {Integer.toString(getId())}
-        );
+        );*/
     }
 
     /**
@@ -113,13 +117,13 @@ public class OrderModel {
                     if (dTAccepted == null)
                         if (dTRejected == null)
                             if (dTPlaced == null)
-                                return NEW;
-                            else return PLACED;
-                        else return CANCELLED;
-                    else return REJECTED;
-                else return ACCEPTED;
-            else return COOKED;
-        else return PAID;
+                                return Status.NEW;
+                            else return Status.PLACED;
+                        else return Status.CANCELLED;
+                    else return Status.REJECTED;
+                else return Status.ACCEPTED;
+            else return Status.COOKED;
+        else return Status.PAID;
     }
 
     /**

@@ -94,6 +94,7 @@ public class TableReservationModel {
                 "WHERE R.Id = ? " +
                 "AND TR.Table_ID =?",
                 new String[]{Integer.toString(r.getId()), Integer.toString(getTableId())}
+                //new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), r.getId())}
         );
     }
 
@@ -108,7 +109,11 @@ public class TableReservationModel {
                 "DELETE FROM Table_Reservations" +
                 "WHERE Id = ?" +
                 "AND DT_Accepted = NULL",
+<<<<<<< HEAD
                 new String[] { Integer.toString(getId())}
+=======
+                new String[] {String.valueOf(getId())}
+>>>>>>> origin/meeting-two
         );
 
     }
