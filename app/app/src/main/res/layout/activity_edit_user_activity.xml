@@ -1,10 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.ucf.cop4331c.dishdriver.Admin_email_activity">
 
+    <LinearLayout
+        android:id="@+id/addUserLinearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/divider">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/addUserTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="30sp"
+            android:text="Add New User"/>
+
+        <EditText
+            android:id="@+id/firstNameEditText"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:hint="First Name"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/lastNameEditText"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:hint="Last Name"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:hint="Email Address"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/positionSpinner"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+
+            />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/generatePasswordButton"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="Generate Password"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            />
+
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordTextView"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="20sp"
+            android:text="New password"
+            />
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:background="@color/black"/>
+
+    <LinearLayout
+        android:id="@+id/deleteUserLinearLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/divider">
+
+        <TextView
+            android:id="@+id/deleteUserTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="30sp"
+            android:text="Delete User"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/showAllUserSpinner"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+
+            />
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteUserButton"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:text="Delete User"
+
+            />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
