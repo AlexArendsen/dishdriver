@@ -4,45 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="edu.ucf.cop4331c.dishdriver.AdminNavigationActivity">
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/adminTitle"
+        android:layout_width="1264dp"
+        android:layout_height="150dp"
         android:text="Admin View"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:padding="10dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp" />
+
     <Button
+        app:layout_constraintTop_toBottomOf="@+id/adminTitle"
+        android:id="@+id/generateReport"
+        android:layout_width="1280dp"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        android:text="Statistical Analysis Report (GENERATE REPORT)"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/generateReport"
+        android:id="@+id/editMenu"
+        android:layout_width="1280dp"
+        android:layout_height="100dp"
+        android:text="Manage Restaurant (EDIT FOOD ITEMS)"
+        android:background="@color/pinkRed"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/editMenu"
+        android:id="@+id/editUser"
+        android:layout_width="1280dp"
+        android:layout_height="100dp"
+        android:text="Edit User Accounts (EDIT USER ACC)"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/editUser"
         android:id="@+id/waiterButton"
-        android:layout_width="1291dp"
-        android:layout_height="83dp"
+        android:layout_width="1280dp"
+        android:layout_height="100dp"
         android:text="Waiter View"
         android:textColor="@color/white"
         android:background="@color/pinkRed"
         android:textSize="30dp"
-        tools:layout_editor_absoluteX="-5dp"
-        tools:layout_editor_absoluteY="234dp" />
+        tools:layout_editor_absoluteX="0dp" />
     <Button
+        app:layout_constraintTop_toBottomOf="@+id/waiterButton"
         android:id="@+id/cookButton"
-        android:layout_width="1291dp"
-        android:layout_height="83dp"
-        android:text="Monthly Report Email"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
+        android:layout_width="1293dp"
+        android:layout_height="113dp"
+        android:text="Cook View"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="30dp"
         android:width="10dp"
-        tools:layout_editor_absoluteX="-5dp"
-        tools:layout_editor_absoluteY="317dp" />
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="1291dp"
-        android:layout_height="83dp"
-        android:background="@color/colorPrimary"
-        android:text="Cook View"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteY="151dp"
-        android:layout_marginRight="-6dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        tools:layout_editor_absoluteX="0dp" />
+
+
 </android.support.constraint.ConstraintLayout>
