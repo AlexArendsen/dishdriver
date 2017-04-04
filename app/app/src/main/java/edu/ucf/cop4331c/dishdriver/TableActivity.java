@@ -45,7 +45,7 @@ public class TableActivity extends AppCompatActivity {
 
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
 
-        mTableAdapter = new TableAdapter(getApplicationContext());
+        mTableAdapter = new TableAdapter(this);
 
         mTableRecyclerView.setAdapter(mTableAdapter);
 

@@ -65,15 +65,16 @@ public class PartySizeDialog extends DialogFragment {
         cardParty4TextView.setText("4");
 
 //        This was causing problems, so I commented it out. But, this is how you would create an onClickListener
-        Button reserveButton = (Button) dialogView.findViewById(R.id.reserveButton);
-        reserveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Reserve Button Pressed", Toast.LENGTH_SHORT).show();
-                ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title", tablePosition);
-                editNameDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog_reservation");
-            }
-        });
+//        Button reserveButton = (Button) dialogView.findViewById(R.id.reserveButton);
+//        reserveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "Reserve Button Pressed", Toast.LENGTH_SHORT).show();
+//                ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title", tablePosition);
+//                editNameDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog_reservation");
+//            }
+//        });
+
 
         cardParty1RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
