@@ -83,14 +83,13 @@
         app:layout_constraintLeft_toLeftOf="@+id/passwordIconImageView" />
 
     <TextView
-
-        android:layout_width="wrap_content"
         android:id="@+id/titleTextView"
         android:text="Dish Driver"
         android:textSize="76sp"
         android:fontFamily="serif"
         android:gravity="center"
         android:textColor="@color/white"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
