@@ -28,6 +28,7 @@ import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
+import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -163,10 +164,11 @@ public class NavigationActivity extends ProgressDialogActivity {
         enableProgressDialog("Test");
         //TODO: Use this as soon as session model is fixed
 //        DishModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
-        RestaurantModel.get(3).asObservable()
+        DishModel.forRestaurant(SessionModel.currentRestaurant())
+        // RestaurantModel.get(3).asObservable()
                 // flatMap is going to grab the first element is your list of Observable objects.
                 // in our case, we have a list of restaurantModels
-                .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
+               // .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
                 // subscribeOn means you will look at the backend (where the elements are located at)
                 .subscribeOn(Schedulers.io())
                 // observeOn means to display elements on the UI mainthread (which is where we are interested in viewing it
