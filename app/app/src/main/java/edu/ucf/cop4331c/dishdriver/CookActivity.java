@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 
 import static android.R.attr.colorPrimary;
+import static xdroid.core.Global.getContext;
 
 /**
  * Created by tjcle on 3/14/2017.
