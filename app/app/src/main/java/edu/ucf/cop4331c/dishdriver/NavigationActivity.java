@@ -1,11 +1,9 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
-import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+// import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
-import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -51,11 +52,15 @@ public class NavigationActivity extends ProgressDialogActivity {
     RecyclerView mMenuItemRecyclerView;
     @BindView(R.id.beverageSpinner)
     Spinner mBeverageSpinner;
-    @BindView(R.id.checkButton)
-    Button mCheckButton;
+//    @BindView(R.id.checkButton)
+//    Button mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
     Button mOrderButton;
 
+    // Oh my gosh, major debugging... do not bind views if you aren;t going to use them!!!
+
+//    @BindView(R.id.itemPriceTextView)
+//    TextView mItemPriceTextView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -80,21 +85,21 @@ public class NavigationActivity extends ProgressDialogActivity {
 //        }
 
 
-        final ArrayList<String> menuItemsList = new ArrayList<>();
+        final ArrayList<DishModel> menuItemsList = new ArrayList<>();
 
-        menuItemsList.add("Menu");
-        menuItemsList.add("COCONUT CURRY WRAP!");
-        menuItemsList.add("Acorn squash");
-        menuItemsList.add("MAYO FOR TJ");
-        menuItemsList.add("Kimchi");
-        menuItemsList.add("MUSHROOMS for Ashton");
-        menuItemsList.add("Scones for Gareth!!");
+//        menuItemsList.add("Menu");
+//        menuItemsList.add("COCONUT CURRY WRAP!");
+//        menuItemsList.add("Acorn squash");
+//        menuItemsList.add("MAYO FOR TJ");
+//        menuItemsList.add("Kimchi");
+//        menuItemsList.add("MUSHROOMS for Ashton");
+//        menuItemsList.add("Scones for Gareth!!");
 
-        ArrayAdapter<String> menuAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
+        ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<String>(), true);
+        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -120,39 +125,39 @@ public class NavigationActivity extends ProgressDialogActivity {
 
 //        // trying to create beverage spinner
 //
-        final ArrayList<String> beverageList = new ArrayList<String>();
-        beverageList.add("Beverages");
-        beverageList.add("Kombocha");
-        beverageList.add("Chai Tea");
+//        final ArrayList<DishModel> beverageList = new ArrayList<String>();
+//        beverageList.add("Beverages");
+//        beverageList.add("Kombocha");
+//        beverageList.add("Chai Tea");
+//
+//
+//        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
+//        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
+//        mBeverageSpinner.setAdapter(beverageAdapter);
+//
+//        mBeverageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                if (position != 0) {
+//                    ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
+//                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
+//                    mBeverageSpinner.setSelection(0);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
-
-        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
-        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
-        mBeverageSpinner.setAdapter(beverageAdapter);
-
-        mBeverageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position != 0) {
-                    ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
-                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
-                    mBeverageSpinner.setSelection(0);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        getDishes(menuItemsList);
+         getDishes(menuItemsList);
 
 
     }
 
-    private void getDishes(final ArrayList<String> menuItemsList) {
+    private void getDishes(final ArrayList<DishModel> menuItemsList) {
 
         // Enable the progress bar whenever you need to grab data from the database
         enableProgressDialog("Test");
@@ -184,24 +189,57 @@ public class NavigationActivity extends ProgressDialogActivity {
                     // Take a list of DishModels and loop through to get the names
                     public void onNext(List<DishModel> dishModels) {
                         menuItemsList.clear();
+//                        beverageList.clear();
+
                         for (DishModel dishModel : dishModels) {
-                            menuItemsList.add(dishModel.getName());
+
+                            menuItemsList.add(dishModel);
+
+
                         }
 
+
+
+//                        for (DishModel dishModel : dishModels) {
+//                            beverageList.add(MoneyFormatter.format(dishModel.getPrice()));
+//
+//                        }
+
+                        final ArrayList<String> temps = new ArrayList<String>();
+                        final ArrayList<String> prices = new ArrayList<String>();
+
+                        for(int x = 0; x < menuItemsList.size(); x++ ) {
+
+                            temps.add(menuItemsList.get(x).getName());
+                            prices.add(MoneyFormatter.format(menuItemsList.get(x).getPrice()));
+                        }
+
+
+
+
                         // Bind the spinner to the names to display
-                        ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
+                        ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temps);
                         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
                         mMenuSpinner.setAdapter(menuItemAdapter);
+
+//                        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
+//                        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
+//                        mBeverageSpinner.setAdapter(beverageAdapter);
+
+
+
 
                         dismissProgressDialog();
                     }
                 });
     }
 
-    @OnClick(R.id.checkButton)
-    public void onCheckButtonClicked() {
-        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
-    }
+    // TODO: Add check method back in later
+
+//    @OnClick(R.id.checkButton)
+//    public void onCheckButtonClicked() {
+//        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+//    }
 
     // go back to SignInActivity
 

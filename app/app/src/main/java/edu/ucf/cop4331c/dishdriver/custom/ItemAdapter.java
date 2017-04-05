@@ -1,7 +1,6 @@
 package edu.ucf.cop4331c.dishdriver.custom;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +12,11 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
+import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
+import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import xdroid.toaster.Toaster;
 
 /**
@@ -29,10 +29,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     // WeakReference will ensure that the activity context is not leaked if the activity is killed by the app.
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
-    private ArrayList<String> mItems;
+    private ArrayList<DishModel> mItems;
     private boolean mShowRemoveButton;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<String> items, boolean showRemoveButton) {
+    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
         mShowRemoveButton = showRemoveButton;
@@ -74,7 +74,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         // This will set the text on the holder from our RecyclerView, given the position
         // Basically, it shows the information
         // holder.mItemDescriptionTextView.setText(mItems.get(position));
-        holder.mMenuItemTextView.setText(mItems.get(position));
+        holder.mMenuItemTextView.setText((CharSequence) mItems.get(position).getName());
+        holder.mItemPriceTextView.setText((CharSequence) MoneyFormatter.format(mItems.get(position).getPrice()));
+        holder.mItemDescriptionTextView.setText((CharSequence) mItems.get(position).getDescription());
+
 
         // Here we check whether or not we should show the remove button.
         if (mShowRemoveButton) {
@@ -92,7 +95,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return mItems.size();
     }
 
-    public void addItem(String item) {
+    public void addItem(DishModel item) {
         mItems.add(item);
         notifyDataSetChanged();
     }
@@ -101,39 +104,39 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         mItems.remove(position);
         notifyDataSetChanged();
     }
-    public ArrayList<String> getItems() {
+    public ArrayList<DishModel> getItems() {
         return mItems;
     }
 
-    // TODO: add in correct parameter of OrderDish objects
-    public double getCheckTotalAmount() {
-        // Iterate through item models and sum the price.
-        double sum = 0.0;
-
-        // This will not be a string, but an item model object that has a getter for the item price.
-        for(String item: mItems) {
-//            sum+= item.getPrice
-        }
-
-        return 0.0;
-    }
-
-    // TODO: add in correct parameter of OrderDish objects
-
-    public double getTipAmount() {
-
-        //generate tip amount.
-        return ( getCheckTotalAmount()*0.18);
-
-    }
-
-    public double getSubtotal() {
-
-        if(true) // if gratuityEditTextView is populated
-            return ( getCheckTotalAmount() + getTipAmount() );
-
-        else return getCheckTotalAmount();
-    }
+//    // TODO: add in correct parameter of OrderDish objects
+//    public double getCheckTotalAmount() {
+//        // Iterate through item models and sum the price.
+//        double sum = 0.0;
+//
+//        // This will not be a string, but an item model object that has a getter for the item price.
+//        for(String item: mItems) {
+////            sum+= item.getPrice
+//        }
+//
+//        return 0.0;
+//    }
+//
+//    // TODO: add in correct parameter of OrderDish objects
+//
+//    public double getTipAmount() {
+//
+//        //generate tip amount.
+//        return ( getCheckTotalAmount()*0.18);
+//
+//    }
+//
+//    public double getSubtotal() {
+//
+//        if(true) // if gratuityEditTextView is populated
+//            return ( getCheckTotalAmount() + getTipAmount() );
+//
+//        else return getCheckTotalAmount();
+//    }
 
     // create remove method somewhere
 
@@ -143,6 +146,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         ImageView mDeleteItemImageView;
         ImageView mModifyItemImageView;
         TextView mItemDescriptionTextView;
+        TextView mItemPriceTextView;
 
         // Create a listener object to be passed
         IMyViewHolderClicks mListener;
@@ -160,6 +164,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mDeleteItemImageView = (ImageView) itemView.findViewById(R.id.itemClearImageView);
             mModifyItemImageView = (ImageView) itemView.findViewById(R.id.itemModifyImageView);
             mItemDescriptionTextView = (TextView) itemView.findViewById(R.id.itemDescriptionTextView);
+            mItemPriceTextView = (TextView) itemView.findViewById(R.id.itemPriceTextView);
+
 
             mDeleteItemImageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
