@@ -18,6 +18,8 @@ public class DishDriverProvider {
     public static final String BASE_URL_LOCAL = "http://10.0.0.3:6789/";
     public static final String DD_HEADER_CLIENT = "asdf123";
 
+    public static final String APP_ID = "1e530e46-32e0-4ec7-b971-823e23909f4a";
+
     private static DishDriverService sDishDriverService;
 
     public static DishDriverService getInstance() {

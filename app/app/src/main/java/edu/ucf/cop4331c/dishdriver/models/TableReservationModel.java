@@ -81,7 +81,40 @@ public class TableReservationModel {
     }
     // endregion
 
-    public static Call<ArrayList<TableReservationModel>> forRestaurant(RestaurantModel restaurant) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    /**
+     *
+     * @param restaurant The restaurant we want information for
+     * @return A list containing all the table reservations for the given restaurant
+     */
+    public Observable<List<TableReservationModel>> forRestaurant(RestaurantModel restaurant){
+        return query(
+                "SELECT TR.* FROM Table_Reservations TR " +
+                "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
+                "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
+                "WHERE R.Id = ? " +
+                "AND TR.Table_ID =?",
+								//this gave error TODO// check this
+                new String[]{Integer.toString(restaurant.getId()), Integer.toString(getTableId())}
+        );
+    }
+
+    /**
+     *
+     * @return deletes all reserved tables that haven't been accepted
+     */
+    public Observable<NonQueryResponseModel> unreserved(){
+
+        return NonQueryResponseModel.run(
+                "DELETE FROM Table_Reservations" +
+                "WHERE Id = ?" +
+                "AND DT_Accepted = NULL",
+
+                //new String[] {String.valueOf(getId())}
+                new String[] { Integer.toString(getId()) }
+
+        );
+
+    }
 
     // region Getters and Setters
     public Integer getId() {

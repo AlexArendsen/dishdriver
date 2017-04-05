@@ -1,5 +1,7 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -9,13 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
+import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 
 //class Dishes {
 //    private String name;
@@ -37,6 +42,10 @@ public class NavigationActivity extends AppCompatActivity {
     RecyclerView mMenuItemRecyclerView;
     @BindView(R.id.beverageSpinner)
     Spinner mBeverageSpinner;
+    @BindView(R.id.checkButton)
+    Button mCheckButton;
+    @BindView(R.id.sendOrderToKitchenButton)
+    Button mOrderButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +71,6 @@ public class NavigationActivity extends AppCompatActivity {
 //        }
 
 
-
         final ArrayList<String> menuItemsList = new ArrayList<>();
         menuItemsList.add("Menu");
         menuItemsList.add("COCONUT CURRY WRAP!");
@@ -76,7 +84,7 @@ public class NavigationActivity extends AppCompatActivity {
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.pinkRed));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(new ArrayList<String>());
+        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<String>(), true);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -84,6 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
                 if(position != 0) {
 
                     ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(menuItemsList.get(position));
+                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
                     mMenuSpinner.setSelection(0);
 
                 }
@@ -117,6 +126,7 @@ public class NavigationActivity extends AppCompatActivity {
 
                 if(position != 0) {
                     ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
+                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
                     mBeverageSpinner.setSelection(0);
                 }
             }
@@ -127,4 +137,19 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
     }
+
+    @OnClick(R.id.checkButton)
+    public void onCheckButtonClicked() {
+        CheckDialog.newInstance(((ItemAdapter)mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+    }
+
+    // go back to SignInActivity
+
+    @OnClick(R.id.sendOrderToKitchenButton)
+    public void onOrderButtonClicked() {
+        startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+    }
+
+
+
 }
