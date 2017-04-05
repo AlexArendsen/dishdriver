@@ -16,12 +16,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
+import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import rx.Subscriber;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -70,6 +76,33 @@ public class TableActivity extends AppCompatActivity {
         mTableAdapter = new TableAdapter(this);
 
         mTableRecyclerView.setAdapter(mTableAdapter);
+
+
+        if (SessionModel.currentRestaurant() != null)
+            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
+
+                List<DishModel> dishModelList;
+
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(List<DishModel> dishModels) {
+                    Toaster.toast(SessionModel.currentRestaurant().getName());
+                    for (DishModel d  : dishModels)
+                        Toaster.toast(d.getName());
+
+                }
+            });
+        else
+            Toaster.toast("Not right");
 
 //        final Button button = (Button) findViewById(R.id.reserveButton);
 //
