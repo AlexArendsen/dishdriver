@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
-// import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
@@ -238,10 +238,10 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     // TODO: Add check method back in later
 
-//    @OnClick(R.id.checkButton)
-//    public void onCheckButtonClicked() {
-//        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
-//    }
+    @OnClick(R.id.checkButton)
+    public void onCheckButtonClicked() {
+        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+    }
 
     // go back to SignInActivity
 
