@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,7 @@ import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.SignInActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
+import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import xdroid.toaster.Toaster;
 
@@ -37,6 +39,8 @@ import static android.net.wifi.WpsInfo.INVALID;
 
 public class CheckDialog extends DialogFragment {
 
+    private static String total;
+
     //TODO: Eventually you will want to change this to an arraylist of the item models and not just strings.
 
     /**
@@ -45,11 +49,21 @@ public class CheckDialog extends DialogFragment {
      * @param items     The list of items that have been added to the order by the waiter.
      * @return          Returns a new CheckDialog which contains all the items for this order.
      */
+
+
+
     public static CheckDialog newInstance(ArrayList<DishModel> items) {
+
+
         CheckDialog checkDialog = new CheckDialog();
 
         ArrayList<DishModel> convertToStr = new ArrayList<>();
+
+        total = getCheckTotalAmount(items);
+
+
         convertToStr.addAll(items);
+
 
         Bundle bundle = new Bundle();
 
@@ -91,17 +105,26 @@ public class CheckDialog extends DialogFragment {
         RecyclerView receiptRecyclerView = (RecyclerView) view.findViewById(R.id.receiptOfItemsRecyclerView);
         receiptRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
         ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false);
         receiptRecyclerView.setAdapter(itemAdapter);
 
-        Button addTipButton = (Button) view.findViewById(R.id.tipButton);
-        Button submitButton = (Button) view.findViewById(R.id.submitButton);
+        Button mTipButton = (Button) view.findViewById(R.id.tipButton);
+        Button mSubmitButton = (Button) view.findViewById(R.id.submitButton);
+        TextView mItemTotalTextView = (TextView) view.findViewById(R.id.itemTotalTextView);
+
+        mItemTotalTextView.setText(total);
+
+
+
+
+
 
         // TODO: bind the TextView to
-        addTipButton.setOnClickListener(new View.OnClickListener() {
+        mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toaster.toast("hello this button works");
@@ -109,7 +132,7 @@ public class CheckDialog extends DialogFragment {
             }
         });
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent orderIntent = new Intent(getActivity(), SignInActivity.class);
@@ -120,7 +143,22 @@ public class CheckDialog extends DialogFragment {
     }
 
     private boolean isEmpty(EditText etText) {
+
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    public static String getCheckTotalAmount(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++ ) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return MoneyFormatter.format(sum);
     }
 
 
