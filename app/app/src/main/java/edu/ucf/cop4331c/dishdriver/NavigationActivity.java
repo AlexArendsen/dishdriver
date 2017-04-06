@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 //class Dishes {
 //    private String name;
@@ -57,6 +59,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //    Button mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
     Button mOrderButton;
+
 
     // Oh my gosh, major debugging... do not bind views if you aren;t going to use them!!!
 
@@ -106,6 +109,7 @@ public class NavigationActivity extends ProgressDialogActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
+
 
                     ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(menuItemsList.get(position));
                     mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
@@ -223,6 +227,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                         ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temps);
                         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
                         mMenuSpinner.setAdapter(menuItemAdapter);
+
 
 //                        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
 //                        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));

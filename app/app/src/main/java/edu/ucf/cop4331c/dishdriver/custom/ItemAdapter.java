@@ -57,11 +57,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             @Override
 
             // this is checking weak reference
+            // Here, we are going to open up the dialog for the modify EditText
             public void addNoteForItemAtPosition(int position) {
                 AppCompatActivity appCompatActivity = appCompatActivityWeakReference.get();
                 if (appCompatActivity != null)
                     // If there is something there, then we want to create a dialog
                     new ItemModifyDialog().show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+
             }
         });
     }
@@ -153,6 +155,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         // Constructor with passed view and our listener object that will be called later.
         public ItemViewHolder(View itemView, IMyViewHolderClicks listener) {
+
             super(itemView);
 
             // Setting our listener field.
@@ -177,10 +180,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             mModifyItemImageView.setOnClickListener(new View.OnClickListener() {
 
+                // You will set the EditText here, hmm
+
                 @Override
                 public void onClick(View v) {
 
                     Toaster.toast("This modify button is working");
+
+                    // This will take you to the dialog where you can modify the item
                     mListener.addNoteForItemAtPosition(getAdapterPosition());
                 }
             });

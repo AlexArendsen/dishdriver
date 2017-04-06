@@ -31,6 +31,9 @@ public class ItemModifyDialog extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        Bundle bundle = new Bundle();
+
         super.onViewCreated(view, savedInstanceState);
 
         mModifyEditText = (EditText) view.findViewById(R.id.itemModifyEditText);
@@ -46,8 +49,35 @@ public class ItemModifyDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!isEmpty(mModifyEditText))
+                if(!isEmpty(mModifyEditText)) {
+
+                    // Created a bundle and testing to see if the text goes through
+                    // TODO: Figure out a way to store the bundle to the correct item
+                    // maybe OrderDishModel.setInstructions()??
+
+                    String sModifyEditText = mModifyEditText.getText().toString();
+                    bundle.putString("ITEM_MODIFY_DIALOG", sModifyEditText);
+
+                    String test = bundle.getString("ITEM_MODIFY_DIALOG");
+
+
+
+
+
                     mSubmitButton.setEnabled(true);
+
+                    mSubmitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+                            Toaster.toast(test);
+                            getDialog().dismiss();
+
+                        }
+                    });
+
+                }
                 else
                     mSubmitButton.setEnabled(false);
             }
@@ -58,14 +88,16 @@ public class ItemModifyDialog extends DialogFragment {
             }
         });
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getDialog().dismiss();
-
-            }
-        });
+//        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//
+//                getDialog().dismiss();
+//
+//            }
+//        });
     }
 
     private boolean isEmpty(EditText etText) {

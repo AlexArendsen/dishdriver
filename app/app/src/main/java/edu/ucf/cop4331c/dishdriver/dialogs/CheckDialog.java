@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,14 +209,14 @@ public class CheckDialog extends DialogFragment {
         }
 
 
-        return String.valueOf((sum * 0.0018));
+        return (String.valueOf(new DecimalFormat("##.##").format((sum * 0.0018))));
 
     }
 
     public static String getSubtotalWithTip(ArrayList<DishModel> items) {
 
         // Iterate through item models and sum the price.
-        int sum = 0;
+        double sum = 0;
 
         for (int i = 0; i < items.size(); i++ ) {
 
@@ -223,7 +224,7 @@ public class CheckDialog extends DialogFragment {
         }
 
 
-        return String.valueOf((sum * 0.0018) + (sum/100));
+        return String.valueOf(new DecimalFormat("##.##").format((sum * 0.0018) + (sum/100)));
     }
 
 
