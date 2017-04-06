@@ -209,7 +209,7 @@ public class CheckDialog extends DialogFragment {
         }
 
 
-        return (String.valueOf(new DecimalFormat("##.##").format((sum * 0.0018))));
+        return (String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018))));
 
     }
 
@@ -224,7 +224,7 @@ public class CheckDialog extends DialogFragment {
         }
 
 
-        return String.valueOf(new DecimalFormat("##.##").format((sum * 0.0018) + (sum/100)));
+        return String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018) + (sum/100)));
     }
 
 
