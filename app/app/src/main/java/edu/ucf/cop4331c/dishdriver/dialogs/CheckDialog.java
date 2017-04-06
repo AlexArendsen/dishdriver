@@ -8,6 +8,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +41,11 @@ import static android.net.wifi.WpsInfo.INVALID;
 
 public class CheckDialog extends DialogFragment {
 
+    // Lol, I know this is really ugly, but it works...don't judge!! I will reformat the method into ItemAdapter later.
+
     private static String total;
     private static String gratuity;
+    private static String totalWithTip;
 
     //TODO: Eventually you will want to change this to an arraylist of the item models and not just strings.
 
@@ -62,6 +67,7 @@ public class CheckDialog extends DialogFragment {
 
         total = getCheckTotalAmount(items);
         gratuity = getTipAmount(items);
+        totalWithTip = getSubtotalWithTip(items);
 
 
         convertToStr.addAll(items);
@@ -118,6 +124,30 @@ public class CheckDialog extends DialogFragment {
         Button mSubmitButton = (Button) view.findViewById(R.id.submitButton);
         TextView mItemTotalTextView = (TextView) view.findViewById(R.id.itemTotalTextView);
         TextView mGratuityTextView = (TextView) view.findViewById(R.id.gratuityTextView);
+        TextView mSubtotalTextView = (TextView) view.findViewById(R.id.itemSubtotalTextView);
+
+        mSubtotalTextView.setText(total);
+
+
+        mGratuityTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                mSubtotalTextView.setText(totalWithTip);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         mItemTotalTextView.setText(total);
 
@@ -133,6 +163,7 @@ public class CheckDialog extends DialogFragment {
             public void onClick(View v) {
                 Toaster.toast("hello this button works");
                 mGratuityTextView.setText((String) gratuity);
+
 
             }
         });
@@ -181,13 +212,24 @@ public class CheckDialog extends DialogFragment {
 
     }
 
-//    public String getSubtotal() {
-//
-//        if(true) // if gratuityEditTextView is populated
-//            return ( getCheckTotalAmount() + getTipAmount() );
-//
-//        else return getCheckTotalAmount();
-//    }
+    public static String getSubtotalWithTip(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++ ) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return String.valueOf((sum * 0.0018) + (sum/100));
+    }
+
+
+
+
+
 
 
 }

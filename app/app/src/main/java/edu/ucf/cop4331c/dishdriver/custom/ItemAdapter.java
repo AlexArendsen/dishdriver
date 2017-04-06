@@ -108,7 +108,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return mItems;
     }
 
-//    // TODO: add in correct parameter of OrderDish objects
+//    // TODO: Sum up the items here instead of in CheckDialog. You can then call the method and return the sum
 //    public double getCheckTotalAmount() {
 //        // Iterate through item models and sum the price.
 //        double sum = 0.0;
@@ -121,7 +121,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 //        return 0.0;
 //    }
 //
-//    // TODO: add in correct parameter of OrderDish objects
+
 //
 //    public double getTipAmount() {
 //
