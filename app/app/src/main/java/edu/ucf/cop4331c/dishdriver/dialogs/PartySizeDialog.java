@@ -25,6 +25,18 @@ import edu.ucf.cop4331c.dishdriver.TableActivity;
 
 
 public class PartySizeDialog extends DialogFragment {
+
+    public static PartySizeDialog newInstance(int tablePosition) {
+        PartySizeDialog partySizeDialog = new PartySizeDialog();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("TABLE_NUMBER", tablePosition);
+
+        partySizeDialog.setArguments(bundle);
+
+        return partySizeDialog;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,6 +46,8 @@ public class PartySizeDialog extends DialogFragment {
         AlertDialog alertDialog = new AlertDialog.Builder(getContext(), getTheme())
                 .setView(dialogView)
                 .create();
+
+        int tablePosition = getArguments().getInt("TABLE_NUMBER");
 
         RelativeLayout cardParty1RelativeLayout = (RelativeLayout) dialogView.findViewById(R.id.cardParty1);
         RelativeLayout cardParty2RelativeLayout = (RelativeLayout) dialogView.findViewById(R.id.cardParty2);
@@ -56,8 +70,11 @@ public class PartySizeDialog extends DialogFragment {
 //            @Override
 //            public void onClick(View v) {
 //                Toast.makeText(getContext(), "Reserve Button Pressed", Toast.LENGTH_SHORT).show();
+//                ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title", tablePosition);
+//                editNameDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog_reservation");
 //            }
 //        });
+
 
         cardParty1RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

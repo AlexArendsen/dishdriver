@@ -121,6 +121,8 @@ public class DishModel {
     public void setRestaurantID(Integer restaurantID) { this.restaurantID = restaurantID; }
 
     public Integer getPrice() { return price; }
+    
+    public Double getDollarPrice() { return (this.price.doubleValue())/100;}
 
     public void setPrice(Integer price) { this.price = price; }
 

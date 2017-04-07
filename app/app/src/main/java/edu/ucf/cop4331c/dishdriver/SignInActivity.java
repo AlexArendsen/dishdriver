@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -38,6 +39,14 @@ public class SignInActivity extends AppCompatActivity {
         this.userModel = userModel;
     }
 
+    // TODO: remove these buttons
+    @OnClick(R.id.goToAdmin)
+    void admin(){ startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class )); }
+    @OnClick(R.id.goToCook)
+    void cook(){ startActivity(new Intent(SignInActivity.this, CookActivity.class )); }
+    @OnClick(R.id.goToWaiter)
+    void waiter(){ startActivity(new Intent(SignInActivity.this, TableActivity.class )); }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +60,13 @@ public class SignInActivity extends AppCompatActivity {
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
-        UserName.setText("melissa@dishdriver.com");
-        Password.setText("password");
-
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
+
+        if (userName.equals(""))
+            UserName.setText("melissa@dishdriver.com");
+        if (password.equals(""))
+            Password.setText("password");
 
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
@@ -117,6 +128,5 @@ public class SignInActivity extends AppCompatActivity {
                 //finish();
             }
         });
-
     }
 }
