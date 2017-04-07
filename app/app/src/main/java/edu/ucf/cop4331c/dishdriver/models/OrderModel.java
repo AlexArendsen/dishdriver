@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import edu.ucf.cop4331c.dishdriver.enums.Status;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +82,62 @@ public class OrderModel {
 
     // endregion
 
+    // region query() implementation
+    public static Observable<List<OrderModel>> query(String sql, String[] args) {
+        return DishDriverProvider.getInstance().queryOrders(
+                DishDriverProvider.DD_HEADER_CLIENT,
+                new SqlModel(sql, args)
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(qm -> {
+
+                    // If no response was sent, just give back an empty list so things don't
+                    // explode in UI
+                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<OrderModel>());
+                    return Observable.just(Arrays.asList(qm.getResults()));
+
+                });
+    }
+    // endregion
+
     // Note: no constructors needed for now, the empty constructor should suffice.
+
+    // region DB Retrieval
+
+    public static Observable<List<OrderModel>> forWaiter(PositionModel waiter) {
+        return forWaiter(waiter.getID());
+    }
+
+    public static Observable<List<OrderModel>> forWaiter(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Waiter_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+
+    public static Observable<List<OrderModel>> forCook(PositionModel cook) {
+        return forCook(cook.getID());
+    }
+
+    public static Observable<List<OrderModel>> forCook(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Cook_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+
+    public static Observable<List<OrderModel>> forRestaurant(RestaurantModel restaurant) {
+        return forRestaurant(restaurant.getId());
+    }
+
+    public static Observable<List<OrderModel>> forRestaurant(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Restaurant_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+    // endregion
 
     /**
      * Gets all non-voided dishes related to this order.
@@ -126,12 +183,12 @@ public class OrderModel {
      */
     public Status getStatus(){
 
-        if (dTPlaced != null)         return PLACED;
-        else if (dTRejected != null)  return REJECTED;
-        else if (dTAccepted != null)  return ACCEPTED;
+        if (dTPayed != null)          return PAID;
         else if (dTCancelled != null) return CANCELLED;
         else if (dTCooked != null)    return COOKED;
-        else if (dTPayed != null)     return PAID;
+        else if (dTAccepted != null)  return ACCEPTED;
+        else if (dTRejected != null && (dTPlaced == null || dTRejected.after(dTPlaced)))  return REJECTED;
+        else if (dTPlaced != null)    return PLACED;
         else return NEW;
 
         /* Wanted to keep this here bc it's lovely in its own way
@@ -168,9 +225,10 @@ public class OrderModel {
 
         this.waiterId = waiter.getID();
         this.tableId  = table.getId();
+        this.dTCreated = new Date();
 
         return NonQueryResponseModel.run(
-            "INSERT INTO Orders (Waiter_ID, Table_ID) VALUES (?, ?)",
+            "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created) VALUES (?, ?, NOW())",
             new String[] {Integer.toString(waiter.getID()), Integer.toString(table.getId())}
         ).doOnNext(qr -> this.id = qr.getResults().getInsertId());
     }
@@ -185,7 +243,7 @@ public class OrderModel {
      * @return The NonQueryResponseModel representing the associated actions
      * @throws IllegalStateException If the order is neither new nor rejected
      */
-    public Observable<NonQueryResponseModel> place(ArrayList<OrderedDishModel> newDishes) throws IllegalStateException {
+    public Observable<NonQueryResponseModel> place(List<OrderedDishModel> newDishes) throws IllegalStateException {
 
         // First, check if the order is in the right state to be placed
         Status s = getStatus();
@@ -197,7 +255,7 @@ public class OrderModel {
         // kitchen, and no additional dishes need to be added)
         Observable<NonQueryResponseModel> oDishCreate = null;
 
-        if (!newDishes.isEmpty()) {
+        if (newDishes != null && !newDishes.isEmpty()) {
             String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen) VALUES ";
             int i = 0;
             ArrayList<String> args = new ArrayList<>();
@@ -215,7 +273,12 @@ public class OrderModel {
                 ));
             }
 
-            oDishCreate = NonQueryResponseModel.run(sql, (String[])args.toArray());
+            // (String[])args.toArray() doesn't work for some reason, so I have to do this bs
+            int idx = 0;
+            String[] aArgs = new String[args.size()];
+            for(String a : args) aArgs[idx++] = a;
+
+            oDishCreate = NonQueryResponseModel.run(sql, aArgs);
         }
 
         // Also, transition the order record
@@ -275,8 +338,8 @@ public class OrderModel {
     /**
      * Cancels this order
      *
-     * An order can be cancelled if it is Placed, Accepted, Rejected, or Cooked; it cannot be
-     * cancelled if it is New or Paid.
+     * An order can be cancelled if it is New, Placed, Accepted, Rejected, or Cooked; it cannot be
+     * cancelled if it is not yet created, or Paid.
      *
      * @return A NonQueryResponseModel representing the associated action
      * @throws IllegalStateException If the order is new or paid.
@@ -284,8 +347,8 @@ public class OrderModel {
     public Observable<NonQueryResponseModel> cancel() throws IllegalStateException {
 
         Status s = getStatus();
-        if (s == Status.NEW || s == Status.PAID)
-            throw new IllegalStateException("New or paid orders cannot be cancelled");
+        if (dTCreated == null || s == Status.PAID)
+            throw new IllegalStateException("Uncreated or paid orders cannot be cancelled");
 
         dTCancelled = new Date();
 
