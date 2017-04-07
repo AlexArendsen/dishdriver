@@ -8,26 +8,6 @@
     android:background="@color/colorPrimary"
     android:weightSum="1">
 
-    <!--<Button-->
-        <!--android:text="+ Create a Guest Account"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:id="@+id/createGuestButton"-->
-        <!--android:background="@color/colorPrimaryDark"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="32sp"-->
-        <!--android:fontFamily="serif"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/loginButton"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintVertical_bias="1.0"-->
-        <!--tools:layout_constraintRight_creator="1"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--tools:layout_constraintLeft_creator="1"-->
-        <!--app:layout_constraintHorizontal_bias="0.93" />-->
-
     <ImageView
         app:srcCompat="@drawable/usericon"
         android:id="@+id/userNameIconImageView"
@@ -81,8 +61,7 @@
         app:layout_constraintHorizontal_bias="0.627" />
 
     <TextView
-
-        android:layout_width="600dp"
+        android:layout_width="wrap_content"
         android:id="@+id/titleTextView"
         android:text="Dish Driver"
         android:textSize="76sp"
@@ -118,7 +97,6 @@
         android:id="@+id/passwordEditText"
         android:hint=" Password"
         android:background="@color/white"
-        android:singleLine="false"
         android:selectAllOnFocus="false"
         android:layout_height="50dp"
         app:layout_constraintLeft_toRightOf="@+id/passwordIconImageView"
@@ -127,15 +105,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.329"
         android:layout_marginEnd="240dp" />
-
-    <ImageView
-        android:id="@+id/hypeLoadingIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/hype"
-        tools:layout_editor_absoluteX="624dp"
-        tools:layout_editor_absoluteY="579dp"
-        />
 
 </android.support.constraint.ConstraintLayout>
