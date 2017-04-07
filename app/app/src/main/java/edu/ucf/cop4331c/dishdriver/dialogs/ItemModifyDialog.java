@@ -62,8 +62,6 @@ public class ItemModifyDialog extends DialogFragment {
 
 
 
-
-
                     mSubmitButton.setEnabled(true);
 
                     mSubmitButton.setOnClickListener(new View.OnClickListener() {

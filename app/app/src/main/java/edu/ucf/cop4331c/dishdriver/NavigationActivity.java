@@ -6,16 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +25,11 @@ import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import xdroid.toaster.Toaster;
 
 //class Dishes {
 //    private String name;
@@ -55,10 +51,12 @@ public class NavigationActivity extends ProgressDialogActivity {
     RecyclerView mMenuItemRecyclerView;
     @BindView(R.id.beverageSpinner)
     Spinner mBeverageSpinner;
-//    @BindView(R.id.checkButton)
-//    Button mCheckButton;
+    @BindView(R.id.checkButton)
+    ImageButton mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
-    Button mOrderButton;
+    ImageButton mOrderButton;
+//    @BindView(R.id.hypeTextView)
+//    GifTextView mHypeTextView;
 
 
     // Oh my gosh, major debugging... do not bind views if you aren;t going to use them!!!
@@ -89,6 +87,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //        }
 
 
+
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
 
 //        menuItemsList.add("Menu");
@@ -100,7 +99,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //        menuItemsList.add("Scones for Gareth!!");
 
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
-        mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
+        mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
 
         final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true);
@@ -225,7 +224,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                         // Bind the spinner to the names to display
                         ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temps);
-                        mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
+                        mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
                         mMenuSpinner.setAdapter(menuItemAdapter);
 
 
