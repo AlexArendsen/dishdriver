@@ -92,7 +92,7 @@ public class TableReservationModel {
                 "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
                 "WHERE R.Id = ? " +
                 "AND TR.Table_ID =?",
-                new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), r.getId())}
+                new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), restaurant.getId())}
 								//this gave error TODO// check this
                 //new String[]{Integer.toString(r.getId()), Integer.toString(getTableId())}
         );
