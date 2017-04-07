@@ -45,6 +45,8 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void login(View v){
+        startActivity(new Intent(SignInActivity.this, TestChartActivity.class));
+        finish();
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);

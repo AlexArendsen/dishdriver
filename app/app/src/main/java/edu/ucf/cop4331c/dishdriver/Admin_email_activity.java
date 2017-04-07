@@ -1,5 +1,7 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.ParseException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -120,4 +122,12 @@ public class Admin_email_activity extends AppCompatActivity {
             }
         });
     }//end of sendEmail()
+
+    public Bitmap screenShot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
 }
