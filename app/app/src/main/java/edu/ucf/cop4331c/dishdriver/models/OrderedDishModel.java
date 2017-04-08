@@ -51,11 +51,24 @@ public class OrderedDishModel extends DishModel {
     // endregion
 
     // region Constructors
+
+    @Deprecated
     public OrderedDishModel(Integer id, int orderId, int dishId, String notesFromKitchen) {
         this.id = id;
         this.orderId = orderId;
         this.dishId = dishId;
         this.notesFromKitchen = notesFromKitchen;
+    }
+
+    public OrderedDishModel(DishModel dish, OrderModel order) {
+        this.id = -1;
+        this.dishId = dish.getID();
+        this.orderId = order.getId();
+        this.notesFromKitchen = "";
+        this.setName(dish.getName());
+        this.setPrice(dish.getPrice());
+        this.setRestaurantID(dish.getRestaurantID());
+        this.setOrderedPrice(this.getPrice());
     }
     // endregion
 

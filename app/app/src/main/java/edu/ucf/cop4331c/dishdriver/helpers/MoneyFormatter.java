@@ -19,12 +19,12 @@ public class MoneyFormatter {
     public static String format(Format fmt, int cents) {
         switch (fmt) {
             case JustDollars:
-                return String.format("%02d", dollarsOf(cents));
+                return String.format("$%02d", dollarsOf(cents));
             case JustCents:
-                return String.format("%02d", centsOf(cents));
+                return String.format("$0.%02d", centsOf(cents));
             case DollarsAndCents:
             default:
-                return String.format("%d.%02d", dollarsOf(cents), centsOf(cents));
+                return String.format("$%d.%02d", dollarsOf(cents), centsOf(cents));
         }
     }
 

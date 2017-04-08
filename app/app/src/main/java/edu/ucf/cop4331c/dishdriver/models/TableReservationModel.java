@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -86,14 +85,14 @@ public class TableReservationModel {
      * @param restaurant The restaurant we want information for
      * @return A list containing all the table reservations for the given restaurant
      */
-    public Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
+    public Observable<List<TableReservationModel>> forRestaurant(RestaurantModel restaurant){
         return query(
                 "SELECT TR.* FROM Table_Reservations TR " +
                 "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
                 "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
                 "WHERE R.Id = ? " +
                 "AND TR.Table_ID =?",
-                new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), r.getId())}
+                new String[]{Integer.toString(Integer.parseInt(Integer.toString(getTableId())), restaurant.getId())}
 								//this gave error TODO// check this
                 //new String[]{Integer.toString(r.getId()), Integer.toString(getTableId())}
         );
