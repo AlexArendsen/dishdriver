@@ -25,6 +25,7 @@ import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
@@ -251,7 +252,14 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
-        startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+
+        OrderModel orderModel = new OrderModel();
+
+
+        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
 

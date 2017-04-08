@@ -17,6 +17,8 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import xdroid.toaster.Toaster;
 
 /**
@@ -106,6 +108,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         mItems.remove(position);
         notifyDataSetChanged();
     }
+
+    /**
+     * Converts all of our current items into an OrderedDishModel.
+     *
+     * @return      An ArrayList of OrderedDishModels.
+     */
+    public ArrayList<OrderedDishModel> getOrder() {
+        ArrayList<OrderedDishModel> orderedDishModels = new ArrayList<>();
+
+        OrderModel orderModel = new OrderModel();
+        for (DishModel dishes: mItems) {
+            orderedDishModels.add(new OrderedDishModel(dishes, orderModel));
+        }
+
+        return orderedDishModels;
+    }
+
     public ArrayList<DishModel> getItems() {
         return mItems;
     }
