@@ -247,8 +247,10 @@ public class OrderModel {
 
         // First, check if the order is in the right state to be placed
         Status s = getStatus();
-        if (s != Status.NEW && s != Status.REJECTED)
+        if (s != NEW && s != REJECTED)
             throw new IllegalStateException("Order must be new or rejected to be placed");
+
+        if (s == REJECTED) dTRejected = null;
 
         // Then, create all dishes in the Ordered_Dishes table. If there are no dishes to add, then
         // forget about it (this may happen a lot if an order is re-placed after rejection from the
