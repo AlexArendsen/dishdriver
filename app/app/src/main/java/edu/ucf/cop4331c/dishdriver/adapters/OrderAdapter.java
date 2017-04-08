@@ -1,5 +1,6 @@
 package edu.ucf.cop4331c.dishdriver.adapters;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,18 +22,18 @@ import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
-    private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
+    private WeakReference<Context> contextWeakReference;
     private final ArrayList<Order> mOrders;
 
-    public OrderAdapter(AppCompatActivity appCompatActivity, ArrayList<Order> orders) {
+    public OrderAdapter(Context context, ArrayList<Order> orders) {
         mOrders = orders;
-        appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(appCompatActivity);
+        contextWeakReference = new WeakReference<Context>(context);
     }
 
     @Override
     public OrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (appCompatActivityWeakReference.get() != null) {
-            View view = LayoutInflater.from(appCompatActivityWeakReference.get())
+        if (contextWeakReference.get() != null) {
+            View view = LayoutInflater.from(contextWeakReference.get())
                     .inflate(R.layout.card_order, parent, false);
 
             return new OrderViewHolder(view);
@@ -50,12 +51,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         ArrayList<OrderedDishModel> dishes = mOrders.get(positionInAdapter).getmOrderedDishModels();
         int textViewCount = 0;
 
-        for (int i = 0; i < relativeLayout.getChildCount(); i++) {
+        for (int i = 2; i < relativeLayout.getChildCount(); i++) {
             View view = relativeLayout.getChildAt(i);
 
             if (view instanceof TextView) {
                 if (textViewCount < dishes.size()) {
-                    ((TextView) view).setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                     ((TextView) view).setText(dishes.get(textViewCount).getName());
                     textViewCount++;
                 } else {
