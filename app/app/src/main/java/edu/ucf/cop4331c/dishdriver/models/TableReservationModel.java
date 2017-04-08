@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -93,7 +92,6 @@ public class TableReservationModel {
                 "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
                 "WHERE R.Id = ? " +
                 "AND TR.Table_ID =?",
-								//this gave error TODO// check this
                 new String[]{Integer.toString(restaurant.getId()), Integer.toString(getTableId())}
         );
     }
@@ -108,8 +106,6 @@ public class TableReservationModel {
                 "DELETE FROM Table_Reservations" +
                 "WHERE Id = ?" +
                 "AND DT_Accepted = NULL",
-
-                //new String[] {String.valueOf(getId())}
                 new String[] { Integer.toString(getId()) }
 
         );

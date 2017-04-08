@@ -4,11 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import edu.ucf.cop4331c.dishdriver.enums.Status;
-//import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
-import retrofit2.Call;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -20,158 +21,385 @@ import static edu.ucf.cop4331c.dishdriver.enums.Status.*;
  */
 
 public class OrderModel {
+
+    // region Field Definitions
+
     @SerializedName("ID")
     @Expose
     private Integer id;
+
     @SerializedName("Waiter_ID")
     @Expose
     private Integer waiterId;
+
     @SerializedName("Cook_ID")
     @Expose
     private Integer cookId;
+
     @SerializedName("Table_ID")
     @Expose
     private Integer tableId;
+
     @SerializedName("DT_Created")
     @Expose
     private Date dTCreated;
+
     @SerializedName("DT_Placed")
     @Expose
     private Date dTPlaced;
+
     @SerializedName("DT_Rejected")
     @Expose
     private Date dTRejected;
+
     @SerializedName("DT_Accepted")
     @Expose
     private Date dTAccepted;
+
     @SerializedName("DT_Cancelled")
     @Expose
     private Date dTCancelled;
+
     @SerializedName("DT_Cooked")
     @Expose
     private Date dTCooked;
+
     @SerializedName("DT_Payed")
     @Expose
     private Date dTPayed;
+
     @SerializedName("Discount")
     @Expose
     private Integer discount;
+
     @SerializedName("Payment")
     @Expose
     private Integer payment;
+
     @SerializedName("Instructions")
     @Expose
     private String instructions;
 
-    public OrderModel(Integer id, Integer waiterId, Integer cookId, Integer tableId, Date dTCreated, Date dTPlaced, Date dTRejected, Date dTAccepted, Date dTCancelled, Date dTCooked, Date dTPayed, Integer discount, Integer payment, String instructions) {
-        this.id = id;
-        this.waiterId = waiterId;
-        this.cookId = cookId;
-        this.tableId = tableId;
-        this.dTCreated = dTCreated;
-        this.dTPlaced = dTPlaced;
-        this.dTRejected = dTRejected;
-        this.dTAccepted = dTAccepted;
-        this.dTCancelled = dTCancelled;
-        this.dTCooked = dTCooked;
-        this.dTPayed = dTPayed;
-        this.discount = discount;
-        this.payment = payment;
-        this.instructions = instructions;
+    // endregion
+
+    // region query() implementation
+    public static Observable<List<OrderModel>> query(String sql, String[] args) {
+        return DishDriverProvider.getInstance().queryOrders(
+                DishDriverProvider.DD_HEADER_CLIENT,
+                new SqlModel(sql, args)
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(qm -> {
+
+                    // If no response was sent, just give back an empty list so things don't
+                    // explode in UI
+                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<OrderModel>());
+                    return Observable.just(Arrays.asList(qm.getResults()));
+
+                });
+    }
+    // endregion
+
+    // Note: no constructors needed for now, the empty constructor should suffice.
+
+    // region DB Retrieval
+
+    public static Observable<List<OrderModel>> forWaiter(PositionModel waiter) {
+        return forWaiter(waiter.getID());
     }
 
+    public static Observable<List<OrderModel>> forWaiter(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Waiter_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+
+    public static Observable<List<OrderModel>> forCook(PositionModel cook) {
+        return forCook(cook.getID());
+    }
+
+    public static Observable<List<OrderModel>> forCook(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Cook_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+
+    public static Observable<List<OrderModel>> forRestaurant(RestaurantModel restaurant) {
+        return forRestaurant(restaurant.getId());
+    }
+
+    public static Observable<List<OrderModel>> forRestaurant(int id) {
+        return query(
+                "SELECT * FROM Orders WHERE Restaurant_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                new String[] { Integer.toString(id) }
+        );
+    }
+    // endregion
+
     /**
+     * Gets all non-voided dishes related to this order.
      *
-     * @return Return all the dishes for the order
+     * @return Return all the non-voided dishes for this order
      */
     public Observable<List<OrderedDishModel>> dishes(){
         return OrderedDishModel.odQuery(
-                "SELECT * FROM Ordered_Dishes WHERE Order_Id = ?",
+                "SELECT * FROM Ordered_Dishes WHERE Order_Id = ? AND IsVoided = 0",
                 new String[] {Integer.toString(getId())}
         );
     }
 
-    /**
-     *
-     * @return Returns the total amount of $$$ due for the order
-     */
-    public Observable<Integer> grandTotal(){
-        return null;
-        /*return OrderedDishModel.query(
-            "SELECT SUM(OrderedPrice) FROM Ordered_Dishes " +
-            "WHERE Order_Id = ?",
-            new String[] {Integer.toString(getId())}
-        );*/
+    @Deprecated
+    public Observable<Integer> grandTotal() throws Exception {
+        throw new Exception("OrderModel.grandTotal is deprecated. Please use dishTotal() instead.");
     }
 
     /**
+     * Calculates the total cost of the dishes ordered for this order. This does **NOT** include
+     * the discount, or any form of tax; it only produces the summation of the
      *
-     * @return
+     * @return Total cost of the dishes in this order. Discount, tax, etc. NOT included.
+     */
+    public Observable<Integer> dishTotal(){
+        return dishes().flatMap(list -> {
+
+            // Android... why must you tempt me so? This would be SO much nicer...
+            //return Observable.just(list.stream().mapToInt(d -> d.getOrderedPrice()).sum());
+
+            // Gotta do this bs instead because APIv19 T_T
+            int sum = 0;
+            for(OrderedDishModel d : list) sum += d.getOrderedPrice();
+
+            return Observable.just(sum);
+        });
+    }
+
+    /**
+     * Returns the current status of this order
+     *
+     * @return The current status of this order
      */
     public Status getStatus(){
+
+        if (dTPayed != null)          return PAID;
+        else if (dTCancelled != null) return CANCELLED;
+        else if (dTCooked != null)    return COOKED;
+        else if (dTAccepted != null)  return ACCEPTED;
+        else if (dTRejected != null && (dTPlaced == null || dTRejected.after(dTPlaced)))  return REJECTED;
+        else if (dTPlaced != null)    return PLACED;
+        else return NEW;
+
+        /* Wanted to keep this here bc it's lovely in its own way
         if( dTPayed == null )
             if (dTCooked == null)
                 if (dTCancelled == null)
                     if (dTAccepted == null)
                         if (dTRejected == null)
                             if (dTPlaced == null)
-                                return Status.NEW;
-                            else return Status.PLACED;
-                        else return Status.CANCELLED;
-                    else return Status.REJECTED;
-                else return Status.ACCEPTED;
-            else return Status.COOKED;
-        else return Status.PAID;
+                                return NEW;
+                            else return PLACED;
+                        else return CANCELLED;
+                    else return REJECTED;
+                else return ACCEPTED;
+            else return COOKED;
+        else return PAID;
+        */
+    }
+
+    // region State Transition Methods
+    /**
+     * Creates an order in the database associated with the given waiter and table. After
+     * completion, the ID of this model is updated.
+     *
+     * @param waiter The waiter to be associated with this order
+     * @param table The table to be associated with this order
+     * @return A NonQueryResponseModel that represents the progress of the action.
+     * @throws IllegalStateException If this order has already been created
+     */
+    public Observable<NonQueryResponseModel> create(PositionModel waiter, TableModel table) throws IllegalStateException {
+
+        if (dTCreated != null)
+            throw new IllegalStateException("This order has already been created.");
+
+        this.waiterId = waiter.getID();
+        this.tableId  = table.getId();
+        this.dTCreated = new Date();
+
+        return NonQueryResponseModel.run(
+            "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created) VALUES (?, ?, NOW())",
+            new String[] {Integer.toString(waiter.getID()), Integer.toString(table.getId())}
+        ).doOnNext(qr -> this.id = qr.getResults().getInsertId());
     }
 
     /**
+     * Places the order for the kitchen to review, adding the provided dishes.
      *
-     * @param waiter
-     * @return Creates an order in the database associated with the given waiter
+     * Note: if you want to remove dishes from an order, call the makeVoid() method on the
+     * OrderedDishModels you wish to remove.
+     *
+     * @param newDishes Dishes to be added to this
+     * @return The NonQueryResponseModel representing the associated actions
+     * @throws IllegalStateException If the order is neither new nor rejected
      */
-    public Observable<NonQueryResponseModel> create(PositionModel waiter){
+    public Observable<NonQueryResponseModel> place(List<OrderedDishModel> newDishes) throws IllegalStateException {
+
+        // First, check if the order is in the right state to be placed
+        Status s = getStatus();
+        if (s != NEW && s != REJECTED)
+            throw new IllegalStateException("Order must be new or rejected to be placed");
+
+        if (s == REJECTED) dTRejected = null;
+
+        // Then, create all dishes in the Ordered_Dishes table. If there are no dishes to add, then
+        // forget about it (this may happen a lot if an order is re-placed after rejection from the
+        // kitchen, and no additional dishes need to be added)
+        Observable<NonQueryResponseModel> oDishCreate = null;
+
+        if (newDishes != null && !newDishes.isEmpty()) {
+            String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen) VALUES ";
+            int i = 0;
+            ArrayList<String> args = new ArrayList<>();
+            for(OrderedDishModel od : newDishes) {
+
+                // CRAZY GROSS
+                if (i++ > 0) sql += ", ";
+                sql += "(?, ?, ?, ?, ?, ?)";
+                args.addAll(Arrays.asList(
+                        Integer.toString(id),
+                        Integer.toString(od.getDishId()),
+                        "0", "0",
+                        Integer.toString(od.getPrice()), // <-- This is where the price gets frozen
+                        od.getNotesFromKitchen()
+                ));
+            }
+
+            // (String[])args.toArray() doesn't work for some reason, so I have to do this bs
+            int idx = 0;
+            String[] aArgs = new String[args.size()];
+            for(String a : args) aArgs[idx++] = a;
+
+            oDishCreate = NonQueryResponseModel.run(sql, aArgs);
+        }
+
+        // Also, transition the order record
+        dTPlaced = new Date();
+
+        Observable<NonQueryResponseModel> oOrderPlace = NonQueryResponseModel.run(
+            "UPDATE Orders SET DT_Placed = NOW() WHERE Id = ?",
+            new String[] { Integer.toString(id) }
+        );
+
+        // Wait for all Observables to complete
+        return (oDishCreate == null)
+                ? oOrderPlace
+                : Observable.merge(oDishCreate, oOrderPlace) ;
+    }
+
+    /**
+     * Accepts the placed order
+     *
+     * @param cook The cook who accepted the order
+     * @return A NonQueryResponseModel representing the associated action
+     * @throws IllegalStateException If the order is not in the "Placed" state
+     */
+    public Observable<NonQueryResponseModel> accept(PositionModel cook) throws IllegalStateException {
+
+        if (getStatus() != Status.PLACED)
+            throw new IllegalStateException("Order must be placed to be accepted");
+
+        cookId = cook.getID();
+        dTAccepted = new Date();
 
         return NonQueryResponseModel.run(
-            "INSERT INTO Orders (Waiter_ID, Table_ID) VALUES (?, ?)",
-            new String[] {Integer.toString(waiter.getID()), Integer.toString(getTableId())}
+                "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ? WHERE Id = ?",
+                new String[] { Integer.toString(cook.getID()),  Integer.toString(id) }
         );
     }
 
-    public Call<OrderModel> place(ArrayList<DishModel> newDishes) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    /**
+     * Rejects the placed order
+     *
+     * @return A NonQueryResponseModel representing the associated action
+     * @throws IllegalStateException If the order is not in the "Placed" state
+     */
+    public Observable<NonQueryResponseModel> reject() throws IllegalStateException {
 
-    public void accept(PositionModel cook) {
-        NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Accepted = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
-        );
-    }
-    public void reject() {
-        NonQueryResponseModel.run(
+        if (getStatus() != Status.PLACED)
+            throw new IllegalStateException("Order must be placed to be rejected");
+
+        dTRejected = new Date();
+
+        return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Rejected = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
         );
     }
-    public void cancel() {
-        NonQueryResponseModel.run(
+
+    /**
+     * Cancels this order
+     *
+     * An order can be cancelled if it is New, Placed, Accepted, Rejected, or Cooked; it cannot be
+     * cancelled if it is not yet created, or Paid.
+     *
+     * @return A NonQueryResponseModel representing the associated action
+     * @throws IllegalStateException If the order is new or paid.
+     */
+    public Observable<NonQueryResponseModel> cancel() throws IllegalStateException {
+
+        Status s = getStatus();
+        if (dTCreated == null || s == Status.PAID)
+            throw new IllegalStateException("Uncreated or paid orders cannot be cancelled");
+
+        dTCancelled = new Date();
+
+        return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Cancelled = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
         );
     }
-    public void markCooked() {
-        NonQueryResponseModel.run(
+
+    /**
+     * Marks this order as cooked
+     *
+     * @return A NonQueryResponseModel representing the associated action
+     * @throws IllegalStateException If the order is not in the accepted state
+     */
+    public Observable<NonQueryResponseModel> markCooked() throws IllegalStateException {
+
+        if (getStatus() != Status.ACCEPTED)
+            throw new IllegalStateException("Only accepted orders can be marked cooked");
+
+        dTCooked = new Date();
+
+        return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Cooked = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
         );
     }
 
-    public void markPaid() {
-        NonQueryResponseModel.run(
+    /**
+     * Marks the order as paid
+     *
+     * @return A NonQueryResponseModel representing the associated action
+     * @throws IllegalStateException If the order is not in the cooked state
+     */
+    public Observable<NonQueryResponseModel> markPaid() throws IllegalStateException {
+
+        if (getStatus() != Status.COOKED)
+            throw new IllegalStateException("Only cooked orders can be marked paid");
+
+        dTPayed = new Date();
+
+        return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Payed = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
         );
     }
+    // endregion
 
-
+    // region Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -283,14 +511,6 @@ public class OrderModel {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+    // endregion
 }
-
-
-
-
-
-
-
-
-
-
