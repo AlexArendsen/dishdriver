@@ -133,7 +133,7 @@ public class OrderModel {
 
     public static Observable<List<OrderModel>> forRestaurant(int id) {
         return query(
-                "SELECT * FROM Orders WHERE Restaurant_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                "SELECT O.* FROM Orders O INNER JOIN Tables T ON O.Table_ID = T.Id ORDER BY DT_Created DESC, O.Id DESC",
                 new String[] { Integer.toString(id) }
         );
     }
