@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +16,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
+import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import rx.Subscriber;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -32,6 +39,27 @@ public class TableActivity extends AppCompatActivity {
     RecyclerView mTableRecyclerView;
 
     TableAdapter mTableAdapter;
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +73,36 @@ public class TableActivity extends AppCompatActivity {
 
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
 
-        mTableAdapter = new TableAdapter(getApplicationContext());
+        mTableAdapter = new TableAdapter(this);
 
         mTableRecyclerView.setAdapter(mTableAdapter);
+
+
+        if (SessionModel.currentRestaurant() != null)
+            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
+
+                List<DishModel> dishModelList;
+
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(List<DishModel> dishModels) {
+                    Toaster.toast(SessionModel.currentRestaurant().getName());
+                    for (DishModel d  : dishModels)
+                        Toaster.toast(d.getName());
+
+                }
+            });
+        else
+            Toaster.toast("Not right");
 
 //        final Button button = (Button) findViewById(R.id.reserveButton);
 //
@@ -75,17 +130,7 @@ public class TableActivity extends AppCompatActivity {
 
     @Subscribe (threadMode = ThreadMode.MAIN)
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
-        new PartySizeDialog().show(getSupportFragmentManager(), "PARTY_DIALOG");
-    }
-
-    public void selfDestruct(View view) {
-        showEditDialog();
-    }
-
-    public void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        ReservationDialog editNameDialogFragment = ReservationDialog.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "dialog_reservation");
+        PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
 
     public void onCheckboxClicked(View view) {

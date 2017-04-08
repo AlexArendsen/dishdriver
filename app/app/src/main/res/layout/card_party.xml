@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/pinkRed">
+        android:background="@color/complementPrimaryColor">
 
     <TextView
         android:id="@+id/tableNameTextView"
@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="1"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textColor="@color/black"
         android:gravity="center"
         />
 

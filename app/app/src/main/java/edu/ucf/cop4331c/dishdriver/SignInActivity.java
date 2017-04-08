@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -17,8 +19,12 @@ import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.PositionModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.UserModel;
+import edu.ucf.cop4331c.dishdriver.network.NotificationService;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by Melissa on 3/14/2017.
@@ -30,10 +36,6 @@ public class SignInActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
     private UserModel userModel;
 
-    void setUserModel(UserModel userModel){
-        this.userModel = userModel;
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,8 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void login(View v){
+        startActivity(new Intent(SignInActivity.this, TestChartActivity.class));
+        finish();
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
@@ -50,44 +54,53 @@ public class SignInActivity extends AppCompatActivity {
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
 
+        // TODO: for prod remove these so there is no default log in
+        if (userName.equals(""))
+            UserName.setText("melissa@dishdriver.com");
+        if (password.equals(""))
+            Password.setText("password");
+
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
             public void onCompleted() {
-                //Toaster.toast("onComplete");
-            
 
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
                         public void onCompleted() {
-                           // Toaster.toast("test");
-
 
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d(TAG, e.getMessage());// "onError: ERROR ttt");
-                            return;
+                            Log.d(TAG, e.getMessage());
                         }
 
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
-                            Toaster.toast(positionModels.get(0).getRestaurantID());
-                            //Toaster.toast(""+ positionModels.size());
 
+                            switch(positionModels.get(0).getRoleID()){
+                                case 1:
+                                    startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
+                                    break;
+                                case 2:
+                                    startActivity(new Intent(SignInActivity.this, CookActivity.class));
+                                    break;
+                                case 3:
+                                    startActivity(new Intent(SignInActivity.this, TableActivity.class));
+                                    break;
+                                default:
+                                    Toaster.toast("User has not been assigned a Role...");
+                            }
+                            finish();
                         }
                     });
-                }else
-                    Toaster.toast("Not an employee");
-
-
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ERROR");
-                return;
+                Log.d(TAG, "Login did not complete.");
             }
 
             @Override
@@ -95,39 +108,10 @@ public class SignInActivity extends AppCompatActivity {
 
                 //Toast.makeText(SignInActivity.this, "onComplete", Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(SignInActivity.this, CookActivity.class));
-                UserName.setText("");//overkill
-                Password.setText("");//overkill but maybe useful with signoutbutton probably not
+                //UserName.setText("");//overkill
+                //Password.setText("");//overkill but maybe useful with signoutbutton probably not
                 //finish();
             }
         });
-
-    }
-
-    public void toPage(UserModel userModel){
-
-
-        if (userModel != null) {
-            PositionModel.forUser(userModel).subscribe(new Subscriber<List<PositionModel>>() {
-                @Override
-                public void onCompleted() {
-                    Toast.makeText(SignInActivity.this, "hey", Toast.LENGTH_SHORT).show();
-
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(List<PositionModel> positionModels) {
-                    Toast.makeText(SignInActivity.this, positionModels.size(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else
-            Toast.makeText(SignInActivity.this, "This guy is not an employee", Toast.LENGTH_SHORT).show();
-
-
     }
 }

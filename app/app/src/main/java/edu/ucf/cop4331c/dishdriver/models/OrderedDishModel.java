@@ -8,19 +8,19 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import edu.ucf.cop4331c.dishdriver.helpers.DateFormatter;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by ashton on pi + .0002.
  */
 
-public class OrderedDishModel {
+public class OrderedDishModel extends DishModel {
 
     // region Field Definitions
-    @SerializedName("ID")
+    @SerializedName("OrderedDish_ID")
     @Expose
     private Integer id;
 
@@ -34,28 +34,46 @@ public class OrderedDishModel {
 
     @SerializedName("IsRejected")
     @Expose
-    private boolean isRejected = false;
+    private int isRejected = 0;
 
     @SerializedName("IsVoided")
     @Expose
-    private boolean isVoided = false;
+    private int isVoided = 0;
+
+    @SerializedName("OrderedPrice")
+    @Expose
+    private int orderedPrice;
 
     @SerializedName("NotesFromKitchen")
     @Expose
     private String notesFromKitchen;
+
     // endregion
 
     // region Constructors
+
+    @Deprecated
     public OrderedDishModel(Integer id, int orderId, int dishId, String notesFromKitchen) {
         this.id = id;
         this.orderId = orderId;
         this.dishId = dishId;
         this.notesFromKitchen = notesFromKitchen;
     }
+
+    public OrderedDishModel(DishModel dish, OrderModel order) {
+        this.id = -1;
+        this.dishId = dish.getID();
+        this.orderId = order.getId();
+        this.notesFromKitchen = "";
+        this.setName(dish.getName());
+        this.setPrice(dish.getPrice());
+        this.setRestaurantID(dish.getRestaurantID());
+        this.setOrderedPrice(this.getPrice());
+    }
     // endregion
 
     // region query() implementation
-    public static Observable<List<OrderedDishModel>> query(String sql, String[] args) {
+    public static Observable<List<OrderedDishModel>> odQuery(String sql, String[] args) {
 
         return DishDriverProvider.getInstance().queryOrderedDishes(
                 DishDriverProvider.DD_HEADER_CLIENT,
@@ -70,7 +88,7 @@ public class OrderedDishModel {
                     if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<OrderedDishModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
-                }).observeOn(AndroidSchedulers.mainThread());
+                });
     }
     // endregion
 
@@ -84,7 +102,7 @@ public class OrderedDishModel {
     public Observable<NonQueryResponseModel> reject(String reason) {
 
         notesFromKitchen = reason;
-        isRejected = true;
+        isRejected = 1;
 
         return NonQueryResponseModel.run(
                 "UPDATE Ordered_Dishes SET IsRejected = 1, NotesFromKitchen = ? WHERE Id = ?",
@@ -106,7 +124,7 @@ public class OrderedDishModel {
      */
     public Observable<NonQueryResponseModel> makeVoid() {
 
-        isVoided = true;
+        isVoided = 1;
 
         return NonQueryResponseModel.run(
                 "UPDATE Ordered_Dishes SET IsVoided = 1 WHERE Id = ?",
@@ -128,16 +146,15 @@ public class OrderedDishModel {
      */
     public static Observable<List<OrderedDishModel>> between(RestaurantModel r, Date start, Date end) {
 
-        return query(
-                "SELECT" +
-                    "OD.*" +
-                "FROM" +
-                    "Ordered_Dishes OD" +
-                    "JOIN Orders O ON OD.Order_ID = O.Id" +
-                "WHERE" +
-                    "O.DT_Placed BETWEEN ? AND ?" +
-                    "AND OD.IsVoided != 1",
-                new String[] { start.toString(), end.toString() }
+        return odQuery(
+                "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
+                "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
+                "WHERE O.DT_Placed BETWEEN ? AND ? AND OD.IsVoided != 1 AND D.Restaurant_ID = ?",
+                new String[] {
+                        DateFormatter.forSQL(start),
+                        DateFormatter.forSQL(end),
+                        Integer.toString(r.getId())
+                }
         );
     }
 
@@ -173,15 +190,20 @@ public class OrderedDishModel {
     }
 
     public boolean isRejected() {
-        return isRejected;
+        return isRejected == 1;
     }
 
     public boolean isVoided() {
-        return isVoided;
+        return isVoided == 1;
     }
 
     public String getNotesFromKitchen() {
         return notesFromKitchen;
     }
+
+    public int getOrderedPrice() { return orderedPrice; }
+
+    public void setOrderedPrice(int orderedPrice) { this.orderedPrice = orderedPrice; }
+
     // endregion
 }
