@@ -17,50 +17,42 @@ import rx.observers.TestSubscriber;
 public class TableReservationModelTests {
     @Test
     public void GetAllTableReservations() {
-        Observable<List<RestaurantModel>> oChad = RestaurantModel.search("Chad");
-        TestSubscriber<List<RestaurantModel>> sChad = new TestSubscriber<>();
-        oChad.subscribe(sChad);
-
-        sChad.assertNoErrors();
-        sChad.awaitTerminalEvent();
-
-        RestaurantModel chad = sChad.getOnNextEvents().get(0).get(0);
-
-        System.out.println("This is all the reservations (active and not) for " + chad.getName() + " (๑♡3♡๑)");
-        System.out.println("----");
-
-        Observable<List<TableReservationModel>> oReservations = TableReservationModel.forRestaurant(chad);
+        Observable<List<TableReservationModel>> oReservations = RestaurantModel.get(3)
+                .flatMap(list -> {
+                    RestaurantModel r = list.get(0);
+                    return TableReservationModel.forRestaurant(r);
+                });
         TestSubscriber<List<TableReservationModel>> sReservations = new TestSubscriber<>();
         oReservations.subscribe(sReservations);
 
         sReservations.assertNoErrors();
         sReservations.awaitTerminalEvent();
+
         List<TableReservationModel> reservations = sReservations.getOnNextEvents().get(0);
+
+        System.out.println("This is all the reservations (active and not) (๑♡3♡๑)");
+        System.out.println("----");
 
         reservations.stream().forEach(tr -> System.out.println(tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
     }
 
     @Test
     public void GetActiveTableReservations() {
-        Observable<List<RestaurantModel>> oChad = RestaurantModel.search("Chad");
-        TestSubscriber<List<RestaurantModel>> sChad = new TestSubscriber<>();
-        oChad.subscribe(sChad);
-
-        sChad.assertNoErrors();
-        sChad.awaitTerminalEvent();
-
-        RestaurantModel chad = sChad.getOnNextEvents().get(0).get(0);
-
-        System.out.println("This is all the active reservations for " + chad.getName() + " (๑♡3♡๑)");
-        System.out.println("----");
-
-        Observable<List<TableReservationModel>> oReservations = TableReservationModel.activeForRestaurant(chad);
+        Observable<List<TableReservationModel>> oReservations = RestaurantModel.get(3)
+                .flatMap(list -> {
+                    RestaurantModel r = list.get(0);
+                    return TableReservationModel.forRestaurant(r);
+                });
         TestSubscriber<List<TableReservationModel>> sReservations = new TestSubscriber<>();
         oReservations.subscribe(sReservations);
 
         sReservations.assertNoErrors();
         sReservations.awaitTerminalEvent();
+
         List<TableReservationModel> reservations = sReservations.getOnNextEvents().get(0);
+
+        System.out.println("This is all the reservations (๑♡3♡๑)");
+        System.out.println("----");
 
         reservations.stream().forEach(tr -> System.out.println(tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
     }
