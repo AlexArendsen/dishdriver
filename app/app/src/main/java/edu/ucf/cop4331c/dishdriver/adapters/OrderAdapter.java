@@ -45,6 +45,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(OrderViewHolder holder, int position) {
         setupDishUI(holder.orderRelativeLayout, position);
+        holder.orderNumberTextView.setText("Order Number: " + mOrders.get(position).getmOrderModel().getId());
     }
 
     public void setupDishUI(RelativeLayout relativeLayout, int positionInAdapter) {
@@ -57,7 +58,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (view instanceof TextView) {
                 if (textViewCount < dishes.size()) {
                     view.setVisibility(View.VISIBLE);
-                    ((TextView) view).setText(dishes.get(textViewCount).getName());
+                    ((TextView) view).setText(dishes.get(textViewCount).getName() + " \n" + dishes.get(textViewCount).getNotesToKitchen());
                     textViewCount++;
                 } else {
                     ((TextView) view).setVisibility(View.GONE);
@@ -74,10 +75,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout orderRelativeLayout;
+        TextView orderNumberTextView;
 
         public OrderViewHolder(View itemView) {
             super(itemView);
 
+            orderNumberTextView = (TextView) itemView.findViewById(R.id.orderNumberTextView);
             orderRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.orderRelativeLayout);
         }
 
