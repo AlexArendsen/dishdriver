@@ -1,13 +1,17 @@
 package edu.ucf.cop4331c.dishdriver.models;
 
+import java.util.List;
+
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by ashton on pi + .0002.
@@ -19,9 +23,31 @@ public class SessionModel {
     private static PositionModel sPosition;
     private static RestaurantModel sRestaurant;
     private static String sToken;
+    private static String restaurantName = "%Thai%";
 
     public static Observable<LoginResponseModel> login(final String email, final String password) {
         final DishDriverService dd = DishDriverProvider.getInstance();
+
+        sRestaurant = new RestaurantModel();
+
+        // search for a restaurant
+        RestaurantModel.search(restaurantName).subscribe(new Subscriber<List<RestaurantModel>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<RestaurantModel> restaurantModels) {
+                if (!restaurantModels.isEmpty())
+                    sRestaurant = restaurantModels.get(0);
+            }
+        });
 
         return dd.loginObservable(DishDriverProvider.DD_HEADER_CLIENT, new CredentialLoginModel(email, password))
                 .subscribeOn(Schedulers.io())
