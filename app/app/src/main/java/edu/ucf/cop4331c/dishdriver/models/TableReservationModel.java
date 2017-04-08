@@ -126,7 +126,7 @@ public class TableReservationModel {
     public static Observable<TableReservationModel> get(int id){
 
         return query(
-                "SSELECT * FROM Table_Reservations WHERE Id = ?",
+                "SELECT * FROM Table_Reservations WHERE Id = ?",
                 new String[]{Integer.toString(id)}
         ).flatMap(list->{
             return Observable.just(list.get(0));
