@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -131,7 +130,7 @@ public class TableReservationModel {
      * @param id of the reservation
      * @return a table reservation whose table id matches the id given
      */
-    public Observable<TableReservationModel> get(int id){
+    public static Observable<TableReservationModel> get(int id){
 
         return query(
                 "SELECT * FROM Table_Reservations " +

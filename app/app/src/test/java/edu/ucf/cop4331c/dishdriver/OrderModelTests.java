@@ -164,6 +164,18 @@ public class OrderModelTests {
         int total = getTotal(o);
         System.out.println("The real calculated total was " + MoneyFormatter.format(total));
 
+        // Get the dishes from the db
+        Observable<List<OrderedDishModel>> oDishes = o.dishes();
+        TestSubscriber<List<OrderedDishModel>> sDishes = new TestSubscriber<>();
+        oDishes.subscribe(sDishes);
+
+        sDishes.assertNoErrors();
+        sDishes.awaitTerminalEvent();
+
+        List<OrderedDishModel> actualDishes = sDishes.getOnNextEvents().get(0);
+        actualDishes.stream().forEach(od -> System.out.println("From real order: " + od.getName()
+                + " @ " + MoneyFormatter.format(od.getOrderedPrice())));
+
         // And finally, have the order paid / payed / whatever'd for, check the state
         o = payOrder(o);
         Assert.assertEquals("Local instance not transitioned to paid state after being payed", Status.PAID, o.getStatus());
