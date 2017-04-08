@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
+import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
@@ -82,7 +83,7 @@ public class CookActivity extends ProgressDialogActivity {
 
     public void getOrders() {
         enableProgressDialog("Retrieving Orders...");
-        OrderModel.forCook(SessionModel.currentPosition()).asObservable()
+        OrderModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
                 .concatMap(this::getCombinedObservable)
@@ -103,7 +104,7 @@ public class CookActivity extends ProgressDialogActivity {
                     public void onNext(List<Order> orders) {
                         mOrders.clear();
                         mOrders.addAll(orders);
-                        mOrderRecyclerView.setAdapter(new OrderAdapter((AppCompatActivity) getContext(), mOrders));
+                        mOrderRecyclerView.setAdapter(new OrderAdapter(getContext(), mOrders));
                         dismissProgressDialog();
                     }
                 });
@@ -113,6 +114,7 @@ public class CookActivity extends ProgressDialogActivity {
         return orderModel.dishes().asObservable()
                 .map(orderedDishModels -> {
                     ArrayList<OrderedDishModel> dishes = new ArrayList<OrderedDishModel>();
+                    dishes.addAll(orderedDishModels);
                     return new Order(orderModel, dishes);
                 });
     }
