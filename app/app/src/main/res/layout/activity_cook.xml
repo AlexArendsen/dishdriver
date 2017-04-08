@@ -22,7 +22,7 @@
                     android:layout_height="120dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="50dp"
-                    android:background="#F6890E">
+                    android:background="@color/colorPrimary">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -146,7 +146,7 @@
                     android:layout_height="120dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="50dp"
-                    android:background="#F6890E">
+                    android:background="@color/colorPrimary">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -268,7 +268,7 @@
                     android:layout_height="120dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="50dp"
-                    android:background="#F6890E">
+                    android:background="@color/colorPrimary">
 
                     <TextView
                         android:layout_width="match_parent"
