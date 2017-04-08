@@ -122,7 +122,7 @@ public class TableReservationModel {
                 "DELETE FROM Table_Reservations" +
                         "WHERE Id = ?" +
                         "AND DT_Accepted = NULL",
-                new String[] {Integer.toString(getId())}
+                new String[] {Integer.toString(this.id)}
         );
     }
 
