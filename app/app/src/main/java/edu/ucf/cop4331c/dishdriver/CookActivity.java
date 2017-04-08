@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,9 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
+import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
+import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.colorPrimary;
 import static android.R.attr.order;
@@ -26,13 +39,16 @@ import static xdroid.core.Global.getResources;
  * Created by tjcle on 3/14/2017.
  */
 
-public class CookActivity extends AppCompatActivity {
+public class CookActivity extends ProgressDialogActivity {
+
+    @BindView(R.id.orderRecyclerView)
+    RecyclerView mOrderRecyclerView;
 
     //holds the id of the Order being rejected
     String rejectID;
 
     //presumably I need an arraylist of orders?
-    ArrayList<Order> orders = new ArrayList<Order>();
+    private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -60,75 +76,45 @@ public class CookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cook);
         ButterKnife.bind(this);
+        mOrderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        getOrders();
+    }
+
+    public void getOrders() {
+        enableProgressDialog("Retrieving Orders...");
+        OrderModel.forCook(SessionModel.currentPosition()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .flatMap(Observable::from)
+                .concatMap(this::getCombinedObservable)
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Order>>() {
+                    @Override
+                    public void onCompleted() {
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onNext(List<Order> orders) {
+                        mOrders.clear();
+                        mOrders.addAll(orders);
+                        mOrderRecyclerView.setAdapter(new OrderAdapter((AppCompatActivity) getContext(), mOrders));
+                        dismissProgressDialog();
+                    }
+                });
+    }
+
+    public Observable<Order> getCombinedObservable(OrderModel orderModel) {
+        return orderModel.dishes().asObservable()
+                .map(orderedDishModels -> {
+                    ArrayList<OrderedDishModel> dishes = new ArrayList<OrderedDishModel>();
+                    return new Order(orderModel, dishes);
+                });
     }
 }
 
-class Order {
-    ArrayList<TextView> dishViews = new ArrayList<TextView>();
-    ArrayList<String> OrderList;
-    int orderNum;
-    String notes;
-
-    //constructors
-    public Order(int orderNum, ArrayList<String> Orders, String notes){
-        this.orderNum = orderNum;
-        OrderList = Orders;
-        this.notes = notes;
-    }
-    public Order(int orderNum){
-        this.orderNum = orderNum;
-        OrderList = new ArrayList<String>();
-    }
-
-    //adds a dish to the OrderList
-    public void addOrder(int orderNum, String dish, String notes){
-        this.orderNum = orderNum;
-        OrderList.add(dish);
-        this.notes = notes;
-    }
-
-    public void createLinearLayout(){
-        LinearLayout orderHolder = new LinearLayout(getContext());
-
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)orderHolder.getLayoutParams();
-        params.width = ActionBar.LayoutParams.WRAP_CONTENT;
-        params.height = ActionBar.LayoutParams.WRAP_CONTENT;
-
-        /*
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-         */
-    }
-
-    public void createTextViews(){
-        for(int i = 0; i < OrderList.size(); i++){
-            TextView dish = new TextView(getContext());
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)dish.getLayoutParams();
-            params.setMargins(0, 60, 0, 0);
-            params.height = 50;
-            params.width = 530;
-            dish.setLayoutParams(params);
-            dish.setBackgroundResource(R.color.colorPrimary);
-            dish.setGravity(Gravity.CENTER);
-            dish.setText(OrderList.get(i));
-            dish.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            dish.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            dish.setTextColor(Color.WHITE);
-            dish.setId(orderNum * 100 + i);
-            /*
-            These are the attributes that I'm replacing with java stuff
-            android:layout_width="530dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="60dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="@string/dishname"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-             */
-            dishViews.add(dish);
-        }
-    }
-}

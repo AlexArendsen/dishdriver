@@ -4,381 +4,386 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/orderRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!--<HorizontalScrollView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent">-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/colorPrimary">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_number_order"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="120dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:layout_marginTop="50dp"-->
+                    <!--android:background="@color/colorPrimary">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="25sp" />
-                </RelativeLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/order_number_order"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="30sp" />-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="430dp"
-                    android:layout_marginStart="60dp"
-                    android:background="@drawable/customborder"
-                    android:orientation="vertical">
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="30dp"-->
+                        <!--android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="25sp" />-->
+                <!--</RelativeLayout>-->
 
-                    <Button
-                        android:id="@+id/completeOrder1"
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:background="#35CD35"
-                        android:text="Complete Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="430dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:background="@drawable/customborder"-->
+                    <!--android:orientation="vertical">-->
 
-                    <Button
-                        android:id="@+id/cancelOrder1"
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="270dp"
-                        android:background="#FF2222"
-                        android:text="Cancel Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                    <!--<Button-->
+                        <!--android:id="@+id/completeOrder1"-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:background="#35CD35"-->
+                        <!--android:text="Complete Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="60dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<Button-->
+                        <!--android:id="@+id/cancelOrder1"-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginStart="270dp"-->
+                        <!--android:background="#FF2222"-->
+                        <!--android:text="Cancel Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="120dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="60dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="180dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="120dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="240dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="180dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="300dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="240dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="360dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </RelativeLayout>
-            </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="300dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="360dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/colorPrimary">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_number_order"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="120dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:layout_marginTop="50dp"-->
+                    <!--android:background="@color/colorPrimary">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="25sp" />
-                </RelativeLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/order_number_order"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="30sp" />-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="430dp"
-                    android:layout_marginStart="60dp"
-                    android:background="@drawable/customborder"
-                    android:orientation="vertical">
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="30dp"-->
+                        <!--android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="25sp" />-->
+                <!--</RelativeLayout>-->
 
-                    <Button
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:background="#35CD35"
-                        android:text="Complete Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="430dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:background="@drawable/customborder"-->
+                    <!--android:orientation="vertical">-->
 
-                    <Button
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="270dp"
-                        android:background="#FF2222"
-                        android:text="Cancel Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                    <!--<Button-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:background="#35CD35"-->
+                        <!--android:text="Complete Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="60dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<Button-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginStart="270dp"-->
+                        <!--android:background="#FF2222"-->
+                        <!--android:text="Cancel Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="120dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="60dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="180dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="120dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="240dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="180dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="300dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="240dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="360dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </RelativeLayout>
-            </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="300dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="360dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="60dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/colorPrimary">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_number_order"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="30sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="120dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:layout_marginTop="50dp"-->
+                    <!--android:background="@color/colorPrimary">-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="25sp" />
-                </RelativeLayout>
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/order_number_order"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="30sp" />-->
 
-                <RelativeLayout
-                    android:layout_width="550dp"
-                    android:layout_height="430dp"
-                    android:layout_marginStart="60dp"
-                    android:background="@drawable/customborder"
-                    android:orientation="vertical">
+                    <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="30dp"-->
+                        <!--android:text="Notes:\n Here are the notes. No Mayo is allowed on the notes"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="25sp" />-->
+                <!--</RelativeLayout>-->
 
-                    <Button
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:background="#35CD35"
-                        android:text="Complete Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="550dp"-->
+                    <!--android:layout_height="430dp"-->
+                    <!--android:layout_marginStart="60dp"-->
+                    <!--android:background="@drawable/customborder"-->
+                    <!--android:orientation="vertical">-->
 
-                    <Button
-                        android:layout_width="260dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="270dp"
-                        android:background="#FF2222"
-                        android:text="Cancel Order"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                    <!--<Button-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:background="#35CD35"-->
+                        <!--android:text="Complete Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="60dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<Button-->
+                        <!--android:layout_width="260dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginStart="270dp"-->
+                        <!--android:background="#FF2222"-->
+                        <!--android:text="Cancel Order"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="18sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="120dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="60dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="180dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="120dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="240dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="180dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="300dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="240dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
 
-                    <TextView
-                        android:layout_width="530dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="360dp"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/dishname"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="300dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="530dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_marginTop="360dp"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="@string/dishname"-->
+                        <!--android:textAlignment="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="20sp" />-->
+                <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+    <!--</HorizontalScrollView>-->
 </LinearLayout>
