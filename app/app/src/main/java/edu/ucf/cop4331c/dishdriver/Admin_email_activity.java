@@ -12,7 +12,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hendrix.pdfmyxml.viewRenderer.AbstractViewRenderer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -66,6 +69,20 @@ public class Admin_email_activity extends AppCompatActivity {
         //calEnd.setTime(Calendar.getInstance().getTime());
         calEnd = Calendar.getInstance();
         calStart = calEnd;
+
+        AbstractViewRenderer page = new AbstractViewRenderer(this, R.layout.activity_test_chart) {
+            private String _text;
+
+            public void setText(String text) {
+                _text = text;
+            }
+
+            @Override
+            protected void initView(View view) {
+                TextView tv_hello = (TextView)view.findViewById(R.id.pieChart);
+                tv_hello.setText(_text);
+            }
+        };
 
         if (subject.isEmpty()) {
             subject = "30 Day Report";
