@@ -2,7 +2,6 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import edu.ucf.cop4331c.dishdriver.enums.Status;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
