@@ -246,7 +246,10 @@ public class OrderModel {
 
         // First, check if the order is in the right state to be placed
         Status s = getStatus();
-        if (s != NEW && s != REJECTED)
+
+        // TODO -- Use this to conditionally form the notification message
+        boolean isUpdate = s == Status.PLACED;
+        if (Arrays.asList(new Status[]{ NEW, PLACED, REJECTED }).contains(s))
             throw new IllegalStateException("Order must be new or rejected to be placed");
 
         if (s == REJECTED) dTRejected = null;
