@@ -4,18 +4,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
-import edu.ucf.cop4331c.dishdriver.network.NotificationService;
 import rx.Observable;
 import rx.observers.TestSubscriber;
-
-import static android.R.attr.x;
-import static org.junit.Assert.*;
 
 public class DishModelTests {
 
@@ -43,6 +37,33 @@ public class DishModelTests {
         List<DishModel> dishes = sDishes.getOnNextEvents().get(0);
 
         dishes.stream().forEach(d -> System.out.println(d.getName() + ": " + d.getPrice() + " -- " + d.getDescription()));
+
+    }
+
+    @Test
+    public void AllTestsHaveTheSameRestaurant() {
+        final int rID = 3;
+
+        Observable<List<RestaurantModel>> oChad = RestaurantModel.get(rID);
+        TestSubscriber<List<RestaurantModel>> sChad = new TestSubscriber<>();
+        oChad.subscribe(sChad);
+
+        sChad.assertNoErrors();
+        sChad.awaitTerminalEvent();
+
+        RestaurantModel chad = sChad.getOnNextEvents().get(0).get(0);
+
+        Observable<List<DishModel>> oDishes = DishModel.forRestaurant(chad);
+        TestSubscriber<List<DishModel>> sDishes = new TestSubscriber<>();
+        oDishes.subscribe(sDishes);
+
+        sDishes.assertNoErrors();
+        sDishes.awaitTerminalEvent();
+
+        List<DishModel> dishes = sDishes.getOnNextEvents().get(0);
+
+        // Now that all that shit's done, make sure that all of the dishes have the same restaurant ID.
+        Assert.assertTrue(dishes.stream().allMatch(d -> d.getRestaurantID() == rID));
 
     }
 

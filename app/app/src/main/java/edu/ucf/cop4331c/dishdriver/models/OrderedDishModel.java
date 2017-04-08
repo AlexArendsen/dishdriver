@@ -48,6 +48,10 @@ public class OrderedDishModel extends DishModel {
     @Expose
     private String notesFromKitchen;
 
+    @SerializedName("NotesToKitchen")
+    @Expose
+    private String notesToKitchen;
+
     // endregion
 
     // region Constructors
@@ -65,6 +69,19 @@ public class OrderedDishModel extends DishModel {
         this.dishId = dish.getID();
         this.orderId = order.getId();
         this.notesFromKitchen = "";
+        this.notesToKitchen = "";
+        this.setName(dish.getName());
+        this.setPrice(dish.getPrice());
+        this.setRestaurantID(dish.getRestaurantID());
+        this.setOrderedPrice(this.getPrice());
+    }
+
+    public OrderedDishModel(DishModel dish, OrderModel order, String notesToKitchen) {
+        this.id = -1;
+        this.dishId = dish.getID();
+        this.orderId = order.getId();
+        this.notesFromKitchen = "";
+        this.notesToKitchen = notesToKitchen;
         this.setName(dish.getName());
         this.setPrice(dish.getPrice());
         this.setRestaurantID(dish.getRestaurantID());
@@ -199,6 +216,14 @@ public class OrderedDishModel extends DishModel {
 
     public String getNotesFromKitchen() {
         return notesFromKitchen;
+    }
+
+    public String getNotesToKitchen() {
+        return notesToKitchen;
+    }
+
+    public void setToFromKitchen(String notesToKitchen) {
+        this.notesToKitchen = notesFromKitchen;
     }
 
     public int getOrderedPrice() { return orderedPrice; }

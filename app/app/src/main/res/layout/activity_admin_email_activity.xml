@@ -18,6 +18,7 @@
         android:layout_marginTop="43dp" />
 
     <TextView
+        android:visibility="invisible"
         android:id="@+id/startDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
         android:layout_marginTop="65dp" />
 
     <EditText
+        android:visibility="invisible"
         android:id="@+id/startDateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
