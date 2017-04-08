@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +49,8 @@ public class CookActivity extends ProgressDialogActivity {
     //holds the id of the Order being rejected
     String rejectID;
 
-    //presumably I need an arraylist of orders?
+
+
     private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     boolean doubleBackToExitPressedOnce = false;
