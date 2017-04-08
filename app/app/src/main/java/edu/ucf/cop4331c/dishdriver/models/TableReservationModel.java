@@ -88,10 +88,7 @@ public class TableReservationModel {
      */
     public static Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
         return query(
-                "SELECT TR.* FROM Table_Reservations TR " +
-                        "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
-                        "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
-                        "WHERE R.Id = ? ",
+                "SELECT TR.* FROM Table_Reservations TR JOIN Tables T ON T.Id = TR.Table_ID JOIN Restaurants R ON T.Restaurant_ID = R.Id WHERE R.Id = ?",
                 new String[]{Integer.toString(r.getId())}
         );
     }
@@ -103,26 +100,21 @@ public class TableReservationModel {
      */
     public static Observable<List<TableReservationModel>> activeForRestaurant(RestaurantModel r) {
         return query(
-                "SELECT TR.* FROM Table_Reservations TR " +
-                        "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
-                        "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
-                        "WHERE R.Id = ? " +
-                "AND TR.DT_Accepted = NULL",
+                "SELECT TR.* FROM Table_Reservations TR JOIN Tables T ON T.Id = TR.Table_ID JOIN Restaurants R ON T.Restaurant_ID = R.Id WHERE R.Id = ? AND DT_Accepted IS NULL",
                 new String[]{Integer.toString(r.getId())}
         );
     }
 
     /**
      *
-     * @return deletes all reserved tables that haven't been accepted
+     * @return deletes the reservation for the current table
      */
     public Observable<NonQueryResponseModel> unreserve(){
 
         return NonQueryResponseModel.run(
-                "DELETE FROM Table_Reservations" +
-                        "WHERE Id = ?" +
-                        "AND DT_Accepted = NULL",
-                new String[] {Integer.toString(getId())}
+                "DELETE FROM Table_Reservations " +
+                        "WHERE Id = ?",
+                new String[] {Integer.toString(this.id)}
         );
     }
 
@@ -131,11 +123,10 @@ public class TableReservationModel {
      * @param id of the reservation
      * @return a table reservation whose table id matches the id given
      */
-    public Observable<TableReservationModel> get(int id){
+    public static Observable<TableReservationModel> get(int id){
 
         return query(
-                "SELECT * FROM Table_Reservations " +
-                        "WHERE Id =?",
+                "SELECT * FROM Table_Reservations WHERE Id = ?",
                 new String[]{Integer.toString(id)}
         ).flatMap(list->{
             return Observable.just(list.get(0));
