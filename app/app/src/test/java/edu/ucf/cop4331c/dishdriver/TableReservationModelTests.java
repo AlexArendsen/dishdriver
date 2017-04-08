@@ -34,7 +34,7 @@ public class TableReservationModelTests {
         System.out.println("This is all the reservations (active and not) (๑♡3♡๑)");
         System.out.println("----");
 
-        reservations.stream().forEach(tr -> System.out.println(tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
+        reservations.stream().forEach(tr -> System.out.println(tr.getId() + "--" + tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class TableReservationModelTests {
         System.out.println("This is all the reservations (๑♡3♡๑)");
         System.out.println("----");
 
-        reservations.stream().forEach(tr -> System.out.println(tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
+        reservations.stream().forEach(tr -> System.out.println(tr.getId() + ":  " + tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted()));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TableReservationModelTests {
             @Override
             public void onNext(TableReservationModel tr) {
 
-                System.out.println(tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted());
+                System.out.println("THIS IS A TEST" + tr.getPartyName() + ": " + tr.getPartySize() + " -- " + tr.getDeposit() + "--" + tr.getdTRequested() + "--" + tr.getdTAccepted());
             }
         });
     }
