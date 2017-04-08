@@ -36,18 +36,6 @@ public class SignInActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
     private UserModel userModel;
 
-    void setUserModel(UserModel userModel){
-        this.userModel = userModel;
-    }
-
-    // TODO: remove these buttons
-    @OnClick(R.id.goToAdmin)
-    void admin(){ startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class )); }
-    @OnClick(R.id.goToCook)
-    void cook(){ startActivity(new Intent(SignInActivity.this, CookActivity.class )); }
-    @OnClick(R.id.goToWaiter)
-    void waiter(){ startActivity(new Intent(SignInActivity.this, TableActivity.class )); }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +45,8 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void login(View v){
+        startActivity(new Intent(SignInActivity.this, TestChartActivity.class));
+        finish();
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
@@ -64,6 +54,7 @@ public class SignInActivity extends AppCompatActivity {
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
 
+        // TODO: for prod remove these so there is no default log in
         if (userName.equals(""))
             UserName.setText("melissa@dishdriver.com");
         if (password.equals(""))
@@ -72,8 +63,6 @@ public class SignInActivity extends AppCompatActivity {
         SessionModel.login(userName, password).subscribe(new Subscriber<LoginResponseModel>() {
             @Override
             public void onCompleted() {
-
-                //hide loading icon:
 
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
@@ -85,12 +74,10 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onError(Throwable e) {
                             Log.d(TAG, e.getMessage());
-                            return;
                         }
 
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
-                            Toaster.toast(positionModels.get(0).getRole().toString());
 
                             switch(positionModels.get(0).getRoleID()){
                                 case 1:
@@ -103,21 +90,17 @@ public class SignInActivity extends AppCompatActivity {
                                     startActivity(new Intent(SignInActivity.this, TableActivity.class));
                                     break;
                                 default:
-                                    Toaster.toast("fail...");
+                                    Toaster.toast("User has not been assigned a Role...");
                             }
                             finish();
                         }
                     });
-                }else
-                    Toaster.toast("Not an employee");
-
-
+                }
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.d(TAG, "onError: ERROR");
-                return;
+                Log.d(TAG, "Login did not complete.");
             }
 
             @Override
@@ -125,8 +108,8 @@ public class SignInActivity extends AppCompatActivity {
 
                 //Toast.makeText(SignInActivity.this, "onComplete", Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(SignInActivity.this, CookActivity.class));
-                UserName.setText("");//overkill
-                Password.setText("");//overkill but maybe useful with signoutbutton probably not
+                //UserName.setText("");//overkill
+                //Password.setText("");//overkill but maybe useful with signoutbutton probably not
                 //finish();
             }
         });

@@ -50,11 +50,12 @@
             android:layout_height="wrap_content"
             android:text="Add 18% tip" />
 
-        <EditText
-            android:id="@+id/gratuityEditTextView"
+        <TextView
+            android:id="@+id/gratuityTextView"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:hint=""
+            android:textSize="18sp"
             android:inputType="numberDecimal" />
 
     </LinearLayout>

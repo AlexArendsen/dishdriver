@@ -9,70 +9,82 @@
 
     <TextView
         android:id="@+id/adminTitle"
-        android:layout_width="1264dp"
-        android:layout_height="150dp"
         android:text="Admin View"
         android:textSize="60dp"
+        android:layout_width="1264dp"
+        android:layout_height="150dp"
         android:textColor="@color/white"
         android:gravity="center"
         android:padding="10dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/generateReport"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         app:layout_constraintTop_toBottomOf="@+id/adminTitle"
+        app:layout_constraintBottom_toTopOf="@+id/editMenu"
         android:id="@+id/generateReport"
-        android:layout_width="1280dp"
-        android:layout_height="100dp"
+        android:layout_width="750dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:text="Statistical Analysis Report (GENERATE REPORT)"
-        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="GENERATE REPORT"
+        android:textColor="@color/black"
         android:textSize="30dp"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         app:layout_constraintTop_toBottomOf="@+id/generateReport"
+        app:layout_constraintBottom_toTopOf="@+id/editUser"
         android:id="@+id/editMenu"
-        android:layout_width="1280dp"
-        android:layout_height="100dp"
-        android:text="Manage Restaurant (EDIT FOOD ITEMS)"
-        android:background="@color/pinkRed"
+        android:layout_width="750dp"
+        android:layout_height="wrap_content"
+        android:text="EDIT MENUS"
+        android:background="@color/complementPrimaryColor"
         android:textSize="30dp"
         android:textColor="@color/white"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         app:layout_constraintTop_toBottomOf="@+id/editMenu"
+        app:layout_constraintBottom_toTopOf="@+id/waiterButton"
         android:id="@+id/editUser"
-        android:layout_width="1280dp"
-        android:layout_height="100dp"
-        android:text="Edit User Accounts (EDIT USER ACC)"
+        android:layout_width="750dp"
+        android:layout_height="wrap_content"
+        android:text="EDIT USERS"
         android:background="@color/white"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/black"
         android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         app:layout_constraintTop_toBottomOf="@+id/editUser"
+        app:layout_constraintBottom_toTopOf="@+id/cookButton"
         android:id="@+id/waiterButton"
-        android:layout_width="1280dp"
-        android:layout_height="100dp"
+        android:layout_width="750dp"
+        android:layout_height="wrap_content"
         android:text="Waiter View"
         android:textColor="@color/white"
-        android:background="@color/pinkRed"
+        android:background="@color/complementPrimaryColor"
         android:textSize="30dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
     <Button
         app:layout_constraintTop_toBottomOf="@+id/waiterButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/cookButton"
-        android:layout_width="1293dp"
-        android:layout_height="113dp"
+        android:layout_width="750dp"
+        android:layout_height="wrap_content"
         android:text="Cook View"
         android:background="@color/white"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/black"
         android:textSize="30dp"
-        android:width="10dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

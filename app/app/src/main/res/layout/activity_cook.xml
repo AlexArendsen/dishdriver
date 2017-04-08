@@ -7,9 +7,11 @@
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,23 +50,23 @@
                     android:orientation="vertical">
 
                     <Button
+                        android:id="@+id/completeOrder1"
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:background="#35CD35"
-                        android:textColor="@color/white"
                         android:text="Complete Order"
-                        android:textSize="18sp"
-                        android:id="@+id/completeOrder1"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <Button
+                        android:id="@+id/cancelOrder1"
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="270dp"
                         android:background="#FF2222"
-                        android:textColor="@color/white"
                         android:text="Cancel Order"
-                        android:textSize="18sp"
-                        android:id="@+id/cancelOrder1"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="530dp"
@@ -175,18 +177,18 @@
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:background="#35CD35"
-                        android:textColor="@color/white"
                         android:text="Complete Order"
-                        android:textSize="18sp"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <Button
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="270dp"
                         android:background="#FF2222"
-                        android:textColor="@color/white"
                         android:text="Cancel Order"
-                        android:textSize="18sp"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="530dp"
@@ -297,18 +299,18 @@
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:background="#35CD35"
-                        android:textColor="@color/white"
                         android:text="Complete Order"
-                        android:textSize="18sp"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <Button
                         android:layout_width="260dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="270dp"
                         android:background="#FF2222"
-                        android:textColor="@color/white"
                         android:text="Cancel Order"
-                        android:textSize="18sp"/>
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="530dp"
