@@ -184,8 +184,8 @@ public class PositionModel {
                 "INSERT INTO Positions (Employee_ID, Role_ID, Restaurant_ID, DT_Hired) VALUES (?, ?, ?, NOW())",
                 new String[] {
                         Integer.toString(user.getID()),
-                        Integer.toString(restaurant.getId()),
-                        Integer.toString(role.ordinal() + 1)
+                        Integer.toString(role.ordinal() + 1),
+                        Integer.toString(restaurant.getId())
         });
     }
 

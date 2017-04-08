@@ -72,7 +72,7 @@ public class UserModel {
      */
     public UserModel(String email, String password, String firstName, String lastName) {
         this.email = email;
-        //this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = password;//BCrypt.hashpw(password, BCrypt.gensalt());
         this.firstName = firstName;
         this.lastName = lastName;
     }
