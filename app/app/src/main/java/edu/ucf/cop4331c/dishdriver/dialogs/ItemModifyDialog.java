@@ -69,6 +69,8 @@ public class ItemModifyDialog extends DialogFragment {
                         public void onClick(View v) {
 
 
+
+
                             Toaster.toast(test);
                             getDialog().dismiss();
 

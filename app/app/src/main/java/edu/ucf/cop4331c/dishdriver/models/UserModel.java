@@ -3,6 +3,8 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +13,8 @@ import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
+
+import static android.R.id.list;
 
 /**
  * Created by copper on 3/14/17.
@@ -57,21 +61,23 @@ public class UserModel {
     // endregion
 
     // region Constructors
-    public UserModel(Integer id, String email, String password, String firstName, String lastName) {
-        this.id = id;
+
+    /**
+     * Create a user instance
+     *
+     * @param email The email
+     * @param password The plaintext password
+     * @param firstName The user's first name
+     * @param lastName The user's last name
+     */
+    public UserModel(String email, String password, String firstName, String lastName) {
         this.email = email;
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
-    public UserModel() { }
     // endregion
 
-    public String toString(){
-        return "id: "+ this.id +", email: "+ this.email;
-    }
-    
     // region query() implementation
     public static Observable<List<UserModel>> query(String sql, String[] args) {
 
@@ -92,8 +98,27 @@ public class UserModel {
     }
     // endregion
 
-    public Call<Integer> create() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Boolean> update() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public Observable<NonQueryResponseModel> create() {
+        return NonQueryResponseModel.run(
+                "INSERT INTO Users (Email, Password, FirstName, LastName, DT_Created) VALUES (?, ?, ?, ?, NOW())",
+                new String[] { email, password, firstName, lastName}
+        );
+    }
+
+    /**
+     * Finds the first user with the provided email address
+     *
+     * @param email The email of the user to look for
+     * @return null if the user is not found, otherwise the UserModel
+     */
+    public static Observable<UserModel> findFirst(String email) {
+        return query(
+                "SELECT * FROM Users WHERE Email = ?",
+                new String[] { email }
+        ).flatMap(list -> {
+            return Observable.just((list.isEmpty()) ? null : list.get(0) );
+        });
+    }
 
     // region Getters and Setters
     public Integer getID() {
@@ -166,6 +191,12 @@ public class UserModel {
 
     public void setDTCancelled(Object dTCancelled) {
         this.dTCancelled = dTCancelled;
+    }
+    // endregion
+
+    // region Overridden Methods
+    public String toString(){
+        return "id: "+ this.id +", email: "+ this.email;
     }
     // endregion
 }
