@@ -18,7 +18,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.models.RankedDishModel;
@@ -62,28 +61,40 @@ public class Admin_email_activity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         //subject
-        String subject = ((EditText) findViewById(R.id.startDateInput)).getText().toString();
-        Calendar calStart = new GregorianCalendar(), calEnd = new GregorianCalendar();
-        calEnd.setTime(Calendar.getInstance().getTime());
+        String subject = "";
+        Calendar calStart, calEnd;
+        //calEnd.setTime(Calendar.getInstance().getTime());
+        calEnd = Calendar.getInstance();
+        calStart = calEnd;
 
         if (subject.isEmpty()) {
             subject = "30 Day Report";
         } else {
             subject = "30 Day Report for " + subject;
-            String inputString = "11-11-2012";
-            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String inputString = "11-2012";
+            DateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
             try {
                 calStart.setTime(dateFormat.parse(inputString));
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
         }
-        calStart = calEnd;
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0); // ! clear would not reset the hour of day !
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.getTimeInMillis();
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        //calEnd = cal;
         calStart.add(Calendar.DAY_OF_MONTH, -30);
 
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 
-        RankedDishModel.between(SessionModel.currentRestaurant(), new Date(2017,01,01), Calendar.getInstance().getTime()).subscribe(new Subscriber<List<RankedDishModel>>() {
+        RankedDishModel.between(SessionModel.currentRestaurant(), calStart.getTime(), new Date() ).subscribe(new Subscriber<List<RankedDishModel>>() {
             @Override
             public void onCompleted() {
 
@@ -102,7 +113,7 @@ public class Admin_email_activity extends AppCompatActivity {
                     emailIntent.putExtra(Intent.EXTRA_TEXT,msg);
                     Toaster.toast(msg);
                 }
-                Log.d("onNext", "Found "+ rankedDishModels.size() +" dishes to rate.");
+                Toaster.toast("Found "+ rankedDishModels.size() +" dishes to rate.");
 
                 if (rankedDishModels.isEmpty())
                     emailIntent.putExtra(Intent.EXTRA_TEXT,"Sorry you had no sales so no profit or favorite dish, maybe next month!");
