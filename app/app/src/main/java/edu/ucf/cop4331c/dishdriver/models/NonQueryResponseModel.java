@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by copper on 3/27/17.
@@ -37,7 +38,10 @@ public class NonQueryResponseModel {
     }
 
     public static Observable<NonQueryResponseModel> run(String sql, String[] args) {
-        return DishDriverProvider.getInstance().nonQuery(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(sql, args));
+        return DishDriverProvider.getInstance()
+                .nonQuery(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(sql, args))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
     }
 
     public class Results {
