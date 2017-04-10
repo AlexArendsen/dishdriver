@@ -77,6 +77,26 @@ public class PositionModel {
 
     // region DB Retrieval
 
+    public static Observable<PositionModel> get(int id) {
+        return query(
+                "SELECT " +
+                    "P.*, " +
+                    "R.Name AS Restaurant_Name, " +
+                    "IF( " +
+                        "NULLIF(U.FirstName, '') IS NULL, " +
+                        "U.Email, " +
+                        "CONCAT(U.FirstName, ' ', U.LastName) " +
+                    ") AS Employee_Name " +
+                "FROM " +
+                    "Positions P " +
+                    "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                    "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+                "WHERE " +
+                    "P.Id = ? ",
+                new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ) );
+    }
+
     /**
      * Fetch all positions currently held by the provided user from the database.
      *
