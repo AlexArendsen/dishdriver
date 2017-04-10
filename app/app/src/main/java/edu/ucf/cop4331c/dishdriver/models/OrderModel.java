@@ -105,6 +105,13 @@ public class OrderModel {
 
     // region DB Retrieval
 
+    public static Observable<OrderModel> get(int id) {
+        return query(
+            "SELECT * FROM Orders WHERE Id = ?",
+            new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)) );
+    }
+
     public static Observable<List<OrderModel>> forWaiter(PositionModel waiter) {
         return forWaiter(waiter.getID());
     }

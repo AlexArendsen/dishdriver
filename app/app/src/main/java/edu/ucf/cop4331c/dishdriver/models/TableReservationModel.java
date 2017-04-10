@@ -80,6 +80,23 @@ public class TableReservationModel {
     }
     // endregion
 
+    // region DB Retrieval
+
+    /**
+     *
+     * @param id of the reservation
+     * @return a table reservation whose table id matches the id given
+     */
+    public static Observable<TableReservationModel> get(int id){
+
+        return query(
+                "SELECT * FROM Table_Reservations WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list->{
+            return Observable.just(list.get(0));
+        });
+    }
+
     /**
      *
      * @param r The restaurant we want information for
@@ -103,6 +120,7 @@ public class TableReservationModel {
                 new String[]{Integer.toString(r.getId())}
         );
     }
+    // endregion
 
     /**
      *
@@ -115,21 +133,6 @@ public class TableReservationModel {
                         "WHERE Id = ?",
                 new String[] {Integer.toString(this.id)}
         );
-    }
-
-    /**
-     *
-     * @param id of the reservation
-     * @return a table reservation whose table id matches the id given
-     */
-    public static Observable<TableReservationModel> get(int id){
-
-        return query(
-                "SELECT * FROM Table_Reservations WHERE Id = ?",
-                new String[]{Integer.toString(id)}
-        ).flatMap(list->{
-            return Observable.just(list.get(0));
-        });
     }
 
     // region Getters and Setters

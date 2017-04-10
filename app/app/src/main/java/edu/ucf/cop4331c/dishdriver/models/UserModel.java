@@ -98,11 +98,13 @@ public class UserModel {
     }
     // endregion
 
-    public Observable<NonQueryResponseModel> create() {
-        return NonQueryResponseModel.run(
-                "INSERT INTO Users (Email, Password, FirstName, LastName, DT_Created) VALUES (?, ?, ?, ?, NOW())",
-                new String[] { email, password, firstName, lastName}
-        );
+    // region DB Retrieval
+
+    public static Observable<UserModel> get(int id) {
+        return query(
+            "SELECT * FROM Users WHERE Id = ?",
+            new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
     }
 
     /**
@@ -115,10 +117,19 @@ public class UserModel {
         return query(
                 "SELECT * FROM Users WHERE Email = ?",
                 new String[] { email }
-        ).flatMap(list -> {
-            return Observable.just((list.isEmpty()) ? null : list.get(0) );
-        });
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
     }
+
+    // endregion
+
+    // region DB Modification
+    public Observable<NonQueryResponseModel> create() {
+        return NonQueryResponseModel.run(
+                "INSERT INTO Users (Email, Password, FirstName, LastName, DT_Created) VALUES (?, ?, ?, ?, NOW())",
+                new String[] { email, password, firstName, lastName }
+        );
+    }
+    // endregion
 
     // region Getters and Setters
     public Integer getID() {
