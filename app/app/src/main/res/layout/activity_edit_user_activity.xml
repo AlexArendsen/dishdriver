@@ -71,12 +71,12 @@
             android:id="@+id/generatePasswordButton"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="Generate Password"
+            android:text="Generate Password/Create User"
             android:layout_gravity="center"
             android:padding="10dp"
             />
 
-        <TextView
+        <EditText
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:id="@+id/passwordTextView"
@@ -84,7 +84,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:textSize="20sp"
-            android:text="New password"
+            android:hint="Click Generate Password/Create New User"
             />
 
 
@@ -125,20 +125,16 @@
             />
 
         <Button
+            android:id="@+id/deleteUserButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:id="@+id/deleteUserButton"
-            android:layout_marginBottom="20dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:padding="10dp"
             android:text="Delete User"
 
             />
-
-
-
-
 
 
     </LinearLayout>

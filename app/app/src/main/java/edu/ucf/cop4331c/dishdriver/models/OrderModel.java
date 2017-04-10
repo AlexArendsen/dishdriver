@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import edu.ucf.cop4331c.dishdriver.enums.Status;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
+import edu.ucf.cop4331c.dishdriver.network.NotificationService;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -104,6 +105,13 @@ public class OrderModel {
 
     // region DB Retrieval
 
+    public static Observable<OrderModel> get(int id) {
+        return query(
+            "SELECT * FROM Orders WHERE Id = ?",
+            new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)) );
+    }
+
     public static Observable<List<OrderModel>> forWaiter(PositionModel waiter) {
         return forWaiter(waiter.getID());
     }
@@ -132,7 +140,7 @@ public class OrderModel {
 
     public static Observable<List<OrderModel>> forRestaurant(int id) {
         return query(
-                "SELECT * FROM Orders WHERE Restaurant_ID = ? ORDER BY DT_Created DESC, Id DESC",
+                "SELECT O.* FROM Orders O INNER JOIN Tables T ON O.Table_ID = T.Id ORDER BY DT_Created DESC, O.Id DESC",
                 new String[] { Integer.toString(id) }
         );
     }
@@ -145,7 +153,9 @@ public class OrderModel {
      */
     public Observable<List<OrderedDishModel>> dishes(){
         return OrderedDishModel.odQuery(
-                "SELECT * FROM Ordered_Dishes WHERE Order_Id = ? AND IsVoided = 0",
+                "SELECT O.*, D.*, O.Id AS OrderedDish_ID " +
+                "FROM Ordered_Dishes O INNER JOIN Dishes D ON O.Dish_ID = D.Id " +
+                "WHERE O.Order_Id = ? AND IsVoided = 0",
                 new String[] {Integer.toString(getId())}
         );
     }
@@ -229,7 +239,15 @@ public class OrderModel {
         return NonQueryResponseModel.run(
             "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created) VALUES (?, ?, NOW())",
             new String[] {Integer.toString(waiter.getID()), Integer.toString(table.getId())}
-        ).doOnNext(qr -> this.id = qr.getResults().getInsertId());
+        ).doOnNext(qr -> {
+            this.id = qr.getResults().getInsertId();
+        }).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Created",
+                "[#" + id + "] " + waiter.getEmployeeName() + " has created an order at table " + table.getName()
+            );
+        });
+
     }
 
     /**
@@ -246,7 +264,10 @@ public class OrderModel {
 
         // First, check if the order is in the right state to be placed
         Status s = getStatus();
-        if (s != NEW && s != REJECTED)
+
+        // TODO -- Use this to conditionally form the notification message
+        boolean isUpdate = s == Status.PLACED;
+        if (!Arrays.asList(new Status[]{ NEW, PLACED, REJECTED }).contains(s))
             throw new IllegalStateException("Order must be new or rejected to be placed");
 
         if (s == REJECTED) dTRejected = null;
@@ -288,7 +309,12 @@ public class OrderModel {
         Observable<NonQueryResponseModel> oOrderPlace = NonQueryResponseModel.run(
             "UPDATE Orders SET DT_Placed = NOW() WHERE Id = ?",
             new String[] { Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                    "Order Placed",
+                    "[#" + id + "] " + SessionModel.currentPosition().getEmployeeName() + " has placed an order"
+            );
+        });
 
         // Wait for all Observables to complete
         return (oDishCreate == null)
@@ -314,7 +340,12 @@ public class OrderModel {
         return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ? WHERE Id = ?",
                 new String[] { Integer.toString(cook.getID()),  Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Accepted",
+                "[#" + id + "] " + cook.getEmployeeName() + " has accepted order " + getId()
+            );
+        });
     }
 
     /**
@@ -333,7 +364,12 @@ public class OrderModel {
         return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Rejected = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Rejected",
+                "[#" + id + "] Kitchen has rejected order " + id
+            );
+        });
     }
 
     /**
@@ -356,7 +392,12 @@ public class OrderModel {
         return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Cancelled = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Cancelled",
+                "[#" + id + "] " + SessionModel.currentPosition().getEmployeeName() + " has rejected order " + id
+            );
+        });
     }
 
     /**
@@ -375,7 +416,12 @@ public class OrderModel {
         return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Cooked = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Cooked",
+                "[#" + id + "] Order " + id + " has been cooked and is ready for pick-up."
+            );
+        });
     }
 
     /**
@@ -394,7 +440,12 @@ public class OrderModel {
         return NonQueryResponseModel.run(
                 "UPDATE Orders SET DT_Payed = NOW() WHERE Id = ?",
                 new String[] { Integer.toString(id) }
-        );
+        ).doOnCompleted(() -> {
+            NotificationService.broadcast(
+                "Order Paid",
+                "[#" + id + "] Order " + id + " has been paid!"
+            );
+        });
     }
     // endregion
 

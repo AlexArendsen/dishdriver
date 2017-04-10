@@ -5,11 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
+import edu.ucf.cop4331c.dishdriver.helpers.DateFormatter;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -50,17 +51,6 @@ public class TableModel {
 
     // endregion
 
-    // region Constructors
-    public TableModel(Integer id, Integer restaurantId, String name, Integer positionX, Integer positionY, Integer capacity) {
-        this.id = id;
-        this.restaurantId = restaurantId;
-        this.name = name;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.capacity = capacity;
-    }
-    // endregion
-
     // region query() implementation
     public static Observable<List<TableModel>> query(String sql, String[] args) {
 
@@ -81,55 +71,76 @@ public class TableModel {
     }
     // endregion
 
-    /**
-     *
-     * @param r The restaurant we want information for
-     * @return A list containing all the tables for the given restaurant
-     */
-    public static Observable<List<TableModel>> forRestaurant(RestaurantModel r){
+    // region DB Retrieval
 
+    public static Observable<TableModel> get(int id) {
         return query(
-          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID =?",
-                new String[]{Integer.toString(r.getId())}
-        );
+          "SELECT * FROM Tables WHERE Id = ?",
+           new String[]{ Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
     }
 
     /**
+     * A list containing all the tables for the given restaurant
      *
-     * @return A table reservatin model, if the table is already reserved throw an exception
-     * NOTE: THIS HAS PLACEHOLDER VALUES FOR THE RESERVATION, PULLING THE DATA FROM THE UI STILL NEEDS TO BE IMPLEMENTED
-     * @throws UnsupportedOperationException
+     * @param restaurant The restaurant we want information for
+     * @return The list of tables
      */
-    public TableReservationModel reserve() throws UnsupportedOperationException{
-        Integer reservationId = this.positionX + (this.positionY * 3) + 1;
+    public static Observable<List<TableModel>> forRestaurant(RestaurantModel restaurant){
 
-        // check if a table is already reserved, if so throw an exception
-        if(this.tableStatusId == 1) {
-            throw new UnsupportedOperationException();
-        }
+        return query(
+          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID =?",
+                new String[]{Integer.toString(restaurant.getId())}
+        );
+    }
+    // endregion
 
-        this.tableStatusId = 1; // mark table as reserved
-        return new TableReservationModel(reservationId, this.id, "PartyName", 4, 25, null, null);
+    // region DB Modification
+    /**
+     * Creates a reservation for this table with the provided options.
+     *
+     * @param partyName The name of the party associated with this reservation
+     * @param partySize The size of the party associated with this reservation
+     * @param deposit The money amount, in cents, of the deposit for the associated reservation
+     * @param reserved The date and time that is requested for this table reservation
+     * @return A NonQueryResponseModel that conveys the progress of the associated transaction
+     */
+    public Observable<NonQueryResponseModel> reserve(String partyName, int partySize, int deposit, Date reserved) {
+
+        return NonQueryResponseModel.run(
+                "INSERT INTO Table_Reservations " +
+                    "(Table_ID, Party_Name, Party_Size, Deposit, DT_Requested) " +
+                "VALUES (?, ?, ?, ?, ?)",
+                new String[] {
+                        Integer.toString(id),
+                        partyName,
+                        Integer.toString(partySize),
+                        Integer.toString(deposit),
+                        DateFormatter.forSQL(reserved)
+                }
+        );
+
     }
 
     public Observable<NonQueryResponseModel> create(){
         return NonQueryResponseModel.run(
-                "INSERT INTO Tables" +
-                        "(Restaurant_ID, Name, Capacity)" +
-                        "VALUES" +
-                        "(?, ?, 4)",
+                "INSERT INTO Tables " +
+                "(Restaurant_ID, Name, Capacity) " +
+                "VALUES " +
+                "(?, ?, 4)",
                new String[] { getName(), Integer.toString(SessionModel.currentRestaurant().getId()) }
         );
     }
 
     public Observable<NonQueryResponseModel> update(){
         return NonQueryResponseModel.run(
-                "UPDATE Tables SET" +
-                        "Name = ?" +
-                        "WHERE Id = ?",
+                "UPDATE Tables SET " +
+                "Name = ? " +
+                "WHERE Id = ?",
                 new String[] { getName(), Integer.toString(getId()) }
         );
     }
+    // endregion
 
     // region Getters and Setters
     public Integer getId() {
