@@ -153,7 +153,9 @@ public class OrderModel {
      */
     public Observable<List<OrderedDishModel>> dishes(){
         return OrderedDishModel.odQuery(
-                "SELECT * FROM Ordered_Dishes WHERE Order_Id = ? AND IsVoided = 0",
+                "SELECT O.*, D.*, O.Id AS OrderedDish_ID " +
+                "FROM Ordered_Dishes O INNER JOIN Dishes D ON O.Dish_ID = D.Id " +
+                "WHERE O.Order_Id = ? AND IsVoided = 0",
                 new String[] {Integer.toString(getId())}
         );
     }
