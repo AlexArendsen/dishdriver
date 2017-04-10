@@ -256,6 +256,7 @@ public class NavigationActivity extends ProgressDialogActivity {
         OrderModel orderModel = new OrderModel();
 
 
+
         Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
