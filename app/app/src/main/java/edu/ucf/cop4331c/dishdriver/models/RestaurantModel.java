@@ -158,39 +158,19 @@ public class RestaurantModel {
 
     // region Employee Retrieval
     public Observable<List<PositionModel>> waiters() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 2",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Waiter);
     }
 
     public Observable<List<PositionModel>> cooks() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 3",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Cook);
     }
 
     public Observable<List<PositionModel>> admins() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 1",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Admin);
     }
 
     public Observable<List<PositionModel>> employees() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ?",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this);
     }
     // endregion
 
