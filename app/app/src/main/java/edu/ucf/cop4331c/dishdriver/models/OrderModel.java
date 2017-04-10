@@ -278,20 +278,21 @@ public class OrderModel {
         Observable<NonQueryResponseModel> oDishCreate = null;
 
         if (newDishes != null && !newDishes.isEmpty()) {
-            String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen) VALUES ";
+            String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen, NotesToKitchen) VALUES ";
             int i = 0;
             ArrayList<String> args = new ArrayList<>();
             for(OrderedDishModel od : newDishes) {
 
                 // CRAZY GROSS
                 if (i++ > 0) sql += ", ";
-                sql += "(?, ?, ?, ?, ?, ?)";
+                sql += "(?, ?, ?, ?, ?, ?, ?)";
                 args.addAll(Arrays.asList(
                         Integer.toString(id),
                         Integer.toString(od.getDishId()),
                         "0", "0",
                         Integer.toString(od.getPrice()), // <-- This is where the price gets frozen
-                        od.getNotesFromKitchen()
+                        od.getNotesFromKitchen(),
+                        od.getNotesToKitchen()
                 ));
             }
 
