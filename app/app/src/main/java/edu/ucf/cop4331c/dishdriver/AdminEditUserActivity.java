@@ -103,6 +103,34 @@ public class AdminEditUserActivity extends AppCompatActivity {
     @OnClick(R.id.deleteUserButton)
     public void onDeleteUserButtonClicked() {
         //delete user
+        PositionModel.forUser((UserModel )mShowAllUserSpinner.getSelectedItem()).subscribe(new Subscriber<List<PositionModel>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //Deleted User not Successful message
+                new AlertDialog.Builder(AdminEditUserActivity.this)
+                        .setTitle("Failed to Delete")
+                        .setMessage("Sorry, this user does not exist. Please close the app and try again." + e)
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
+            @Override
+            public void onNext(List<PositionModel> positionModels) {
+                positionModels.get(0).unhire();
+
+            }
+        });
+
 
     };
     @OnClick(R.id.generatePasswordButton)
