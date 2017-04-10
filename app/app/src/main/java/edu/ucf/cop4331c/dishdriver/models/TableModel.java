@@ -72,6 +72,14 @@ public class TableModel {
     // endregion
 
     // region DB Retrieval
+
+    public static Observable<TableModel> get(int id) {
+        return query(
+          "SELECT * FROM Tables WHERE Id = ?",
+           new String[]{ Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+    }
+
     /**
      * A list containing all the tables for the given restaurant
      *

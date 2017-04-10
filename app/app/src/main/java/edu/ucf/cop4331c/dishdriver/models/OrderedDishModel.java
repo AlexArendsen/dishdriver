@@ -109,6 +109,17 @@ public class OrderedDishModel extends DishModel {
     }
     // endregion
 
+    // region DB Retrieval
+    public static Observable<OrderedDishModel> getOrderedDish(int id) {
+        return odQuery(
+            "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
+            "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
+            "WHERE OD.Id = ?",
+            new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+    }
+    // endregion
+
     // region DB Modification
 
     /**
