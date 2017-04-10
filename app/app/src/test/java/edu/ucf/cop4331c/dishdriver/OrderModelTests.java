@@ -108,9 +108,7 @@ public class OrderModelTests {
         // Check local instance state after place
         Assert.assertEquals("Order state incorrect after placement", Status.PLACED, o.getStatus());
 
-        Observable<OrderModel> oOrder = OrderModel.forWaiter(waiter).flatMap(list -> {
-            return Observable.just(list.get(0));
-        });
+        Observable<OrderModel> oOrder = OrderModel.get(o.getId());
         TestSubscriber<OrderModel> sOrder = new TestSubscriber<>();
         oOrder.subscribe(sOrder);
 
@@ -200,6 +198,8 @@ public class OrderModelTests {
         sCreate.assertNoErrors();
         sCreate.awaitTerminalEvent();
 
+        o.setId(sCreate.getOnNextEvents().get(0).getResults().getInsertId());
+
         return o;
     }
 
@@ -237,7 +237,7 @@ public class OrderModelTests {
     }
 
     private OrderModel payOrder(OrderModel o) {
-        Observable<NonQueryResponseModel> oPay = o.markPaid();
+        Observable<NonQueryResponseModel> oPay = o.markPaid(1234);
         TestSubscriber<NonQueryResponseModel> sPay = new TestSubscriber<>();
         oPay.subscribe(sPay);
 

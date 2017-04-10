@@ -237,8 +237,12 @@ public class OrderModel {
         this.dTCreated = new Date();
 
         return NonQueryResponseModel.run(
-            "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created) VALUES (?, ?, NOW())",
-            new String[] {Integer.toString(waiter.getID()), Integer.toString(table.getId())}
+            "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created, Discount) VALUES (?, ?, NOW(), ?)",
+            new String[] {
+                    Integer.toString(waiter.getID()),
+                    Integer.toString(table.getId()),
+                    Integer.toString((discount == null) ? 0 : discount)
+            }
         ).doOnNext(qr -> {
             this.id = qr.getResults().getInsertId();
         }).doOnCompleted(() -> {
@@ -308,8 +312,11 @@ public class OrderModel {
         dTPlaced = new Date();
 
         Observable<NonQueryResponseModel> oOrderPlace = NonQueryResponseModel.run(
-            "UPDATE Orders SET DT_Placed = NOW() WHERE Id = ?",
-            new String[] { Integer.toString(id) }
+            "UPDATE Orders SET DT_Placed = NOW(), Discount = ? WHERE Id = ?",
+            new String[] {
+                    Integer.toString((discount == null) ? 0 : discount),
+                    Integer.toString(id)
+            }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                     "Order Placed",
@@ -339,8 +346,12 @@ public class OrderModel {
         dTAccepted = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ? WHERE Id = ?",
-                new String[] { Integer.toString(cook.getID()),  Integer.toString(id) }
+                "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ?, Discount = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString(cook.getID()),
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                 "Order Accepted",
@@ -363,8 +374,11 @@ public class OrderModel {
         dTRejected = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Rejected = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Rejected = NOW(), Discount = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString((discount == null) ? 0 : discount ),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                 "Order Rejected",
@@ -391,8 +405,11 @@ public class OrderModel {
         dTCancelled = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Cancelled = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Cancelled = NOW(), Discount = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString((discount == null) ? 0 : discount ),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                 "Order Cancelled",
@@ -405,7 +422,7 @@ public class OrderModel {
      * Marks this order as cooked
      *
      * @return A NonQueryResponseModel representing the associated action
-     * @throws IllegalStateException If the order is not in the accepted state
+     * @throws IllegalStateException If the order is not in the cooked state
      */
     public Observable<NonQueryResponseModel> markCooked() throws IllegalStateException {
 
@@ -415,8 +432,11 @@ public class OrderModel {
         dTCooked = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Cooked = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Cooked = NOW(), Discount = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString((discount == null) ? 0 : discount ),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                 "Order Cooked",
@@ -428,19 +448,25 @@ public class OrderModel {
     /**
      * Marks the order as paid
      *
+     * @param amountPaid The amount the customer paid for the order
      * @return A NonQueryResponseModel representing the associated action
      * @throws IllegalStateException If the order is not in the cooked state
      */
-    public Observable<NonQueryResponseModel> markPaid() throws IllegalStateException {
+    public Observable<NonQueryResponseModel> markPaid(int amountPaid) throws IllegalStateException {
 
         if (getStatus() != Status.COOKED)
             throw new IllegalStateException("Only cooked orders can be marked paid");
 
         dTPayed = new Date();
+        payment = amountPaid;
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Payed = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Payed = NOW(), Discount = ?, Payment = ? WHERE Id = ?",
+                new String[] {
+                        Integer.toString((discount == null) ? 0 : discount ),
+                        Integer.toString((payment == null)  ? 0 : payment  ),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                 "Order Paid",
