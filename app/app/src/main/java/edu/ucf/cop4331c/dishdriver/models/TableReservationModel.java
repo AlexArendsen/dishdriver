@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -81,39 +80,59 @@ public class TableReservationModel {
     }
     // endregion
 
+    // region DB Retrieval
+
     /**
      *
-     * @param restaurant The restaurant we want information for
+     * @param id of the reservation
+     * @return a table reservation whose table id matches the id given
+     */
+    public static Observable<TableReservationModel> get(int id){
+
+        return query(
+                "SELECT * FROM Table_Reservations WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list->{
+            return Observable.just(list.get(0));
+        });
+    }
+
+    /**
+     *
+     * @param r The restaurant we want information for
      * @return A list containing all the table reservations for the given restaurant
      */
-    public Observable<List<TableReservationModel>> forRestaurant(RestaurantModel restaurant){
+    public static Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
         return query(
-                "SELECT TR.* FROM Table_Reservations TR " +
-                "JOIN Tables T ON T.Table_Id = TR.Table_ID " +
-                "JOIN Restaurants R ON T.Restaurant_ID = R.Id " +
-                "WHERE R.Id = ? " +
-                "AND TR.Table_ID =?",
-								//this gave error TODO// check this
-                new String[]{Integer.toString(restaurant.getId()), Integer.toString(getTableId())}
+                "SELECT TR.* FROM Table_Reservations TR JOIN Tables T ON T.Id = TR.Table_ID JOIN Restaurants R ON T.Restaurant_ID = R.Id WHERE R.Id = ?",
+                new String[]{Integer.toString(r.getId())}
         );
     }
 
     /**
      *
-     * @return deletes all reserved tables that haven't been accepted
+     * @param r, the restaurant we want to find active reservations for
+     * @return a list of table reservations that are active, or are not yet taken
      */
-    public Observable<NonQueryResponseModel> unreserved(){
+    public static Observable<List<TableReservationModel>> activeForRestaurant(RestaurantModel r) {
+        return query(
+                "SELECT TR.* FROM Table_Reservations TR JOIN Tables T ON T.Id = TR.Table_ID JOIN Restaurants R ON T.Restaurant_ID = R.Id WHERE R.Id = ? AND DT_Accepted IS NULL",
+                new String[]{Integer.toString(r.getId())}
+        );
+    }
+    // endregion
+
+    /**
+     *
+     * @return deletes the reservation for the current table
+     */
+    public Observable<NonQueryResponseModel> unreserve(){
 
         return NonQueryResponseModel.run(
-                "DELETE FROM Table_Reservations" +
-                "WHERE Id = ?" +
-                "AND DT_Accepted = NULL",
-
-                //new String[] {String.valueOf(getId())}
-                new String[] { Integer.toString(getId()) }
-
+                "DELETE FROM Table_Reservations " +
+                        "WHERE Id = ?",
+                new String[] {Integer.toString(this.id)}
         );
-
     }
 
     // region Getters and Setters

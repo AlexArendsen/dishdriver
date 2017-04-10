@@ -48,14 +48,44 @@ public class OrderedDishModel extends DishModel {
     @Expose
     private String notesFromKitchen;
 
+    @SerializedName("NotesToKitchen")
+    @Expose
+    private String notesToKitchen;
+
     // endregion
 
     // region Constructors
+
+    @Deprecated
     public OrderedDishModel(Integer id, int orderId, int dishId, String notesFromKitchen) {
         this.id = id;
         this.orderId = orderId;
         this.dishId = dishId;
         this.notesFromKitchen = notesFromKitchen;
+    }
+
+    public OrderedDishModel(DishModel dish, OrderModel order) {
+        this.id = -1;
+        this.dishId = dish.getID();
+        this.orderId = order.getId();
+        this.notesFromKitchen = "";
+        this.notesToKitchen = "";
+        this.setName(dish.getName());
+        this.setPrice(dish.getPrice());
+        this.setRestaurantID(dish.getRestaurantID());
+        this.setOrderedPrice(this.getPrice());
+    }
+
+    public OrderedDishModel(DishModel dish, OrderModel order, String notesToKitchen) {
+        this.id = -1;
+        this.dishId = dish.getID();
+        this.orderId = order.getId();
+        this.notesFromKitchen = "";
+        this.notesToKitchen = notesToKitchen;
+        this.setName(dish.getName());
+        this.setPrice(dish.getPrice());
+        this.setRestaurantID(dish.getRestaurantID());
+        this.setOrderedPrice(this.getPrice());
     }
     // endregion
 
@@ -76,6 +106,17 @@ public class OrderedDishModel extends DishModel {
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
+    }
+    // endregion
+
+    // region DB Retrieval
+    public static Observable<OrderedDishModel> getOrderedDish(int id) {
+        return odQuery(
+            "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
+            "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
+            "WHERE OD.Id = ?",
+            new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
     }
     // endregion
 
@@ -186,6 +227,14 @@ public class OrderedDishModel extends DishModel {
 
     public String getNotesFromKitchen() {
         return notesFromKitchen;
+    }
+
+    public String getNotesToKitchen() {
+        return notesToKitchen;
+    }
+
+    public void setToFromKitchen(String notesToKitchen) {
+        this.notesToKitchen = notesFromKitchen;
     }
 
     public int getOrderedPrice() { return orderedPrice; }

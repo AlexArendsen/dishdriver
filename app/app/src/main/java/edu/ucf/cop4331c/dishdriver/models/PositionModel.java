@@ -77,6 +77,26 @@ public class PositionModel {
 
     // region DB Retrieval
 
+    public static Observable<PositionModel> get(int id) {
+        return query(
+                "SELECT " +
+                    "P.*, " +
+                    "R.Name AS Restaurant_Name, " +
+                    "IF( " +
+                        "NULLIF(U.FirstName, '') IS NULL, " +
+                        "U.Email, " +
+                        "CONCAT(U.FirstName, ' ', U.LastName) " +
+                    ") AS Employee_Name " +
+                "FROM " +
+                    "Positions P " +
+                    "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                    "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+                "WHERE " +
+                    "P.Id = ? ",
+                new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ) );
+    }
+
     /**
      * Fetch all positions currently held by the provided user from the database.
      *
@@ -89,8 +109,6 @@ public class PositionModel {
         // WHY in 20-freaking-17 do you not have MULTILINE. STRING. LITERALS.
         // *freaks out into the sunset*
         // #ThanksOracle
-        // TIL
-        // hey alex it is funny android studio literally does not allow me to press \n inside "" it makes it ""+\n""
 
         return query(
             "SELECT " +
@@ -186,8 +204,8 @@ public class PositionModel {
                 "INSERT INTO Positions (Employee_ID, Role_ID, Restaurant_ID, DT_Hired) VALUES (?, ?, ?, NOW())",
                 new String[] {
                         Integer.toString(user.getID()),
-                        Integer.toString(restaurant.getId()),
-                        Integer.toString(role.ordinal() + 1)
+                        Integer.toString(role.ordinal() + 1),
+                        Integer.toString(restaurant.getId())
         });
     }
 

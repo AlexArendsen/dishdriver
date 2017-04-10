@@ -44,8 +44,28 @@ public class SessionModel {
 
             @Override
             public void onNext(List<RestaurantModel> restaurantModels) {
-                if (!restaurantModels.isEmpty())
+                if (!restaurantModels.isEmpty()) {
                     sRestaurant = restaurantModels.get(0);
+                    sRestaurant.employees().subscribe(new Subscriber<List<PositionModel>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<PositionModel> positionModels) {
+                            for (PositionModel positionModel : positionModels) {
+                                if (positionModel.getEmployeeID().equals(sUser.getID()))
+                                    sPosition = positionModel;
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -84,6 +104,7 @@ public class SessionModel {
         return sPosition;
     }
     public static RestaurantModel currentRestaurant(){
+        Toaster.toast(sRestaurant.getName() + " " + sRestaurant.getId());
         return sRestaurant;
     }
 }

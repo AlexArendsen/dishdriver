@@ -60,6 +60,13 @@ public class DishModel {
     // endregion
 
     // region DB Retrieval
+    public static Observable<DishModel> getDish(int id) {
+        return query(
+            "SELECT * FROM Dishes WHERE Id = ?",
+                new String[] { Integer.toString(id) }
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)) );
+    }
+
     public static Observable<List<DishModel>> forRestaurant(RestaurantModel r) {
         return query(
                 "SELECT * FROM Dishes WHERE Restaurant_ID = ?",
