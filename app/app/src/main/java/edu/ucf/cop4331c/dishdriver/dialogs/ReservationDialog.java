@@ -18,6 +18,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,10 +27,12 @@ import java.util.List;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import edu.ucf.cop4331c.dishdriver.models.TableReservationModel;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,25 +44,26 @@ import xdroid.toaster.Toaster;
 
 public class ReservationDialog extends DialogFragment {
 
+    private static final String TAG = "RESRVATION_DIALOG";
     private EditText mEditText;
     private  EditText mEditTextSize;
     private TimePicker mTimePicker;
     private CheckBox mDepositCheckBox;
     private Button mSubmitButton;
-    private ArrayList<TableReservationModel> mTableReservationModels;
+    private TableModel mTableModel;
 
     public ReservationDialog() {
-
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static ReservationDialog newInstance(String title, int tablePosition) {
+    public static ReservationDialog newInstance(String title, int tablePosition, TableModel tableModel) {
         ReservationDialog frag = new ReservationDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putInt("TABLE_NUMBER", tablePosition);
+        args.putString("TABLE_MODEL", new Gson().toJson(tableModel));
         frag.setArguments(args);
         return frag;
     }
@@ -79,6 +84,7 @@ public class ReservationDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         int tablePosition = getArguments().getInt("TABLE_NUMBER");
+        mTableModel = new Gson().fromJson(getArguments().getString("TABLE_MODEL"), TableModel.class);
 
         // Get field from view
         mEditText = (EditText) view.findViewById(R.id.reservationNameEditText);
@@ -88,13 +94,11 @@ public class ReservationDialog extends DialogFragment {
 
         mSubmitButton.setEnabled(false);
         Date myDate = new Date();
+        myDate.setTime(System.currentTimeMillis());
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mTableReservationModels = new ArrayList<TableReservationModel>();
-
                 Toast.makeText(getContext(), String.valueOf(tablePosition), Toast.LENGTH_SHORT).show();
                 // Toaster.toast("Does this work hmmmm?");
 
@@ -116,32 +120,58 @@ public class ReservationDialog extends DialogFragment {
                     TableReservationModel newReservation = new TableReservationModel(1, 0, mEditText.getText().toString(),
                             Integer.parseInt(mEditTextSize.getText().toString()), 1, myDate, myDate);
 
+
 //                newReservation.setPartyName(mEditText.getText().toString());
 //                newReservation.setTableId(0);
 
-                    TableReservationModel.forRestaurant(SessionModel.currentRestaurant())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<List<TableReservationModel>>() {
-                                @Override
-                                public void onCompleted() {
-
+                TableReservationModel.forRestaurant(SessionModel.currentRestaurant())
+                        .subscribeOn(Schedulers.io())
+                        .flatMap(tableReservationModels -> {
+                            for (TableReservationModel tableReservationModel : tableReservationModels) {
+                                if (tableReservationModel.getTableId().equals(mTableModel.getId())) {
+                                    return Observable.error(new Exception("TABLE RESERVED"));
                                 }
-                                @Override
-                                public void onError(Throwable e) {
-                                }
+                            }
 
-                                @Override
-                                // List of reservation names
-                                public void onNext(List<TableReservationModel> tableReservation) {
+                            return mTableModel.reserve(mEditText.getText().toString(), Integer.valueOf(mEditTextSize.getText().toString()), 0, myDate).asObservable();
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NonQueryResponseModel>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(TAG, "onCompleted: COMPLETE");
+                            }
 
-                                    tableReservation.add(newReservation);
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "onError: FAILURE", e);
+                            }
 
-
-                                }
-                            });
-
-
+                            @Override
+                            public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+                                Toast.makeText(getContext(), "Reservation Made", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//
+//                mTableModel.reserve(mEditText.getText().toString(), Integer.valueOf(mEditTextSize.getText().toString()), 0, myDate).asObservable()
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Subscriber<NonQueryResponseModel>() {
+//                            @Override
+//                            public void onCompleted() {
+//                                Log.d(TAG, "onCompleted: COMPLETE");
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                Log.e(TAG, "onError: FAILURE", e);
+//                            }
+//
+//                            @Override
+//                            public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+//                                Toast.makeText(getContext(), "Reservation Made", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
 
                 // go back to SignInActivity
 //                Intent reservationIntent = new Intent(getActivity(), SignInActivity.class);
@@ -158,21 +188,13 @@ public class ReservationDialog extends DialogFragment {
                     mSubmitButton.setEnabled(true);
                     //exit this out
                 } else {
-
                     mSubmitButton.setEnabled(false);
                 }
             }
         });
 
-
-
-
-
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-
-
-
     }
 }

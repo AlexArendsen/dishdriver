@@ -9,11 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -24,8 +21,6 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
-import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
-import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
@@ -41,7 +36,6 @@ import xdroid.toaster.Toaster;
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHolder> {
 
 
-
     public interface OnItemLongClickListener {
         public boolean onItemLongClicked(int position);
     }
@@ -55,13 +49,12 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
     public TableAdapter(AppCompatActivity activity) {
         mAppCompatWeakReference = new WeakReference<AppCompatActivity>(activity);
-}
+    }
 
     @Override
     public TableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         final int[] tableStatus = {2};
-
 
 
         if (mAppCompatWeakReference.get() != null) {
@@ -121,7 +114,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
                                         caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
                                         tableStatus[0] = 3;
-                                        Intent ieventreport = new Intent(context,NavigationActivity.class);
+                                        Intent ieventreport = new Intent(context, NavigationActivity.class);
                                         ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
                                         activity.dismissProgressDialog();
                                         context.startActivity(ieventreport);
@@ -130,14 +123,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                                     // Check to see if the Table is the same as the Waiter associated with it,
                                     // If it is Occupied, only the Waiter associated with the table can reopen it.
 
-                                    else if (( mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED ) &&
-                                            SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())){
-                                        Intent ieventreport = new Intent(context,NavigationActivity.class);
+                                    else if ((mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) &&
+                                            SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())) {
+                                        Intent ieventreport = new Intent(context, NavigationActivity.class);
                                         ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
                                         context.startActivity(ieventreport);
                                     } else {
-                                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to "+ TableStatus.OCCUPIED);
-                                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to "+ currentOrderModel.getWaiterId());
+                                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to " + TableStatus.OCCUPIED);
+                                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to " + currentOrderModel.getWaiterId());
                                     }
                                 }
                             });
@@ -165,7 +158,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                 AppCompatActivity appCompatActivity = mAppCompatWeakReference.get();
 
                 if (appCompatActivity != null) {
-                    ReservationDialog.newInstance("Reservation", position + 1).show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
+                    TableModel tableModel = mTableModels.get(position);
+                    ReservationDialog.newInstance("Reservation", position + 1, tableModel).show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
                 }
 
                 return true;
@@ -216,8 +210,6 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
         public interface IMyViewHolderClicks {
             void myOnClick(View caller, int position);
         }
-
-
 
 
     }
