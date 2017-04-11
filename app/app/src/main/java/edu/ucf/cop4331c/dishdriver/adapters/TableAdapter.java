@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
@@ -83,73 +85,62 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     // Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
                     mTableModels.get(position).setTableStatus(tableStatus[0]);
                     mTableModels.get(position).getTableStatus();
-                    SessionModel.currentPosition().getEmployeeID();
                     // Toaster.toast("" + position + " of " + mTableModels.size() + " duh " + mTableModels.get(position).getTableStatus());
 
-                    OrderModel orderModel = new OrderModel();
+                    OrderModel currentOrderModel = new OrderModel();
 
                     // Okay, so once you have the status and the ID, you have to check if they are the same
                     // Start the ShowPartyDialog only if the status is marked 0, I suppose for now we get mark it and test?
                     // We are changing the state to OCCUPIED instead
 
-                    // Before we subscribe, we flatmap the 
+                    // Before we subscribe, we flatmap the
 
-                    orderModel.create(SessionModel.currentPosition(), mTableModels.get(position)).asObservable()
+                    ProgressDialogActivity activity = (ProgressDialogActivity) mAppCompatWeakReference.get();
+                    activity.enableProgressDialog("Creating Order Model...");
+                    currentOrderModel.create(SessionModel.currentPosition(), mTableModels.get(position)).asObservable()
                             .subscribeOn(Schedulers.io())
+                            .flatMap(nonQueryResponseModel -> OrderModel.get(nonQueryResponseModel.getResults().getInsertId()))
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<NonQueryResponseModel>() {
+                            .subscribe(new Subscriber<OrderModel>() {
                                 @Override
                                 public void onCompleted() {
-
+                                    activity.dismissProgressDialog();
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-
-                                    Toaster.toast("Network Error");
-
+                                    activity.dismissProgressDialog();
                                 }
 
                                 @Override
-                                public void onNext(NonQueryResponseModel nonQueryResponseModel) {
-
+                                public void onNext(OrderModel orderModel) {
                                     orderModel.setWaiterId(SessionModel.currentPosition().getID());
                                     orderModel.setTableId(mTableModels.get(position).getId());
 
+                                    if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
 
+                                        caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
+                                        tableStatus[0] = 3;
+                                        Intent ieventreport = new Intent(context,NavigationActivity.class);
+                                        ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                        activity.dismissProgressDialog();
+                                        context.startActivity(ieventreport);
+                                    }
+
+                                    // Check to see if the Table is the same as the Waiter associated with it,
+                                    // If it is Occupied, only the Waiter associated with the table can reopen it.
+
+                                    else if (( mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED ) &&
+                                            SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())){
+                                        Intent ieventreport = new Intent(context,NavigationActivity.class);
+                                        ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                        context.startActivity(ieventreport);
+                                    } else {
+                                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to "+ TableStatus.OCCUPIED);
+                                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to "+ currentOrderModel.getWaiterId());
+                                    }
                                 }
                             });
-
-                    if(mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
-
-                        caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
-
-                        tableStatus[0] = 3;
-                        Intent ieventreport = new Intent(context,NavigationActivity.class);
-                        context.startActivity(ieventreport);
-
-                        // EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
-//                        Toaster.toast("Employee ID " + SessionModel.currentPosition().getEmployeeID());
-//                        Toaster.toast("Waiter ID "+ orderModel.getWaiterId());
-//                        Toaster.toast("ID from Position Model" + SessionModel.currentPosition().getID() + SessionModel.currentPosition().getID().equals(orderModel.getWaiterId()));
-
-                    }
-
-                    // Check to see if the Table is the same as the Waiter associated with it,
-                    // If it is Occupied, only the Waiter associated with the table can reopen it.
-
-                    else if (( mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED ) &&
-                           SessionModel.currentPosition().getID().equals(orderModel.getWaiterId())){
-                        Intent ieventreport = new Intent(context,NavigationActivity.class);
-                        context.startActivity(ieventreport);
-
-                    }
-
-                    else {
-                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to "+ TableStatus.OCCUPIED);
-                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to "+ orderModel.getWaiterId());
-
-                    }
                 }
             });
 

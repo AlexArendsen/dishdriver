@@ -107,7 +107,14 @@ public class CheckDialog extends DialogFragment {
 
         String json = getArguments().getString("STRINGS", "INVALID");
 
-        ArrayList<DishModel> items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>(){}.getType());
+        ArrayList<DishModel> items;
+
+        if (!json.equals("INVALID")) {
+            items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>() {
+            }.getType());
+        } else {
+            items = new ArrayList<>();
+        }
 
 
 
