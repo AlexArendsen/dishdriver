@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.RankedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
@@ -42,10 +43,13 @@ public class TestChartActivity extends AppCompatActivity {
 
         List<PieEntry> entries = new ArrayList<>();
 
+        final Date start = new Date(0);
+        final Date end   = new Date();
+
 
         // TODO -- Please fill in the correct date arguments below
         RankedDishModel
-            .between(SessionModel.currentRestaurant(), new Date(0), new Date())
+            .between(SessionModel.currentRestaurant(), start, end)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<List<RankedDishModel>>() {
                 @Override
@@ -59,14 +63,13 @@ public class TestChartActivity extends AppCompatActivity {
 
                     // We need only the first five, and then we'll need the total earned
                     ranked = ranked.subList(0, 4);
-                    int total = 0;
-                    for(RankedDishModel r : ranked) total += r.getProfitEarned();
                     for(RankedDishModel r : ranked) entries.add(new PieEntry(
-                            r.getProfitEarned() / total,
-                            r.getName()
+                            r.getProfitEarned() / 100, // Make this an actual dollar amount
+                            r.getName() + " × " + r.getTimesOrdered() + "\n(" + MoneyFormatter.format(r.getProfitEarned()) + ")"
                     ));
 
                     // TODO -- Put the dates into this title
+                    // TODO -- Would be best to do this by adding a new method to DateFormatter and using that
                     final String title = "Five most profitable dishes between (dates)";
 
                     PieDataSet set = new PieDataSet(entries, title);
