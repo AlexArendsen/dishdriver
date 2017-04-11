@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -64,14 +66,15 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void login(View v){
-        //startActivity(new Intent(SignInActivity.this, TestChartActivity.class));
-        //finish();
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
 
         String userName = UserName.getText().toString();
         String password = Password.getText().toString();
+
+        String pass = BCrypt.hashpw(password, BCrypt.gensalt());
+        Toaster.toast(pass);
 
         // TODO: for prod remove these so there is no default log in
         if (userName.equals(""))
