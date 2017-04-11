@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 //import org.mindrot.jbcrypt.BCrypt;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +74,7 @@ public class UserModel {
      */
     public UserModel(String email, String password, String firstName, String lastName) {
         this.email = email;
-        this.password = password;//BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.firstName = firstName;
         this.lastName = lastName;
     }
