@@ -29,6 +29,7 @@ import edu.ucf.cop4331c.dishdriver.MainActivity;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.SignInActivity;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
@@ -153,11 +154,6 @@ public class CheckDialog extends DialogFragment {
         mItemTotalTextView.setText(total);
 
 
-
-
-
-
-
         // TODO: bind the TextView to
         mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +168,9 @@ public class CheckDialog extends DialogFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent orderIntent = new Intent(getActivity(), SignInActivity.class);
+                Intent orderIntent = new Intent(getActivity(), TableActivity.class);
+                // IF ALL ELSE FAILS, USE THIS FLAG TO SET COLORS
+                // orderIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getActivity().startActivity(orderIntent);
             }
         });

@@ -3,13 +3,10 @@ package edu.ucf.cop4331c.dishdriver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -24,18 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
-import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
-import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -47,11 +40,8 @@ public class TableActivity extends ProgressDialogActivity {
     @BindView(R.id.tableRecyclerView)
     RecyclerView mTableRecyclerView;
     TableAdapter mTableAdapter;
-
     boolean doubleBackToExitPressedOnce = false;
-
     private ArrayList<TableModel> mTableModels;
-    // Wait, why are you making an ArrayList of OrderModel???
     private ArrayList<OrderModel> mOrderModels;
 
     @Override
@@ -78,20 +68,14 @@ public class TableActivity extends ProgressDialogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
         ButterKnife.bind(this);
-
         // Retrieve table models.
         getTables();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
 
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
-
-        // Okay, so set the TableAdapter... and there is where you will display the cards
-
         mTableAdapter = new TableAdapter(this);
-
         mTableRecyclerView.setAdapter(mTableAdapter);
-
 
 //        if (SessionModel.currentRestaurant() != null)
 //            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
@@ -155,7 +139,7 @@ public class TableActivity extends ProgressDialogActivity {
         boolean checked = ((CheckBox) view).isChecked();
 
         switch(view.getId()) {
-            case R.id.checkbox_deposit:
+            case R.id.reservationDepositCheckBox:
                if (checked)
                     Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
                 //else
@@ -170,9 +154,11 @@ public class TableActivity extends ProgressDialogActivity {
      */
     public void getTables() {
 
+        // You have to pass mTableModels down to ReservationDialog
+        // and then create a new reservation with the create method
+
         mTableModels = new ArrayList<>();
         enableProgressDialog("Retrieving Tables...");
-
 
         // Here, you will access the db and set the TableAdapter here
 
@@ -237,6 +223,7 @@ public class TableActivity extends ProgressDialogActivity {
                     // Make sure to clear and then set elements
                     @Override
                     public void onNext(List<OrderModel> orderModels) {
+
                         mOrderModels.clear();
                         mOrderModels.addAll(orderModels);
                         mTableAdapter.setOrderModels(mOrderModels);
@@ -244,12 +231,7 @@ public class TableActivity extends ProgressDialogActivity {
                     }
                 });
 
-        // Okay, so onNext, we grab all of the orders and that will in theory, give you all of the
-        // information you need. Such as the WaiterID, and the Status of the table. For the table to be
-        // able to be reopened, we have to check the status as well as the WaiterID associated with the
-        // OrderModel.
 
-        // Ummm so where would I check the WaiterID to see if it matches??? HMMMM
 
 
 

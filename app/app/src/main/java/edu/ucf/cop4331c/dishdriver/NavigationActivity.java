@@ -31,16 +31,6 @@ import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-//class Dishes {
-//    private String name;
-//    private double price;
-//
-//    public Dishes(String name, double price) {
-//        this.name = name;
-//        this.price = price;
-//    }
-//}
 public class NavigationActivity extends ProgressDialogActivity {
 
 
@@ -67,38 +57,13 @@ public class NavigationActivity extends ProgressDialogActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-//        final ArrayList<Dishes> menuDishesList = new ArrayList<Dishes>();
-//        menuDishesList.add(new Dishes("Menu", 0));
-//        menuDishesList.add(new Dishes("coconut curry wrap", 10.00));
-//        menuDishesList.add(new Dishes("Acorn Squash", 5.00));
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
 
         // Retrieves the table number from the intent that we passed in the PartySizeDialog.
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
-
-//        switch (mTableNumber) {
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            //...
-//        }
-
-
-
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
-
-//        menuItemsList.add("Menu");
-//        menuItemsList.add("COCONUT CURRY WRAP!");
-//        menuItemsList.add("Acorn squash");
-//        menuItemsList.add("MAYO FOR TJ");
-//        menuItemsList.add("Kimchi");
-//        menuItemsList.add("MUSHROOMS for Ashton");
-//        menuItemsList.add("Scones for Gareth!!");
-
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
@@ -128,34 +93,6 @@ public class NavigationActivity extends ProgressDialogActivity {
         mMenuItemRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
         mMenuItemRecyclerView.setAdapter(itemAdapter);
 
-//        // trying to create beverage spinner
-//
-//        final ArrayList<DishModel> beverageList = new ArrayList<String>();
-//        beverageList.add("Beverages");
-//        beverageList.add("Kombocha");
-//        beverageList.add("Chai Tea");
-//
-//
-//        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
-//        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
-//        mBeverageSpinner.setAdapter(beverageAdapter);
-//
-//        mBeverageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if (position != 0) {
-//                    ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
-//                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
-//                    mBeverageSpinner.setSelection(0);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
          getDishes(menuItemsList);
 
@@ -201,16 +138,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                             menuItemsList.add(dishModel);
 
-
-
                         }
-
-
-
-//                        for (DishModel dishModel : dishModels) {
-//                            beverageList.add(MoneyFormatter.format(dishModel.getPrice()));
-//
-//                        }
 
                         final ArrayList<String> temps = new ArrayList<String>();
                         final ArrayList<String> prices = new ArrayList<String>();
@@ -221,25 +149,16 @@ public class NavigationActivity extends ProgressDialogActivity {
                             prices.add(MoneyFormatter.format(menuItemsList.get(x).getPrice()));
                         }
 
-
-
-
                         // Bind the spinner to the names to display
                         ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temps);
                         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
                         mMenuSpinner.setAdapter(menuItemAdapter);
-
-
-//                        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
-//                        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
-//                        mBeverageSpinner.setAdapter(beverageAdapter);
-
-
-
-
                         dismissProgressDialog();
+
+
                     }
                 });
+
     }
 
     // TODO: Add check method back in later
@@ -247,6 +166,8 @@ public class NavigationActivity extends ProgressDialogActivity {
     @OnClick(R.id.checkButton)
     public void onCheckButtonClicked() {
         CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+
+
     }
 
     // go back to SignInActivity
@@ -256,10 +177,10 @@ public class NavigationActivity extends ProgressDialogActivity {
 
         OrderModel orderModel = new OrderModel();
 
-
-
-        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        // IF ALL ELSE FAILS, USE THIS FLAG TO SET COLORS
+        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
