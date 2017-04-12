@@ -47,7 +47,7 @@ public class TableModel {
 
     @SerializedName("TableStatus_ID")
     @Expose
-    private Integer tableStatusId = 2;
+    private Integer tableStatusId;
 
     // endregion
 
@@ -199,7 +199,8 @@ public class TableModel {
         switch(tableStatusId) {
             case 0:  return TableStatus.RESERVED;
             case 1:  return TableStatus.UNRESERVED;
-            default: return TableStatus.OCCUPIED;
+            case 2: return TableStatus.OCCUPIED;
+            default: return TableStatus.UNRESERVED;
         }
     }
 

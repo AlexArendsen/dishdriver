@@ -60,7 +60,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
     @Override
     public TableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        final int[] tableStatus = {2};
+        // final int[] tableStatus = {2};
 
 
         if (mAppCompatWeakReference.get() != null) {
@@ -76,14 +76,12 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
                 public void myOnClick(View caller, int position) {
 
-
-                    // We have to set the number here for the status...
-
-
                     Context context = mAppCompatWeakReference.get();
+
                     // Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
-                    mTableModels.get(position).setTableStatus(tableStatus[0]);
-                    mTableModels.get(position).getTableStatus();
+                    Toaster.toast("I am clicking this table?" + mTableModels.get(position).getTableStatus());
+
+                    // mTableModels.get(position).getTableStatus();
                     // Toaster.toast("" + position + " of " + mTableModels.size() + " duh " + mTableModels.get(position).getTableStatus());
 
                     OrderModel currentOrderModel = new OrderModel();
@@ -91,8 +89,6 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     // Okay, so once you have the status and the ID, you have to check if they are the same
                     // Start the ShowPartyDialog only if the status is marked 0, I suppose for now we get mark it and test?
                     // We are changing the state to OCCUPIED instead
-
-                    // Before we subscribe, we flatmap the
 
                     ProgressDialogActivity activity = (ProgressDialogActivity) mAppCompatWeakReference.get();
                     activity.enableProgressDialog("Creating Order Model...");
@@ -116,14 +112,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                                     orderModel.setWaiterId(SessionModel.currentPosition().getID());
                                     orderModel.setTableId(mTableModels.get(position).getId());
 
+
                                     if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
 
-//                                        caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
-                                        tableStatus[0] = 3;
-                                        Intent ieventreport = new Intent(context, NavigationActivity.class);
-                                        ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                        mTableModels.get(position).setTableStatus(2);
+                                        Intent intent = new Intent(context, NavigationActivity.class);
+                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
                                         activity.dismissProgressDialog();
-                                        context.startActivity(ieventreport);
+                                        context.startActivity(intent);
                                     }
 
                                     // Check to see if the Table is the same as the Waiter associated with it,
@@ -131,9 +127,9 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
                                     else if ((mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) &&
                                             SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())) {
-                                        Intent ieventreport = new Intent(context, NavigationActivity.class);
-                                        ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
-                                        context.startActivity(ieventreport);
+                                        Intent intent = new Intent(context, NavigationActivity.class);
+                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                        context.startActivity(intent);
                                     } else {
                                         Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to " + TableStatus.OCCUPIED);
                                         Toaster.toast(SessionModel.currentPosition().getID() + "compared to " + currentOrderModel.getWaiterId());
@@ -177,16 +173,20 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
             }
         });
 
-        if(mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) {
+        if (mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) {
+
             holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.colorPrimaryDark));
         }
 
-        else if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
-            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
+
+        else if (mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+
+            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
         }
 
-        else if(mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
-            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
+        else {
+
+            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
         }
 
     }

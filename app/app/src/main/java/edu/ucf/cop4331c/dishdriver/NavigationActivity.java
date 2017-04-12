@@ -3,6 +3,7 @@ package edu.ucf.cop4331c.dishdriver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,21 +26,26 @@ import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
+
 public class NavigationActivity extends ProgressDialogActivity {
 
 
     private int mTableNumber;
     private OrderModel mOrderModel;
+    private TableModel mTableModel;
 
     @BindView(R.id.menuSpinner)
     Spinner mMenuSpinner;
@@ -70,6 +76,7 @@ public class NavigationActivity extends ProgressDialogActivity {
         // Retrieves the table number from the intent that we passed in the PartySizeDialog.
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
         mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
+        mTableModel = new Gson().fromJson(getIntent().getStringExtra("TABLE_MODEL"), TableModel.class);
 
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
@@ -175,6 +182,9 @@ public class NavigationActivity extends ProgressDialogActivity {
     @OnClick(R.id.checkButton)
     public void onCheckButtonClicked() {
 
+        // Setting the status back to UNRESERVED once the check button is submitted.
+        Toaster.toast("I am clicking check butt");
+        mTableModel.setTableStatus(1);
         CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
 
 
@@ -184,6 +194,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
+
 
         mOrderModel.place(itemAdapter.getOrder()).asObservable()
                 .subscribeOn(Schedulers.io())
@@ -202,12 +213,19 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                     @Override
                     public void onNext(List<OrderedDishModel> orderedDishModels) {
-                        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
+
+                        mTableModel.setTableStatus(0);
+                        TableStatus stats = mTableModel.getTableStatus();
+                        Integer position = mTableModel.getId();
                     }
+
                 });
+
+        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
+        startActivity(intent);
+        finish();
 //                .subscribe(new Subscriber<NonQueryResponseModel>() {
 //                    @Override
 //                    public void onCompleted() {
