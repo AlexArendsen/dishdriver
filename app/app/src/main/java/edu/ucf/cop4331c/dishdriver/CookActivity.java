@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
+import edu.ucf.cop4331c.dishdriver.enums.Status;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
@@ -86,6 +87,7 @@ public class CookActivity extends ProgressDialogActivity {
         OrderModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
                 .subscribeOn(Schedulers.io())
                 .flatMap(Observable::from)
+                .filter(orderModel -> orderModel.getStatus().equals(Status.PLACED))
                 .concatMap(this::getCombinedObservable)
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
