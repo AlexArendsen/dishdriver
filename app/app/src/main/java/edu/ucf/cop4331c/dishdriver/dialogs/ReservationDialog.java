@@ -128,7 +128,7 @@ public class ReservationDialog extends DialogFragment {
                         .subscribeOn(Schedulers.io())
                         .flatMap(tableReservationModels -> {
                             for (TableReservationModel tableReservationModel : tableReservationModels) {
-                                tableReservationModel.unreserve();
+
                                 if (tableReservationModel.getTableId().equals(mTableModel.getId())) {
                                     return Observable.error(new Exception("TABLE RESERVED"));
                                 }

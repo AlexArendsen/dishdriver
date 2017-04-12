@@ -1,12 +1,15 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +38,7 @@ import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import pl.droidsonroids.gif.GifTextView;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -195,37 +199,65 @@ public class NavigationActivity extends ProgressDialogActivity {
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
 
+        if((itemAdapter.getItems().size() == 0)) {
 
-        mOrderModel.place(itemAdapter.getOrder()).asObservable()
-                .subscribeOn(Schedulers.io())
-                .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<OrderedDishModel>>() {
-                    @Override
-                    public void onCompleted() {
+            new AlertDialog.Builder(NavigationActivity.this)
+                    .setTitle("Error: Empty Order")
+                    .setMessage("Seems like you have no items to place....")
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
-                    }
+            return;
 
-                    @Override
-                    public void onError(Throwable e) {
 
-                    }
 
-                    @Override
-                    public void onNext(List<OrderedDishModel> orderedDishModels) {
 
-                        mTableModel.setTableStatus(0);
-                        TableStatus stats = mTableModel.getTableStatus();
-                        Integer position = mTableModel.getId();
-                    }
 
-                });
+        }
+
+        else {
+
+
+            mOrderModel.place(itemAdapter.getOrder()).asObservable()
+                    .subscribeOn(Schedulers.io())
+                    .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<OrderedDishModel>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<OrderedDishModel> orderedDishModels) {
+
+                            mTableModel.setTableStatus(0);
+                            TableStatus stats = mTableModel.getTableStatus();
+                            Integer position = mTableModel.getId();
+
+
+                        }
+
+                    });
+
 
         Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
         startActivity(intent);
         finish();
+
+        }
 //                .subscribe(new Subscriber<NonQueryResponseModel>() {
 //                    @Override
 //                    public void onCompleted() {
@@ -247,7 +279,11 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        finish();
 //                    }
 //                });
+
+
     }
+
+
 
 
 }
