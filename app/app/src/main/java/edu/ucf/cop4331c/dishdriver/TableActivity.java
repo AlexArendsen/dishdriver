@@ -1,8 +1,10 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,11 +74,8 @@ public class TableActivity extends ProgressDialogActivity {
         getTables();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
-
-        mTableRecyclerView.setLayoutManager(gridLayoutManager);
         mTableAdapter = new TableAdapter(this);
-        mTableRecyclerView.setAdapter(mTableAdapter);
-
+        mTableRecyclerView.setLayoutManager(gridLayoutManager);
 //        if (SessionModel.currentRestaurant() != null)
 //            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
 //
@@ -185,6 +184,7 @@ public class TableActivity extends ProgressDialogActivity {
                         mTableModels.clear();
                         mTableModels.addAll(tableModels);
                         mTableAdapter.setTableModels(mTableModels);
+                        mTableRecyclerView.setAdapter(mTableAdapter);
                         dismissProgressDialog();
                         getOrders();
                     }

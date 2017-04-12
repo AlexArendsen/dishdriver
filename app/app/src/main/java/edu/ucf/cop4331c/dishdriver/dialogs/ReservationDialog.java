@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
@@ -113,17 +115,6 @@ public class ReservationDialog extends DialogFragment {
                 }
 
 
-//                public TableReservationModel(Integer id, Integer tableId, String partyName,
-//                Integer partySize, Integer deposit, Date dTRequested, Date dTAccepted)
-
-
-                    TableReservationModel newReservation = new TableReservationModel(1, 0, mEditText.getText().toString(),
-                            Integer.parseInt(mEditTextSize.getText().toString()), 1, myDate, myDate);
-
-
-//                newReservation.setPartyName(mEditText.getText().toString());
-//                newReservation.setTableId(0);
-
                 TableReservationModel.forRestaurant(SessionModel.currentRestaurant())
                         .subscribeOn(Schedulers.io())
                         .flatMap(tableReservationModels -> {
@@ -174,8 +165,8 @@ public class ReservationDialog extends DialogFragment {
 //                        });
 
                 // go back to SignInActivity
-//                Intent reservationIntent = new Intent(getActivity(), SignInActivity.class);
-//                getActivity().startActivity(reservationIntent);
+                Intent reservationIntent = new Intent(getActivity(), TableActivity.class);
+                getActivity().startActivity(reservationIntent);
 
 
             }

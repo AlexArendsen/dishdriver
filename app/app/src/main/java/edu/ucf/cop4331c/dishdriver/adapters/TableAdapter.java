@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -21,9 +24,12 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
+import edu.ucf.cop4331c.dishdriver.models.TableReservationModel;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -112,7 +118,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
                                     if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
 
-                                        caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
+//                                        caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
                                         tableStatus[0] = 3;
                                         Intent ieventreport = new Intent(context, NavigationActivity.class);
                                         ieventreport.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
@@ -153,18 +159,36 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
             @Override
             public boolean onLongClick(View v) {
 
-                Toaster.toast("hello");
-                // TODO: MAKE IT GO TO ReservationDialog
+                // Toaster.toast("hello");
                 AppCompatActivity appCompatActivity = mAppCompatWeakReference.get();
 
-                if (appCompatActivity != null) {
+                if (appCompatActivity != null && mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
                     TableModel tableModel = mTableModels.get(position);
                     ReservationDialog.newInstance("Reservation", position + 1, tableModel).show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
                 }
 
+                else if(mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+                    // TODO: figure out a way to UNRESERVE IT
+
+                }
+
                 return true;
+
             }
         });
+
+        if(mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) {
+            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.colorPrimaryDark));
+        }
+
+        else if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
+            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
+        }
+
+        else if(mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
+        }
+
     }
 
     @Override
@@ -185,6 +209,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
     static class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        RelativeLayout mTableRelativeLayout;
         TextView mTableNameTextView;
 
         public IMyViewHolderClicks mListener;
@@ -196,6 +221,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
         public TableViewHolder(View itemView, IMyViewHolderClicks listener) {
             super(itemView);
+
+            mTableRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.tableRelativeLayout);
             mTableNameTextView = (TextView) itemView.findViewById(R.id.tableNameTextView);
             itemView.setOnClickListener(this);
             mListener = listener;

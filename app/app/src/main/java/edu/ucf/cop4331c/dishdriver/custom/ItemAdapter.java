@@ -33,11 +33,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
     private ArrayList<DishModel> mItems;
     private boolean mShowRemoveButton;
+    private final OrderModel orderModel;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton) {
+    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton, OrderModel orderModel) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
         mShowRemoveButton = showRemoveButton;
+        this.orderModel = orderModel;
     }
 
 
@@ -117,7 +119,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public ArrayList<OrderedDishModel> getOrder() {
         ArrayList<OrderedDishModel> orderedDishModels = new ArrayList<>();
 
-        OrderModel orderModel = new OrderModel();
         for (DishModel dishes: mItems) {
             orderedDishModels.add(new OrderedDishModel(dishes, orderModel));
         }

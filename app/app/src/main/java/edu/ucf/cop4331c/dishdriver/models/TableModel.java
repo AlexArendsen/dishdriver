@@ -197,8 +197,8 @@ public class TableModel {
             return TableStatus.UNRESERVED;
         }
         switch(tableStatusId) {
-            case 1:  return TableStatus.RESERVED;
-            case 2:  return TableStatus.UNRESERVED;
+            case 0:  return TableStatus.RESERVED;
+            case 1:  return TableStatus.UNRESERVED;
             default: return TableStatus.OCCUPIED;
         }
     }

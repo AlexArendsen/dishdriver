@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,9 @@ import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
@@ -35,6 +39,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
 
     private int mTableNumber;
+    private OrderModel mOrderModel;
 
     @BindView(R.id.menuSpinner)
     Spinner mMenuSpinner;
@@ -46,6 +51,7 @@ public class NavigationActivity extends ProgressDialogActivity {
     ImageButton mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
     ImageButton mOrderButton;
+    private ItemAdapter itemAdapter;
 //    @BindView(R.id.hypeTextView)
 //    GifTextView mHypeTextView;
 
@@ -63,12 +69,14 @@ public class NavigationActivity extends ProgressDialogActivity {
 
         // Retrieves the table number from the intent that we passed in the PartySizeDialog.
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
+        mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
+
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true);
+        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -143,6 +151,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                         final ArrayList<String> temps = new ArrayList<String>();
                         final ArrayList<String> prices = new ArrayList<String>();
 
+                        // I know, it's gross!! Ah!!
                         for(int x = 0; x < menuItemsList.size(); x++ ) {
 
                             temps.add(menuItemsList.get(x).getName());
@@ -165,6 +174,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     @OnClick(R.id.checkButton)
     public void onCheckButtonClicked() {
+
         CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
 
 
@@ -175,14 +185,50 @@ public class NavigationActivity extends ProgressDialogActivity {
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
 
-        OrderModel orderModel = new OrderModel();
+        mOrderModel.place(itemAdapter.getOrder()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<OrderedDishModel>>() {
+                    @Override
+                    public void onCompleted() {
 
-        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        // IF ALL ELSE FAILS, USE THIS FLAG TO SET COLORS
-        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<OrderedDishModel> orderedDishModels) {
+                        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+//                .subscribe(new Subscriber<NonQueryResponseModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+//                        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        // IF ALL ELSE FAILS, USE THIS FLAG TO SET COLORS
+//                        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                });
     }
 
 
