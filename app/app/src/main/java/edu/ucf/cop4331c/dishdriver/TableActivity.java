@@ -95,9 +95,9 @@ public class TableActivity extends AppCompatActivity {
 
                 @Override
                 public void onNext(List<DishModel> dishModels) {
-                    Toaster.toast(SessionModel.currentRestaurant().getName());
-                    for (DishModel d  : dishModels)
-                        Toaster.toast(d.getName());
+                    //Toaster.toast(SessionModel.currentRestaurant().getName());
+                    //for (DishModel d  : dishModels)
+                    //    Toaster.toast(d.getName());
 
                 }
             });

@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
+import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 import xdroid.toaster.Toaster;
@@ -48,7 +51,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     Context context = mAppCompatWeakReference.get();
                     Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
                     caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
-                    EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
+                    context.startActivity(new Intent(context, NavigationActivity.class));
+                    //EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
                 }
             });
 
@@ -66,7 +70,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
             @Override
             public boolean onLongClick(View v) {
 
-                Toaster.toast("hello");
+                //Toaster.toast("hello");
                 // TODO: MAKE IT GO TO ReservationDialog
                 AppCompatActivity appCompatActivity = mAppCompatWeakReference.get();
 

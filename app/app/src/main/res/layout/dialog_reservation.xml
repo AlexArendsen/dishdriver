@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/reservation_time"
-            android:layout_width="800dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Reservation Time"
@@ -64,10 +64,6 @@
             android:text="Reservation Date"
             android:textSize="20sp" />
 
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <CheckBox
             android:id="@+id/checkbox_deposit"
@@ -79,7 +75,8 @@
 
         <Button
             android:id="@+id/confirmation_button"
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="1000dp"
             android:layout_height="wrap_content"
             android:text="Confirm" />
     </LinearLayout>
