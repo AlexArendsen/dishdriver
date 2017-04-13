@@ -120,7 +120,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null,null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);

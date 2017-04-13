@@ -31,7 +31,7 @@ public class ItemModifyDialog extends DialogFragment {
 //    }
 
 
-    public static ItemModifyDialog newInstance(OrderModel orderedDishModel) {
+    public static ItemModifyDialog newInstance(OrderedDishModel orderedDishModel) {
 
         ItemModifyDialog frag = new ItemModifyDialog();
         Bundle args = new Bundle();
@@ -43,7 +43,7 @@ public class ItemModifyDialog extends DialogFragment {
 
     private EditText mModifyEditText;
     private Button mSubmitButton;
-    private OrderModel mOrderDishModel;
+    private OrderedDishModel mOrderDishModel;
 
 
 
@@ -58,8 +58,7 @@ public class ItemModifyDialog extends DialogFragment {
 
 //        ItemModifyDialog itemModifyDialog = new ItemModifyDialog();
         Bundle bundle = new Bundle();
-
-        mOrderDishModel = new Gson().fromJson(getArguments().getString("ORDER_DISH_MODEL"), OrderModel.class);
+        mOrderDishModel = new Gson().fromJson(getArguments().getString("ORDER_DISH_MODEL"), OrderedDishModel.class);
 
         super.onViewCreated(view, savedInstanceState);
 
@@ -84,7 +83,7 @@ public class ItemModifyDialog extends DialogFragment {
                     bundle.putString("ITEM_MODIFY_DIALOG", sModifyEditText);
                     String test = bundle.getString("ITEM_MODIFY_DIALOG");
 
-                    mOrderDishModel.setInstructions(test);
+                    mOrderDishModel.updateNotesToKitchen(test);
 
 
                     mSubmitButton.setEnabled(true);

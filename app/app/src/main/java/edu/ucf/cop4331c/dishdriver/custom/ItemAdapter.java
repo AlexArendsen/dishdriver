@@ -29,17 +29,20 @@ import xdroid.toaster.Toaster;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
 
+    private final OrderedDishModel orderDishModel;
     // WeakReference will ensure that the activity context is not leaked if the activity is killed by the app.
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
     private ArrayList<DishModel> mItems;
     private boolean mShowRemoveButton;
     private final OrderModel orderModel;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton, OrderModel orderModel) {
+
+    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton, OrderModel orderModel, OrderedDishModel orderedDishModel) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
         mShowRemoveButton = showRemoveButton;
         this.orderModel = orderModel;
+        this.orderDishModel = orderedDishModel;
     }
 
 
@@ -68,8 +71,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
                     // If there is something there, then we want to create a dialog
 
-                    // TODO: ASK CHRIS, SINCE WE are converting mannually, this breaks? How do I get the OrderedDishModel ): 
-                    ItemModifyDialog.newInstance(orderModel).show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+                    // TODO: ASK CHRIS, SINCE WE are converting mannually, this breaks? How do I get the OrderedDishModel ):
+                    ItemModifyDialog.newInstance(orderDishModel).show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
 
                 }
 

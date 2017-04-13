@@ -26,10 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
+import edu.ucf.cop4331c.dishdriver.enums.Status;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
@@ -44,6 +46,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xdroid.toaster.Toaster;
+
+import static xdroid.core.Global.getContext;
 
 public class NavigationActivity extends ProgressDialogActivity {
 
@@ -60,13 +64,15 @@ public class NavigationActivity extends ProgressDialogActivity {
     private int mTableNumber;
     private OrderModel mOrderModel;
     private TableModel mTableModel;
+    private OrderedDishModel mOrderDishModel;
+    // private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     @BindView(R.id.menuSpinner)
     Spinner mMenuSpinner;
     @BindView(R.id.menuItemRecyclerView)
     RecyclerView mMenuItemRecyclerView;
-    @BindView(R.id.beverageSpinner)
-    Spinner mBeverageSpinner;
+    @BindView(R.id.convertOrderDishModelButton)
+    ImageButton mOrderDishButton;
     @BindView(R.id.checkButton)
     ImageButton mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
@@ -91,13 +97,15 @@ public class NavigationActivity extends ProgressDialogActivity {
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
         mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
         mTableModel = new Gson().fromJson(getIntent().getStringExtra("TABLE_MODEL"), TableModel.class);
+        mOrderDishModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_DISH_MODEL"), OrderedDishModel.class);
 
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
+
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel);
+        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel, mOrderDishModel);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -123,7 +131,8 @@ public class NavigationActivity extends ProgressDialogActivity {
         mMenuItemRecyclerView.setAdapter(itemAdapter);
 
 
-         getDishes(menuItemsList);
+        getDishes(menuItemsList);
+
 
 
     }
@@ -191,6 +200,44 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     }
 
+
+    @OnClick(R.id.convertOrderDishModelButton)
+    public void convertToOrderedDishModel() {
+
+        final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
+
+        Toaster.toast("YOU ARE IN EDIT MODE");
+
+        mOrderModel.place(itemAdapter.getOrder()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<OrderedDishModel>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<OrderedDishModel> orderedDishModels) {
+
+                        for(OrderedDishModel orderedDishModel : orderedDishModels) {
+
+                            OrderedDishModelList.add(orderedDishModel);
+                        }
+
+
+                    }
+
+                });
+
+    }
+
     // TODO: Add check method back in later
 
     @OnClick(R.id.checkButton)
@@ -198,7 +245,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
         // Setting the status back to UNRESERVED once the check button is submitted.
         Toaster.toast("I am clicking check butt");
-        mTableModel.setTableStatus(1);
+        // mTableModel.setTableStatus(1);
         CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
 
 
@@ -288,6 +335,47 @@ public class NavigationActivity extends ProgressDialogActivity {
 
 
     }
+
+
+
+//    public void getOrders() {
+//        enableProgressDialog("Retrieving Orders...");
+//        OrderModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
+//                .subscribeOn(Schedulers.io())
+//                .flatMap(Observable::from)
+//                .filter(orderModel -> orderModel.getStatus().equals(Status.PLACED))
+//                .concatMap(this::getCombinedObservable)
+//                .toList()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<List<Order>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Order> orders) {
+//                        mOrders.clear();
+//                        mOrders.addAll(orders);
+//                        mMenuItemRecyclerView.setAdapter(new OrderAdapter(getContext(), mOrders));
+//                        dismissProgressDialog();
+//                    }
+//                });
+//    }
+//
+//    public Observable<Order> getCombinedObservable(OrderModel orderModel) {
+//        return orderModel.dishes().asObservable()
+//                .map(orderedDishModels -> {
+//                    ArrayList<OrderedDishModel> dishes = new ArrayList<OrderedDishModel>();
+//                    dishes.addAll(orderedDishModels);
+//                    return new Order(orderModel, dishes);
+//                });
+//    }
 
 
 
