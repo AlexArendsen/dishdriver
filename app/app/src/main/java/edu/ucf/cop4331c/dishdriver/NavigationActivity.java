@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
@@ -45,6 +46,15 @@ import rx.schedulers.Schedulers;
 import xdroid.toaster.Toaster;
 
 public class NavigationActivity extends ProgressDialogActivity {
+
+//    public String onReturnValue(String foo) {
+//
+//        Log.i("onReturnValue", "Got value " + foo + " back from Dialog!");
+//
+//        return foo;
+//
+//
+//    }
 
 
     private int mTableNumber;
@@ -240,10 +250,6 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                         @Override
                         public void onNext(List<OrderedDishModel> orderedDishModels) {
-
-                            mTableModel.setTableStatus(0);
-                            TableStatus stats = mTableModel.getTableStatus();
-                            Integer position = mTableModel.getId();
 
 
                         }

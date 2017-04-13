@@ -64,9 +64,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             // Here, we are going to open up the dialog for the modify EditText
             public void addNoteForItemAtPosition(int position) {
                 AppCompatActivity appCompatActivity = appCompatActivityWeakReference.get();
-                if (appCompatActivity != null)
+                if (appCompatActivity != null) {
+
                     // If there is something there, then we want to create a dialog
-                    new ItemModifyDialog().show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+
+                    // TODO: ASK CHRIS, SINCE WE are converting mannually, this breaks? How do I get the OrderedDishModel ): 
+                    ItemModifyDialog.newInstance(orderModel).show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+
+                }
+
 
             }
         });
