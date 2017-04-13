@@ -1,17 +1,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/party_name"
@@ -75,9 +73,9 @@
 
         <Button
             android:id="@+id/confirmation_button"
-            android:layout_gravity="center"
             android:layout_width="1000dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Confirm" />
     </LinearLayout>
 </ScrollView>

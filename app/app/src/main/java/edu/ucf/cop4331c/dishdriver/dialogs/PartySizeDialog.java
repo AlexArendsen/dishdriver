@@ -19,7 +19,6 @@ import edu.ucf.cop4331c.dishdriver.R;
  */
 
 
-
 public class PartySizeDialog extends DialogFragment {
 
     public static PartySizeDialog newInstance(int tablePosition) {
@@ -118,7 +117,6 @@ public class PartySizeDialog extends DialogFragment {
 
         return alertDialog;
     }
-
 
 
 }

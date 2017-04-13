@@ -1,6 +1,5 @@
 package edu.ucf.cop4331c.dishdriver.network;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
@@ -35,10 +34,10 @@ public class DishDriverProvider {
             g.registerTypeAdapter(Date.class, new DateStringAdapter());
 
             Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_DIGITAL_OCEAN)
-                .addConverterFactory(GsonConverterFactory.create(g.create()))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+                    .baseUrl(BASE_URL_DIGITAL_OCEAN)
+                    .addConverterFactory(GsonConverterFactory.create(g.create()))
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
 
             sDishDriverService = retrofit.create(DishDriverService.class);
         }

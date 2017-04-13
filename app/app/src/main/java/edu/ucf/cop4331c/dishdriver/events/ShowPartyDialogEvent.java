@@ -6,6 +6,7 @@ package edu.ucf.cop4331c.dishdriver.events;
 
 public class ShowPartyDialogEvent {
     private int mTableId;
+
     public ShowPartyDialogEvent(int i) {
         mTableId = i;
     }

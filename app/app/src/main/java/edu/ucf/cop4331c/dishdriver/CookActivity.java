@@ -35,12 +35,8 @@ public class CookActivity extends ProgressDialogActivity {
 
     //holds the id of the Order being rejected
     String rejectID;
-
-
-
-    private ArrayList<Order> mOrders = new ArrayList<Order>();
-
     boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     @Override
     public void onBackPressed() {
@@ -56,7 +52,7 @@ public class CookActivity extends ProgressDialogActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

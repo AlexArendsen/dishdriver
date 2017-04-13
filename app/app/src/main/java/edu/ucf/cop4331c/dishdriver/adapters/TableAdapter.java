@@ -24,15 +24,11 @@ import xdroid.toaster.Toaster;
 
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHolder> {
 
-    public interface OnItemLongClickListener {
-        public boolean onItemLongClicked(int position);
-    }
-
     private WeakReference<AppCompatActivity> mAppCompatWeakReference;
 
     public TableAdapter(AppCompatActivity activity) {
         mAppCompatWeakReference = new WeakReference<AppCompatActivity>(activity);
-}
+    }
 
     @Override
     public TableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -83,11 +79,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
         return 6;
     }
 
+    public interface OnItemLongClickListener {
+        public boolean onItemLongClicked(int position);
+    }
+
     static class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView mTableNameTextView;
-
         public IMyViewHolderClicks mListener;
+        TextView mTableNameTextView;
 
         public TableViewHolder(View itemView) {
             super(itemView);
@@ -110,8 +109,6 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
         public interface IMyViewHolderClicks {
             void myOnClick(View caller, int position);
         }
-
-
 
 
     }

@@ -1,7 +1,5 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.support.design.widget.TabLayout;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -82,7 +80,7 @@ public class OrderModelTests {
         Observable<List<OrderedDishModel>> oMenu = restaurant.menu().flatMap(list -> {
             int total = 0;
             ArrayList<OrderedDishModel> out = new ArrayList<OrderedDishModel>();
-            for(DishModel d : list) {
+            for (DishModel d : list) {
                 if (0 == d.getID() % 2) {
                     out.add(new OrderedDishModel(d, orderRef));
                     System.out.println("Adding " + d.getName() + ": " + MoneyFormatter.format(d.getPrice()));

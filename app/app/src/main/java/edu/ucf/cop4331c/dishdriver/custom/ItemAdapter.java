@@ -104,6 +104,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         mItems.remove(position);
         notifyDataSetChanged();
     }
+
     public ArrayList<DishModel> getItems() {
         return mItems;
     }
@@ -160,7 +161,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mListener = listener;
 
 
-
             mMenuItemTextView = (TextView) itemView.findViewById(R.id.itemTextView);
             mDeleteItemImageView = (ImageView) itemView.findViewById(R.id.itemClearImageView);
             mModifyItemImageView = (ImageView) itemView.findViewById(R.id.itemModifyImageView);
@@ -192,6 +192,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         // This interface will be used to handle item removals from the adapter.
         public interface IMyViewHolderClicks {
             void removeItemFromAdapter(int position);
+
             void addNoteForItemAtPosition(int position);
         }
 

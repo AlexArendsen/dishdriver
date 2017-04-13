@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
-import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.RankedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
 import rx.Observable;

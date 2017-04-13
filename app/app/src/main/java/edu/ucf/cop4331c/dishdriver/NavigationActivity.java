@@ -40,8 +40,6 @@ import xdroid.toaster.Toaster;
 public class NavigationActivity extends ProgressDialogActivity {
 
 
-    private int mTableNumber;
-
     @BindView(R.id.menuSpinner)
     Spinner mMenuSpinner;
     @BindView(R.id.menuItemRecyclerView)
@@ -52,13 +50,14 @@ public class NavigationActivity extends ProgressDialogActivity {
     ImageButton mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
     ImageButton mOrderButton;
+    private int mTableNumber;
 //    @BindView(R.id.hypeTextView)
 //    GifTextView mHypeTextView;
 
 
     // Oh my gosh, major debugging... do not bind views if you aren;t going to use them!!!
 
-//    @BindView(R.id.itemPriceTextView)
+    //    @BindView(R.id.itemPriceTextView)
 //    TextView mItemPriceTextView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +81,6 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                break;
 //            //...
 //        }
-
 
 
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
@@ -153,7 +151,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //            }
 //        });
 
-         getDishes(menuItemsList);
+        getDishes(menuItemsList);
 
 
     }
@@ -165,10 +163,10 @@ public class NavigationActivity extends ProgressDialogActivity {
         //TODO: Use this as soon as session model is fixed
 //        DishModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
         DishModel.forRestaurant(SessionModel.currentRestaurant())
-        // RestaurantModel.get(3).asObservable()
+                // RestaurantModel.get(3).asObservable()
                 // flatMap is going to grab the first element is your list of Observable objects.
                 // in our case, we have a list of restaurantModels
-               // .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
+                // .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
                 // subscribeOn means you will look at the backend (where the elements are located at)
                 .subscribeOn(Schedulers.io())
                 // observeOn means to display elements on the UI mainthread (which is where we are interested in viewing it
@@ -184,7 +182,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        Toaster.toast( "Network Error" );
+                        Toaster.toast("Network Error");
                     }
 
                     @Override
@@ -205,13 +203,11 @@ public class NavigationActivity extends ProgressDialogActivity {
                         final ArrayList<String> temps = new ArrayList<String>();
                         final ArrayList<String> prices = new ArrayList<String>();
 
-                        for(int x = 0; x < menuItemsList.size(); x++ ) {
+                        for (int x = 0; x < menuItemsList.size(); x++) {
 
                             temps.add(menuItemsList.get(x).getName());
                             prices.add(MoneyFormatter.format(menuItemsList.get(x).getPrice()));
                         }
-
-
 
 
                         // Bind the spinner to the names to display
@@ -223,8 +219,6 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
 //                        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
 //                        mBeverageSpinner.setAdapter(beverageAdapter);
-
-
 
 
                         dismissProgressDialog();

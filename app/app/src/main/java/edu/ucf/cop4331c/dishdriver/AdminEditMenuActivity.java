@@ -1,10 +1,9 @@
 package edu.ucf.cop4331c.dishdriver;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import edu.ucf.cop4331c.dishdriver.R;
 
 public class AdminEditMenuActivity extends AppCompatActivity {
 

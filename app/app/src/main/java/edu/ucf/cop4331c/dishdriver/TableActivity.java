@@ -52,7 +52,7 @@ public class TableActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -109,7 +109,6 @@ public class TableActivity extends AppCompatActivity {
 //        });
 
 
-
     }
 
     @Override
@@ -124,7 +123,7 @@ public class TableActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    @Subscribe (threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
         PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
@@ -133,18 +132,16 @@ public class TableActivity extends AppCompatActivity {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.checkbox_deposit:
-               if (checked)
-                   Toaster.toast("hello, I want a table");
+                if (checked)
+                    Toaster.toast("hello, I want a table");
                 //else
                 break;
 
 
         }
     }
-
-
 
 
 }

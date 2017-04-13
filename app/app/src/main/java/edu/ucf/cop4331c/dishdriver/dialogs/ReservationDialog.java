@@ -22,7 +22,7 @@ import edu.ucf.cop4331c.dishdriver.R;
 public class ReservationDialog extends DialogFragment {
 
     private EditText mEditText;
-    private  EditText mEditTextSize;
+    private EditText mEditTextSize;
     private TimePicker mTimePicker;
     private CheckBox mDepositCheckBox;
     private Button mSubmitButton;
@@ -71,12 +71,12 @@ public class ReservationDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                if(isEmpty(mEditText)) {
+                if (isEmpty(mEditText)) {
                     mEditText.setError("Please input a reservation name");
                     return;
                 }
 
-                if(isEmpty(mEditTextSize)) {
+                if (isEmpty(mEditTextSize)) {
                     mEditTextSize.setError("Please input a party size");
                     return;
                 }
@@ -97,13 +97,9 @@ public class ReservationDialog extends DialogFragment {
         });
 
 
-
-
-
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-
 
 
     }

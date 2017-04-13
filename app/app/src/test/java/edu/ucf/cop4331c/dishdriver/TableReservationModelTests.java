@@ -2,7 +2,6 @@ package edu.ucf.cop4331c.dishdriver;
 
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.models.RestaurantModel;
@@ -59,11 +58,11 @@ public class TableReservationModelTests {
     }
 
     @Test
-    public void GetReservation(){
+    public void GetReservation() {
         TableReservationModel.get(1).subscribe(new Subscriber<TableReservationModel>() {
             @Override
             public void onCompleted() {
-               System.out.println("♡");
+                System.out.println("♡");
             }
 
             @Override

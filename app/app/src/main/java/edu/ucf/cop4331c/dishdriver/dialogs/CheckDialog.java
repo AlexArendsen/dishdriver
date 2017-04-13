@@ -1,4 +1,3 @@
-
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 import android.os.Bundle;
@@ -44,10 +43,9 @@ public class CheckDialog extends DialogFragment {
     /**
      * Creates a new instance of the check dialog class. Sets the bundle (arguments) of the new instance to contain the list of inputted items.
      *
-     * @param items     The list of items that have been added to the order by the waiter.
-     * @return          Returns a new CheckDialog which contains all the items for this order.
+     * @param items The list of items that have been added to the order by the waiter.
+     * @return Returns a new CheckDialog which contains all the items for this order.
      */
-
 
 
     public static CheckDialog newInstance(ArrayList<DishModel> items) {
@@ -85,6 +83,49 @@ public class CheckDialog extends DialogFragment {
         return checkDialog;
     }
 
+    public static String getCheckTotalAmount(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return MoneyFormatter.format(sum);
+    }
+
+    public static String getTipAmount(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return (String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018))));
+
+    }
+
+    public static String getSubtotalWithTip(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        double sum = 0;
+
+        for (int i = 0; i < items.size(); i++) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018) + (sum / 100)));
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,8 +138,8 @@ public class CheckDialog extends DialogFragment {
 
         String json = getArguments().getString("STRINGS", "INVALID");
 
-        ArrayList<DishModel> items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>(){}.getType());
-
+        ArrayList<DishModel> items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>() {
+        }.getType());
 
 
         // Bind our Recycler view and set its layout manager to be LinearLayout (Default orientation is vertical)
@@ -144,11 +185,6 @@ public class CheckDialog extends DialogFragment {
         mItemTotalTextView.setText(total);
 
 
-
-
-
-
-
         // TODO: bind the TextView to
         mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,54 +208,6 @@ public class CheckDialog extends DialogFragment {
 
         return etText.getText().toString().trim().length() == 0;
     }
-
-    public static String getCheckTotalAmount(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        int sum = 0;
-
-        for (int i = 0; i < items.size(); i++ ) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return MoneyFormatter.format(sum);
-    }
-
-    public static String getTipAmount(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        int sum = 0;
-
-        for (int i = 0; i < items.size(); i++ ) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return (String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018))));
-
-    }
-
-    public static String getSubtotalWithTip(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        double sum = 0;
-
-        for (int i = 0; i < items.size(); i++ ) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018) + (sum/100)));
-    }
-
-
-
-
-
 
 
 }

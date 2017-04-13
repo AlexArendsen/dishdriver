@@ -102,7 +102,8 @@ public class OrderedDishModel extends DishModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<OrderedDishModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<OrderedDishModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -112,18 +113,60 @@ public class OrderedDishModel extends DishModel {
     // region DB Retrieval
     public static Observable<OrderedDishModel> getOrderedDish(int id) {
         return odQuery(
-            "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
-            "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
-            "WHERE OD.Id = ?",
-            new String[] { Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+                "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
+                        "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
+                        "WHERE OD.Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
     // endregion
 
     // region DB Modification
 
     /**
+     * Gets all non-voided dishes from all orders placed at the given restaurant between the two
+     * given times, inclusively.
+     *
+     * @param r     The subject restaurant
+     * @param start The beginning of the selection interval
+     * @param end   The end of the selection interval
+     * @return The list of dishes
+     */
+    public static Observable<List<OrderedDishModel>> between(RestaurantModel r, Date start, Date end) {
+
+        return odQuery(
+                "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
+                        "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
+                        "WHERE O.DT_Placed BETWEEN ? AND ? AND OD.IsVoided != 1 AND D.Restaurant_ID = ?",
+                new String[]{
+                        DateFormatter.forSQL(start),
+                        DateFormatter.forSQL(end),
+                        Integer.toString(r.getId())
+                }
+        );
+    }
+
+    /**
+     * Gets all non-voided dishes from all orders placed on the given day.
+     *
+     * @param r   The subject restaurant
+     * @param day Any moment within the desired day
+     * @return The list of dishes
+     */
+    public static Observable<List<OrderedDishModel>> onDay(RestaurantModel r, Date day) {
+
+        // Number of milliseconds in one day
+        long dayLength = (long) 8.64e7;
+
+        // Round down to the nearest 12:00 AM
+        long dayBegin = day.getTime() - (day.getTime() % dayLength);
+
+        return between(r, new Date(dayBegin), new Date(dayBegin + dayLength));
+    }
+
+    /**
      * Reject this dish from its associated order, citing the provided reason
+     *
      * @param reason The reason that this dish was rejected from its order
      * @return A NonQueryResponseModel conveying the status of the associated transaction
      */
@@ -134,20 +177,25 @@ public class OrderedDishModel extends DishModel {
 
         return NonQueryResponseModel.run(
                 "UPDATE Ordered_Dishes SET IsRejected = 1, NotesFromKitchen = ? WHERE Id = ?",
-                new String[] { Integer.toString(id), notesFromKitchen }
+                new String[]{Integer.toString(id), notesFromKitchen}
         );
     }
 
     /**
      * Reject this dish from its associated order, without a reason
+     *
      * @return A NonQueryResponseModel conveying the status of the associated transaction
      */
     public Observable<NonQueryResponseModel> reject() {
         return reject("(No notes)");
     }
+    // endregion
+
+    // region DB Retrieval
 
     /**
      * Remove this dish from its associated order
+     *
      * @return A NonQueryResponseModel conveying the status of the associated transaction
      */
     public Observable<NonQueryResponseModel> makeVoid() {
@@ -155,8 +203,8 @@ public class OrderedDishModel extends DishModel {
         isVoided = 1;
 
         return NonQueryResponseModel.run(
-            "UPDATE Ordered_Dishes SET IsVoided = 1 WHERE Id = ?",
-            new String[] { Integer.toString(id) }
+                "UPDATE Ordered_Dishes SET IsVoided = 1 WHERE Id = ?",
+                new String[]{Integer.toString(id)}
         );
     }
 
@@ -164,52 +212,9 @@ public class OrderedDishModel extends DishModel {
         notesToKitchen = notes;
 
         return NonQueryResponseModel.run(
-            "UPDATE Ordered_Dishes SET NotesToKitchen = ? WHERE Id = ?",
-            new String[] { notes, Integer.toString(id) }
+                "UPDATE Ordered_Dishes SET NotesToKitchen = ? WHERE Id = ?",
+                new String[]{notes, Integer.toString(id)}
         );
-    }
-    // endregion
-
-    // region DB Retrieval
-
-    /**
-     * Gets all non-voided dishes from all orders placed at the given restaurant between the two
-     * given times, inclusively.
-     *
-     * @param r The subject restaurant
-     * @param start The beginning of the selection interval
-     * @param end The end of the selection interval
-     * @return The list of dishes
-     */
-    public static Observable<List<OrderedDishModel>> between(RestaurantModel r, Date start, Date end) {
-
-        return odQuery(
-                "SELECT D.*, OD.*, OD.Id AS OrderedDish_ID " +
-                "FROM Ordered_Dishes OD INNER JOIN Orders O ON OD.Order_ID = O.Id INNER JOIN Dishes D ON OD.Dish_ID = D.Id " +
-                "WHERE O.DT_Placed BETWEEN ? AND ? AND OD.IsVoided != 1 AND D.Restaurant_ID = ?",
-                new String[] {
-                        DateFormatter.forSQL(start),
-                        DateFormatter.forSQL(end),
-                        Integer.toString(r.getId())
-                }
-        );
-    }
-
-    /**
-     * Gets all non-voided dishes from all orders placed on the given day.
-     * @param r The subject restaurant
-     * @param day Any moment within the desired day
-     * @return The list of dishes
-     */
-    public static Observable<List<OrderedDishModel>> onDay(RestaurantModel r, Date day) {
-
-        // Number of milliseconds in one day
-        long dayLength = (long)8.64e7;
-
-        // Round down to the nearest 12:00 AM
-        long dayBegin  = day.getTime() - (day.getTime() % dayLength);
-
-        return between(r, new Date(dayBegin), new Date(dayBegin + dayLength));
     }
     // endregion
 
@@ -246,9 +251,13 @@ public class OrderedDishModel extends DishModel {
         this.notesToKitchen = notesFromKitchen;
     }
 
-    public int getOrderedPrice() { return orderedPrice; }
+    public int getOrderedPrice() {
+        return orderedPrice;
+    }
 
-    public void setOrderedPrice(int orderedPrice) { this.orderedPrice = orderedPrice; }
+    public void setOrderedPrice(int orderedPrice) {
+        this.orderedPrice = orderedPrice;
+    }
 
     // endregion
 }

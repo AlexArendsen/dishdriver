@@ -94,13 +94,15 @@ public class SessionModel {
         return DishDriverProvider.getInstance().logout();
     }
 
-    public static UserModel currentUser(){
+    public static UserModel currentUser() {
         return sUser;
     }
-    public static PositionModel currentPosition(){
+
+    public static PositionModel currentPosition() {
         return sPosition;
     }
-    public static RestaurantModel currentRestaurant(){
+
+    public static RestaurantModel currentRestaurant() {
         return sRestaurant;
     }
 }

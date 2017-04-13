@@ -43,8 +43,8 @@ public class Admin_email_activity extends AppCompatActivity {
 
         //button onclick
         final Button button = (Button) findViewById(R.id.SendEmail);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 //performing action to send email to
                 sendEmail();
 
@@ -55,11 +55,11 @@ public class Admin_email_activity extends AppCompatActivity {
     protected void sendEmail() {
 
         EditText emailToInput = (EditText) findViewById(R.id.emailToInput);
-        EditText emailCC      = (EditText) findViewById(R.id.ccEmailAddressInput);
+        EditText emailCC = (EditText) findViewById(R.id.ccEmailAddressInput);
 
         Log.i("Send email", "");
-        String[] TO = { emailToInput.getText().toString() };
-        String[] CC = { emailCC.getText().toString() };
+        String[] TO = {emailToInput.getText().toString()};
+        String[] CC = {emailCC.getText().toString()};
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
@@ -80,12 +80,15 @@ public class Admin_email_activity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 
 
-        RankedDishModel.between(SessionModel.currentRestaurant(), calStart.getTime(), new Date() ).observeOn(mainThread()).subscribe(new Subscriber<List<RankedDishModel>>() {
+        RankedDishModel.between(SessionModel.currentRestaurant(), calStart.getTime(), new Date()).observeOn(mainThread()).subscribe(new Subscriber<List<RankedDishModel>>() {
             @Override
-            public void onCompleted() {  }
+            public void onCompleted() {
+            }
 
             @Override
-            public void onError(Throwable e) { Log.d("emailActivity", e.getMessage()); }
+            public void onError(Throwable e) {
+                Log.d("emailActivity", e.getMessage());
+            }
 
             @Override
             public void onNext(List<RankedDishModel> rankedDishModels) {
@@ -109,11 +112,11 @@ public class Admin_email_activity extends AppCompatActivity {
                         PieChart pieChart = (PieChart) view.findViewById(R.id.pieChart);
 
                         List<PieEntry> entries = new ArrayList<>();
-                        int total=0, i=0;
+                        int total = 0, i = 0;
                         for (RankedDishModel r : rankedDishModels) {
                             if (r.getProfitEarned() <= 0)
                                 break;
-                            else if (i++<5)
+                            else if (i++ < 5)
                                 entries.add(new PieEntry((float) r.getProfitEarned(), r.getName()));
                             else
                                 total += r.getProfitEarned();
@@ -153,7 +156,7 @@ public class Admin_email_activity extends AppCompatActivity {
                             @Override
                             public void onComplete(File file) {
                                 Log.i(PdfDocument.TAG_PDF_MY_XML, "Complete");
-                                emailIntent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(file));
+                                emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
                                 emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
 
                                 try {

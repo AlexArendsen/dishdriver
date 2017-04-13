@@ -27,23 +27,25 @@ public class LibraryDebugActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
 
         // We will search for Chad Thai
         RestaurantModel.search("Chad").observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<RestaurantModel>>() {
-            @Override
-            public void onCompleted() { }
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            @Override
-            public void onError(Throwable e) { }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
 
-            @Override
-            public void onNext(List<RestaurantModel> restaurantModels) {
-                String msg = "Restaurants: ";
-                for(RestaurantModel r : restaurantModels) msg += r.getName() + "; ";
-                Toaster.toast( msg );
-            }
-        });
+                    @Override
+                    public void onNext(List<RestaurantModel> restaurantModels) {
+                        String msg = "Restaurants: ";
+                        for (RestaurantModel r : restaurantModels) msg += r.getName() + "; ";
+                        Toaster.toast(msg);
+                    }
+                });
     }
 }
