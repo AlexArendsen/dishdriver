@@ -1,13 +1,13 @@
 package edu.ucf.cop4331c.dishdriver;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import xdroid.toaster.Toaster;
 
 public class AdminNavigationActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class AdminNavigationActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toaster.toast("Please click BACK again to exit");
 
         new Handler().postDelayed(new Runnable() {
 

@@ -24,7 +24,6 @@ import edu.ucf.cop4331c.dishdriver.models.RankedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import xdroid.toaster.Toaster;
 
 /**
  * Created by ash on 4/6/17.
@@ -109,9 +108,7 @@ public class TestChartActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, quality, outputStream);
             outputStream.flush();
             outputStream.close();
-            Toaster.toast(mPath);
         } catch (Throwable e) {
-            Toaster.toast("damn...");
             // Several error may come out with file handling or OOM
             e.printStackTrace();
         }

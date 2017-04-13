@@ -1,19 +1,13 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.net.ParseException;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-
-import android.net.Uri;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -26,8 +20,6 @@ import com.hendrix.pdfmyxml.PdfDocument;
 import com.hendrix.pdfmyxml.viewRenderer.AbstractViewRenderer;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -169,7 +161,7 @@ public class Admin_email_activity extends AppCompatActivity {
                                     finish();
                                     Log.i("Sent email...", "");
                                 } catch (android.content.ActivityNotFoundException ex) {
-                                    Toast.makeText(Admin_email_activity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                                    Toaster.toast("There is no email client installed.");
                                 }
                             }
 

@@ -1,7 +1,6 @@
 
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -20,21 +19,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import edu.ucf.cop4331c.dishdriver.MainActivity;
-import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
-import edu.ucf.cop4331c.dishdriver.SignInActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import xdroid.toaster.Toaster;
-
-import static android.net.wifi.WpsInfo.INVALID;
 
 /**
  * Created by viviennedo on 4/2/17.
@@ -162,7 +153,6 @@ public class CheckDialog extends DialogFragment {
         mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toaster.toast("hello this button works");
                 mGratuityTextView.setText((String) gratuity);
 
 

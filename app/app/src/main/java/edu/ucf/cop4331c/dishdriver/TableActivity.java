@@ -3,14 +3,11 @@ package edu.ucf.cop4331c.dishdriver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,7 +18,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
-import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
@@ -50,7 +46,7 @@ public class TableActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toaster.toast("Please click BACK again to exit");
 
         new Handler().postDelayed(new Runnable() {
 
@@ -102,7 +98,7 @@ public class TableActivity extends AppCompatActivity {
                 }
             });
         else
-            Toaster.toast("Not right");
+            ;
 
 //        final Button button = (Button) findViewById(R.id.reserveButton);
 //
@@ -140,7 +136,7 @@ public class TableActivity extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.checkbox_deposit:
                if (checked)
-                    Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
+                   Toaster.toast("hello, I want a table");
                 //else
                 break;
 

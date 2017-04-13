@@ -1,6 +1,5 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -9,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +23,10 @@ import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
-import pl.droidsonroids.gif.GifTextView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 //class Dishes {
 //    private String name;
@@ -187,7 +184,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        Toast.makeText(NavigationActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        Toaster.toast( "Network Error" );
                     }
 
                     @Override
@@ -197,14 +194,8 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        beverageList.clear();
 
                         for (DishModel dishModel : dishModels) {
-
                             menuItemsList.add(dishModel);
-
-
-
                         }
-
-
 
 //                        for (DishModel dishModel : dishModels) {
 //                            beverageList.add(MoneyFormatter.format(dishModel.getPrice()));

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/25/17.
@@ -172,7 +170,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             mDeleteItemImageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Testing this stuff", Toast.LENGTH_SHORT).show();
                     // We are calling our listener's remove item from adapter method in order to remove this item from the list.
                     mListener.removeItemFromAdapter(getAdapterPosition());
                 }
@@ -185,7 +182,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 @Override
                 public void onClick(View v) {
 
-                    Toaster.toast("This modify button is working");
 
                     // This will take you to the dialog where you can modify the item
                     mListener.addNoteForItemAtPosition(getAdapterPosition());

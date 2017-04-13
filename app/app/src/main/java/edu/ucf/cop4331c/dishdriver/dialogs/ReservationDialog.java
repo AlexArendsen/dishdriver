@@ -1,27 +1,19 @@
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
 
 import edu.ucf.cop4331c.dishdriver.R;
-import edu.ucf.cop4331c.dishdriver.SignInActivity;
 
 /**
  * Created by viviennedo on 3/15/17.
@@ -79,8 +71,6 @@ public class ReservationDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), String.valueOf(tablePosition), Toast.LENGTH_SHORT).show();
-
                 if(isEmpty(mEditText)) {
                     mEditText.setError("Please input a reservation name");
                     return;
@@ -90,11 +80,6 @@ public class ReservationDialog extends DialogFragment {
                     mEditTextSize.setError("Please input a party size");
                     return;
                 }
-
-                // go back to SignInActivity
-                Intent reservationIntent = new Intent(getActivity(), SignInActivity.class);
-                getActivity().startActivity(reservationIntent);
-
             }
         });
 

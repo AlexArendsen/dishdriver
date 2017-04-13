@@ -9,18 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
-import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
-import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 import xdroid.toaster.Toaster;
 
 /**
@@ -49,7 +44,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                 @Override
                 public void myOnClick(View caller, int position) {
                     Context context = mAppCompatWeakReference.get();
-                    Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
+                    Toaster.toast("Table: " + String.valueOf(position) + " clicked.");
                     caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
                     context.startActivity(new Intent(context, NavigationActivity.class));
                     //EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
