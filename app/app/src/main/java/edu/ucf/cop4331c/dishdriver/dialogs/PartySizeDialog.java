@@ -79,7 +79,7 @@ public class PartySizeDialog extends DialogFragment {
         cardParty1RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Table 1 Button Pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Table 1 Button Pressed", Toast.LENGTH_SHORT).show();
                 // Here we are making an intent to the Navigation Activity.
                 Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
                 // We pass in an extra keyed "PARTY_NUMBER" that contains the integer value that represents the party size.
@@ -93,7 +93,7 @@ public class PartySizeDialog extends DialogFragment {
         cardParty2RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Table 2 Button Pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Table 2 Button Pressed", Toast.LENGTH_SHORT).show();
                 Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
                 tableIntent.putExtra("PARTY_NUMBER", 2);
                 getActivity().startActivity(tableIntent);
@@ -103,7 +103,7 @@ public class PartySizeDialog extends DialogFragment {
         cardParty3RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Table 3 Button Pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Table 3 Button Pressed", Toast.LENGTH_SHORT).show();
                 Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
                 tableIntent.putExtra("PARTY_NUMBER", 3);
                 getActivity().startActivity(tableIntent);
@@ -113,7 +113,7 @@ public class PartySizeDialog extends DialogFragment {
         cardParty4RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Table 4 Button Pressed", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Table 4 Button Pressed", Toast.LENGTH_SHORT).show();
                 Intent tableIntent = new Intent(getActivity(), NavigationActivity.class);
                 tableIntent.putExtra("PARTY_NUMBER", 4);
                 getActivity().startActivity(tableIntent);

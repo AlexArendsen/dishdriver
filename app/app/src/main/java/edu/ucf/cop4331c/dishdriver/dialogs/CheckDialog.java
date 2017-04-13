@@ -172,8 +172,7 @@ public class CheckDialog extends DialogFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent orderIntent = new Intent(getActivity(), SignInActivity.class);
-                getActivity().startActivity(orderIntent);
+                getActivity().finish();
             }
         });
 
