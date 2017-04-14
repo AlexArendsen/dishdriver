@@ -63,7 +63,8 @@ public class DishModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<DishModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<DishModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -73,15 +74,15 @@ public class DishModel {
     // region DB Retrieval
     public static Observable<DishModel> getDish(int id) {
         return query(
-            "SELECT * FROM Dishes WHERE Id = ?",
-                new String[] { Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)) );
+                "SELECT * FROM Dishes WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     public static Observable<List<DishModel>> forRestaurant(RestaurantModel r) {
         return query(
                 "SELECT * FROM Dishes WHERE Restaurant_ID = ?",
-                new String[] { Integer.toString(r.getId()) }
+                new String[]{Integer.toString(r.getId())}
         );
     }
 
@@ -91,7 +92,7 @@ public class DishModel {
 
         return query(
                 "SELECT * FROM Dishes WHERE Restaurant_ID = ? AND Name LIKE ?",
-                new String[] { Integer.toString(r.getId()), query }
+                new String[]{Integer.toString(r.getId()), query}
         );
     }
     // endregion
@@ -101,7 +102,7 @@ public class DishModel {
 
         return NonQueryResponseModel.run(
                 "INSERT INTO Dishes (Restaurant_ID, Price, Name, Description) VALUES (?, ?, ?, ?)",
-                new String[] {
+                new String[]{
                         Integer.toString(this.restaurantID),
                         Integer.toString(this.price),
                         this.name,
@@ -113,7 +114,7 @@ public class DishModel {
     public Observable<NonQueryResponseModel> update() {
         return NonQueryResponseModel.run(
                 "UPDATE Dishes SET Price = ?, Name = ?, Description = ? WHERE Id = ?",
-                new String[] {
+                new String[]{
                         Integer.toString(this.price),
                         this.name,
                         this.description,
@@ -125,37 +126,63 @@ public class DishModel {
     public Observable<NonQueryResponseModel> delete() {
         return NonQueryResponseModel.run(
                 "DELETE FROM Dishes WHERE Id = ?",
-                new String[] { Integer.toString(this.id) }
+                new String[]{Integer.toString(this.id)}
         );
     }
     // endregion
 
     // region Getters and Setters
-    public Integer getID() { return id; }
+    public Integer getID() {
+        return id;
+    }
 
-    public void setID(Integer iD) { this.id = iD; }
+    public void setID(Integer iD) {
+        this.id = iD;
+    }
 
-    public Integer getRestaurantID() { return restaurantID; }
+    public Integer getRestaurantID() {
+        return restaurantID;
+    }
 
-    public void setRestaurantID(Integer restaurantID) { this.restaurantID = restaurantID; }
+    public void setRestaurantID(Integer restaurantID) {
+        this.restaurantID = restaurantID;
+    }
 
-    public Integer getPrice() { return price; }
-    
-    public Double getDollarPrice() { return (this.price.doubleValue())/100;}
+    public Integer getPrice() {
+        return price;
+    }
 
-    public void setPrice(Integer price) { this.price = price; }
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
-    public String getName() { return name; }
+    public Double getDollarPrice() {
+        return (this.price.doubleValue()) / 100;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getDescription() { return description; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setDescription(String description) { this.description = description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Object getDTDeleted() { return dTDeleted; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public void setDTDeleted(Object dTDeleted) { this.dTDeleted = dTDeleted; }
+    public Object getDTDeleted() {
+        return dTDeleted;
+    }
+
+    public void setDTDeleted(Object dTDeleted) {
+        this.dTDeleted = dTDeleted;
+    }
 
     // endregion
 

@@ -1,27 +1,18 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.enums.Status;
-import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
@@ -29,14 +20,9 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.R.attr.colorPrimary;
-import static android.R.attr.order;
 import static xdroid.core.Global.getContext;
-import static xdroid.core.Global.getResources;
 
 /**
  * Created by tjcle on 3/14/2017.
@@ -49,12 +35,8 @@ public class CookActivity extends ProgressDialogActivity {
 
     //holds the id of the Order being rejected
     String rejectID;
-
-
-
-    private ArrayList<Order> mOrders = new ArrayList<Order>();
-
     boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     @Override
     public void onBackPressed() {
@@ -64,13 +46,13 @@ public class CookActivity extends ProgressDialogActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toaster.toast("Please click BACK again to exit");
 
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

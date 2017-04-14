@@ -21,6 +21,7 @@ import xdroid.toaster.Toaster;
 
 /**
  * Created by Melissa on 3/14/2017.
+ *
  * @author Ashton Ansag
  */
 
@@ -37,7 +38,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.loginButton)
-    public void login(View v){
+    public void login(View v) {
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
@@ -58,7 +59,8 @@ public class SignInActivity extends AppCompatActivity {
                 if (SessionModel.currentUser() != null) {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
-                        public void onCompleted() {  }
+                        public void onCompleted() {
+                        }
 
                         @Override
                         public void onError(Throwable e) {
@@ -68,7 +70,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
 
-                            switch(positionModels.get(0).getRoleID()){
+                            switch (positionModels.get(0).getRoleID()) {
                                 case 1:
                                     startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
                                     break;
@@ -93,7 +95,8 @@ public class SignInActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(LoginResponseModel loginResponseModel) {  }
+            public void onNext(LoginResponseModel loginResponseModel) {
+            }
         });
     }
 }

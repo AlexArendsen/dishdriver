@@ -1,7 +1,5 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.util.Log;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -64,7 +62,7 @@ public class RestaurantModelTests {
 
         List<DishModel> menu = menuSubscriber.getOnNextEvents().get(0);
 
-        for(DishModel d : menu) {
+        for (DishModel d : menu) {
             System.out.println("- " + d.getName() + ": " + d.getPrice());
             System.out.println("  " + d.getDescription());
         }

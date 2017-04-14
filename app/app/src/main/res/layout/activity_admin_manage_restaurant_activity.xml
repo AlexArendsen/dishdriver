@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="Food/Drinks"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <!--android:layout_alignBaseline="@+id/addFood"-->
 
@@ -23,25 +21,25 @@
         android:layout_alignStart="@+id/divider"
         android:text="Fill in the required fields to add a new drink/food item"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/addDrink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+ Add New Item"
-        android:textSize="24sp"
         android:layout_below="@+id/descriptionInput"
-        android:layout_toEndOf="@+id/itemNameText"/>
+        android:layout_toEndOf="@+id/itemNameText"
+        android:text="+ Add New Item"
+        android:textSize="24sp" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/menuFoodItems"
-        android:layout_below="@+id/foodText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/foodText"
         android:layout_toStartOf="@+id/divider"
-        android:onClick="dialogBoxForEachItem()"/>
-
+        android:onClick="dialogBoxForEachItem()" />
 
 
     <View
@@ -55,55 +53,58 @@
         android:id="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Name"
-        android:layout_marginStart="23dp"
         android:layout_below="@+id/drinkText"
-        android:layout_toEndOf="@+id/itemNameText" />
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="64dp"
+        android:layout_toEndOf="@+id/itemNameText"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/itemNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:text="Name of item"
-        android:textSize="28sp"
         android:layout_alignBaseline="@+id/nameInput"
         android:layout_alignBottom="@+id/nameInput"
-        android:layout_toEndOf="@+id/divider" />
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@+id/divider"
+        android:text="Name of item"
+        android:textSize="28sp" />
 
     <TextView
         android:id="@+id/priceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/itemNameText"
+        android:layout_below="@+id/itemNameText"
         android:layout_marginTop="51dp"
         android:text="Price: $"
-        android:textSize="28sp"
-        android:layout_below="@+id/itemNameText"
-        android:layout_alignStart="@+id/itemNameText" />
+        android:textSize="28sp" />
 
     <TextView
         android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/priceText"
+        android:layout_below="@+id/priceText"
         android:layout_marginTop="39dp"
         android:text="Description:"
-        android:textSize="28sp"
-        android:layout_below="@+id/priceText"
-        android:layout_alignStart="@+id/priceText" />
+        android:textSize="28sp" />
 
     <EditText
         android:id="@+id/descriptionInput"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:layout_marginTop="11dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Describe the item"
+        android:layout_alignEnd="@+id/drinkText"
+        android:layout_alignStart="@+id/descriptionText"
+        android:layout_alignTop="@+id/itemDescriptionTextView"
         android:layout_below="@+id/descriptionText"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="13dp"
+        android:ems="10"
+        android:hint="Describe the item"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/priceInput"
@@ -113,7 +114,7 @@
         android:layout_alignTop="@+id/priceText"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="##.##" />
+        android:hint="##.##"
+        android:inputType="numberDecimal" />
 
 </RelativeLayout>

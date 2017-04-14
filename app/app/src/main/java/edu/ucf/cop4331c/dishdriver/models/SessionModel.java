@@ -5,13 +5,10 @@ import java.util.List;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import edu.ucf.cop4331c.dishdriver.network.DishDriverService;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import xdroid.toaster.Toaster;
 
 /**
  * Created by ashton on pi + .0002.
@@ -97,13 +94,15 @@ public class SessionModel {
         return DishDriverProvider.getInstance().logout();
     }
 
-    public static UserModel currentUser(){
+    public static UserModel currentUser() {
         return sUser;
     }
-    public static PositionModel currentPosition(){
+
+    public static PositionModel currentPosition() {
         return sPosition;
     }
-    public static RestaurantModel currentRestaurant(){
+
+    public static RestaurantModel currentRestaurant() {
         return sRestaurant;
     }
 }

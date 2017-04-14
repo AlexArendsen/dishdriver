@@ -1,7 +1,6 @@
 package edu.ucf.cop4331c.dishdriver.adapters;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,8 @@ import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
-    private WeakReference<Context> contextWeakReference;
     private final ArrayList<Order> mOrders;
+    private WeakReference<Context> contextWeakReference;
 
     public OrderAdapter(Context context, ArrayList<Order> orders) {
         mOrders = orders;

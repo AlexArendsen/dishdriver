@@ -87,9 +87,6 @@ public class OrderedDishModel extends DishModel {
         this.setRestaurantID(dish.getRestaurantID());
         this.setOrderedPrice(this.getPrice());
     }
-    public OrderedDishModel(){
-        super();
-    };
     // endregion
 
     // region query() implementation
@@ -246,7 +243,7 @@ public class OrderedDishModel extends DishModel {
     }
 
     public void setToFromKitchen(String notesToKitchen) {
-        this.notesToKitchen = notesFromKitchen;
+        this.notesToKitchen = notesToKitchen;
     }
 
     public int getOrderedPrice() { return orderedPrice; }

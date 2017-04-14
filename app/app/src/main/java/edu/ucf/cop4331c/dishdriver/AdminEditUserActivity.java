@@ -1,9 +1,10 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +24,6 @@ import edu.ucf.cop4331c.dishdriver.models.UserModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import xdroid.toaster.Toaster;
-
-import android.app.AlertDialog;
 
 public class AdminEditUserActivity extends AppCompatActivity {
 
@@ -103,7 +101,7 @@ public class AdminEditUserActivity extends AppCompatActivity {
     @OnClick(R.id.deleteUserButton)
     public void onDeleteUserButtonClicked() {
         //delete user
-        PositionModel.forUser((UserModel )mShowAllUserSpinner.getSelectedItem()).subscribe(new Subscriber<List<PositionModel>>() {
+        PositionModel.forUser((UserModel) mShowAllUserSpinner.getSelectedItem()).subscribe(new Subscriber<List<PositionModel>>() {
             @Override
             public void onCompleted() {
 
@@ -132,7 +130,10 @@ public class AdminEditUserActivity extends AppCompatActivity {
         });
 
 
-    };
+    }
+
+    ;
+
     @OnClick(R.id.generatePasswordButton)
     public void onGenerateUserButtonClicked() {
         //generate password
@@ -140,9 +141,9 @@ public class AdminEditUserActivity extends AppCompatActivity {
         mPasswordTextView.setText(password);
 
         //validate
-        if((mEmailEditText.getText().toString().length() > 1) && (mFirstNameEditText.getText().toString().length() > 1) && (mLastNameEditText.getText().toString().length() > 1) )
+        if ((mEmailEditText.getText().toString().length() > 1) && (mFirstNameEditText.getText().toString().length() > 1) && (mLastNameEditText.getText().toString().length() > 1))
             //check if this user is already created
-            if(UserModel.findFirst(mEmailEditText.getText().toString()) != null){
+            if (UserModel.findFirst(mEmailEditText.getText().toString()) != null) {
                 //create the new user
                 UserModel newUser = new UserModel(mEmailEditText.getText().toString(), mPasswordTextView.getText().toString(), mFirstNameEditText.getText().toString(), mLastNameEditText.getText().toString());
                 newUser.create()
@@ -153,45 +154,44 @@ public class AdminEditUserActivity extends AppCompatActivity {
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NonQueryResponseModel>() {
-                    @Override
-                    public void onCompleted() {
-                        //successful message
-                    }
+                            @Override
+                            public void onCompleted() {
+                                //successful message
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        //successful message
-                        new AlertDialog.Builder(AdminEditUserActivity.this)
-                                .setTitle("Failed")
-                                .setMessage("Sorry, please try again at a later time." + e)
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // do nothing
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                //successful message
+                                new AlertDialog.Builder(AdminEditUserActivity.this)
+                                        .setTitle("Failed")
+                                        .setMessage("Sorry, please try again at a later time." + e)
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                            }
 
-                    @Override
-                    public void onNext(NonQueryResponseModel nonQueryResponseModel) {
-                        //successful message
-                        new AlertDialog.Builder(AdminEditUserActivity.this)
-                                .setTitle("Successful!")
-                                .setMessage("This user has been created! Please write down the generated password for this user at this time.")
-                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // do nothing
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        ArrayAdapter<String> showAllUserAdapter = (ArrayAdapter<String>) mShowAllUserSpinner.getAdapter();
-                    }
-                });
-            }
-            else{
+                            @Override
+                            public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+                                //successful message
+                                new AlertDialog.Builder(AdminEditUserActivity.this)
+                                        .setTitle("Successful!")
+                                        .setMessage("This user has been created! Please write down the generated password for this user at this time.")
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
+                                ArrayAdapter<String> showAllUserAdapter = (ArrayAdapter<String>) mShowAllUserSpinner.getAdapter();
+                            }
+                        });
+            } else {
                 new AlertDialog.Builder(AdminEditUserActivity.this)
                         .setTitle("User Error")
                         .setMessage("This user already exists. Please use a different email address.")
@@ -203,7 +203,7 @@ public class AdminEditUserActivity extends AppCompatActivity {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
             }
-        else{
+        else {
 
             new AlertDialog.Builder(AdminEditUserActivity.this)
                     .setTitle("Validation Error")

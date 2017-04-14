@@ -21,11 +21,11 @@ public class TableQueryModel {
         this.code = code;
     }
 
-    public  TableModel[] getResults() {
+    public TableModel[] getResults() {
         return results;
     }
 
-    public void setResults( TableModel[] results) {
+    public void setResults(TableModel[] results) {
         this.results = results;
     }
 }
