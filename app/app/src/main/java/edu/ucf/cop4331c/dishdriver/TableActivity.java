@@ -23,10 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
-<<<<<<< HEAD
-=======
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
->>>>>>> vivi-table-activity-branch
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
@@ -35,6 +32,7 @@ import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -81,37 +79,7 @@ public class TableActivity extends ProgressDialogActivity {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         mTableAdapter = new TableAdapter(this);
-<<<<<<< HEAD
 
-        mTableRecyclerView.setAdapter(mTableAdapter);
-
-
-        if (SessionModel.currentRestaurant() != null)
-            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
-
-                List<DishModel> dishModelList;
-
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-
-                }
-
-                @Override
-                public void onNext(List<DishModel> dishModels) {
-                    //Toaster.toast(SessionModel.currentRestaurant().getName());
-                    //for (DishModel d  : dishModels)
-                    //    Toaster.toast(d.getName());
-
-                }
-            });
-        else
-            ;
-=======
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
 //        if (SessionModel.currentRestaurant() != null)
 //            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
@@ -138,7 +106,6 @@ public class TableActivity extends ProgressDialogActivity {
 //            });
 //        else
 //            Toaster.toast("Not right");
->>>>>>> vivi-table-activity-branch
 
 //        final Button button = (Button) findViewById(R.id.reserveButton);
 //
@@ -147,11 +114,6 @@ public class TableActivity extends ProgressDialogActivity {
 //               showEditDialog();
 //        }
 //        });
-<<<<<<< HEAD
-
-
-=======
->>>>>>> vivi-table-activity-branch
     }
 
     @Override
@@ -166,14 +128,10 @@ public class TableActivity extends ProgressDialogActivity {
         super.onStop();
     }
 
-<<<<<<< HEAD
-    @Subscribe(threadMode = ThreadMode.MAIN)
-=======
     // Here is where the Dialog for the PartySize is displayed
 
 
     @Subscribe (threadMode = ThreadMode.MAIN)
->>>>>>> vivi-table-activity-branch
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
         PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
@@ -184,17 +142,10 @@ public class TableActivity extends ProgressDialogActivity {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-<<<<<<< HEAD
-        switch (view.getId()) {
-            case R.id.checkbox_deposit:
-                if (checked)
-                    Toaster.toast("hello, I want a table");
-=======
         switch(view.getId()) {
             case R.id.reservationDepositCheckBox:
                if (checked)
-                    Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
->>>>>>> vivi-table-activity-branch
+                   Toaster.toast("hello, I want a table");
                 //else
                 break;
 

@@ -209,7 +209,6 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
     static class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         RelativeLayout mTableRelativeLayout;
-        TextView mTableNameTextView;
 
         public IMyViewHolderClicks mListener;
         TextView mTableNameTextView;
