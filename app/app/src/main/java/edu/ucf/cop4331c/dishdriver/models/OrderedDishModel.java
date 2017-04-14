@@ -87,6 +87,9 @@ public class OrderedDishModel extends DishModel {
         this.setRestaurantID(dish.getRestaurantID());
         this.setOrderedPrice(this.getPrice());
     }
+    public OrderedDishModel(){
+        super();
+    };
     // endregion
 
     // region query() implementation

@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import xdroid.toaster.Toaster;
 
