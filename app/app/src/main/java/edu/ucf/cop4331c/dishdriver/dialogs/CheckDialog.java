@@ -138,9 +138,14 @@ public class CheckDialog extends DialogFragment {
 
         String json = getArguments().getString("STRINGS", "INVALID");
 
-        ArrayList<DishModel> items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>() {
-        }.getType());
+        ArrayList<DishModel> items;
 
+        if (!json.equals("INVALID")) {
+            items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>() {
+            }.getType());
+        } else {
+            items = new ArrayList<>();
+        }
 
         // Bind our Recycler view and set its layout manager to be LinearLayout (Default orientation is vertical)
         RecyclerView receiptRecyclerView = (RecyclerView) view.findViewById(R.id.receiptOfItemsRecyclerView);
@@ -150,7 +155,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null,null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);
@@ -190,8 +195,6 @@ public class CheckDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mGratuityTextView.setText((String) gratuity);
-
-
             }
         });
 
@@ -201,7 +204,6 @@ public class CheckDialog extends DialogFragment {
                 getActivity().finish();
             }
         });
-
     }
 
     private boolean isEmpty(EditText etText) {

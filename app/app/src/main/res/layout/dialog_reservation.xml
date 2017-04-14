@@ -20,7 +20,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/txt_your_name"
+            android:id="@+id/reservationNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -35,7 +35,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/txt_party_size"
+            android:id="@+id/reservationPartySizeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -64,7 +64,7 @@
 
 
         <CheckBox
-            android:id="@+id/checkbox_deposit"
+            android:id="@+id/reservationDepositCheckBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onCheckboxClicked"
@@ -72,7 +72,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/confirmation_button"
+            android:id="@+id/reservationConfirmationButton"
             android:layout_gravity="center"
             android:layout_width="1000dp"
             android:layout_height="wrap_content"

@@ -9,5 +9,6 @@
     <color name="black">#000000</color>
     <!--<color name="complementPrimaryColor">#344055</color>-->
     <color name="complementPrimaryColor">#86B2DB</color>
+    <color name="purple">#DDA0DD</color>
 
 </resources>

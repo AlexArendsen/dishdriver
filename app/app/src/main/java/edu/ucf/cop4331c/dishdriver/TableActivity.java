@@ -1,42 +1,54 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
+<<<<<<< HEAD
+=======
+import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
+>>>>>>> vivi-table-activity-branch
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
-import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import rx.Subscriber;
-import xdroid.toaster.Toaster;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by viviennedo on 3/14/17.
  */
 
-public class TableActivity extends AppCompatActivity {
+public class TableActivity extends ProgressDialogActivity {
 
+    private static final String TAG = "TableActivity-";
     @BindView(R.id.tableRecyclerView)
     RecyclerView mTableRecyclerView;
-
     TableAdapter mTableAdapter;
-
     boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<TableModel> mTableModels;
+    private ArrayList<OrderModel> mOrderModels;
 
     @Override
     public void onBackPressed() {
@@ -60,16 +72,16 @@ public class TableActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
         ButterKnife.bind(this);
+        // Retrieve table models.
+        getTables();
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
-
-
-        mTableRecyclerView.setLayoutManager(gridLayoutManager);
-
         mTableAdapter = new TableAdapter(this);
+<<<<<<< HEAD
 
         mTableRecyclerView.setAdapter(mTableAdapter);
 
@@ -99,6 +111,34 @@ public class TableActivity extends AppCompatActivity {
             });
         else
             ;
+=======
+        mTableRecyclerView.setLayoutManager(gridLayoutManager);
+//        if (SessionModel.currentRestaurant() != null)
+//            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
+//
+//                List<DishModel> dishModelList;
+//
+//                @Override
+//                public void onCompleted() {
+//
+//                }
+//
+//                @Override
+//                public void onError(Throwable e) {
+//
+//                }
+//
+//                @Override
+//                public void onNext(List<DishModel> dishModels) {
+//                    Toaster.toast(SessionModel.currentRestaurant().getName());
+//                    for (DishModel d  : dishModels)
+//                        Toaster.toast(d.getName());
+//
+//                }
+//            });
+//        else
+//            Toaster.toast("Not right");
+>>>>>>> vivi-table-activity-branch
 
 //        final Button button = (Button) findViewById(R.id.reserveButton);
 //
@@ -107,8 +147,11 @@ public class TableActivity extends AppCompatActivity {
 //               showEditDialog();
 //        }
 //        });
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> vivi-table-activity-branch
     }
 
     @Override
@@ -123,24 +166,130 @@ public class TableActivity extends AppCompatActivity {
         super.onStop();
     }
 
+<<<<<<< HEAD
     @Subscribe(threadMode = ThreadMode.MAIN)
+=======
+    // Here is where the Dialog for the PartySize is displayed
+
+
+    @Subscribe (threadMode = ThreadMode.MAIN)
+>>>>>>> vivi-table-activity-branch
     public void onPartyDialogOpen(ShowPartyDialogEvent event) {
         PartySizeDialog.newInstance(event.getTableId()).show(getSupportFragmentManager(), "PARTY_DIALOG");
     }
+
+    // Wait, why is the checkbox being checked here? ):
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
+<<<<<<< HEAD
         switch (view.getId()) {
             case R.id.checkbox_deposit:
                 if (checked)
                     Toaster.toast("hello, I want a table");
+=======
+        switch(view.getId()) {
+            case R.id.reservationDepositCheckBox:
+               if (checked)
+                    Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
+>>>>>>> vivi-table-activity-branch
                 //else
                 break;
 
 
         }
+    }
+
+    /**
+     * Gets the tables for this restaurant from our backend.
+     */
+    public void getTables() {
+
+        // You have to pass mTableModels down to ReservationDialog
+        // and then create a new reservation with the create method
+
+        mTableModels = new ArrayList<>();
+        enableProgressDialog("Retrieving Tables...");
+
+        // Here, you will access the db and set the TableAdapter here
+
+        TableModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<TableModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e.getMessage(), e);
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    // Associate the Tables with a TableModel and and set the TableModels here by passing them in
+                    // the TableAdapter.
+
+                    public void onNext(List<TableModel> tableModels) {
+                        mTableModels.clear();
+                        mTableModels.addAll(tableModels);
+                        mTableAdapter.setTableModels(mTableModels);
+                        mTableRecyclerView.setAdapter(mTableAdapter);
+                        dismissProgressDialog();
+                        getOrders();
+                    }
+                });
+    }
+
+    // We are going to grab all of the orders associated with the forRestaurant method
+    // Recall that OrderModel.forRestaurant() will return all of the orders associated with the restaurants.
+    // Mmm we need ALL of the Orders to compare the orders from the Waiter. That is why we are grabing all of the elements.
+
+
+    public void getOrders() {
+
+        mOrderModels = new ArrayList<>();
+        enableProgressDialog("Retrieving All Orders...");
+
+        OrderModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<OrderModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        dismissProgressDialog();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        Log.e(TAG, "onError: " + e.getMessage(), e);
+                        dismissProgressDialog();
+
+                    }
+
+                    // Here, we are getting all of the OrderModel elements associated with the restaurant
+                    // Make sure to clear and then set elements
+                    @Override
+                    public void onNext(List<OrderModel> orderModels) {
+
+                        mOrderModels.clear();
+                        mOrderModels.addAll(orderModels);
+                        mTableAdapter.setOrderModels(mOrderModels);
+                        dismissProgressDialog();
+                    }
+                });
+
+
+
+
+
+
     }
 
 

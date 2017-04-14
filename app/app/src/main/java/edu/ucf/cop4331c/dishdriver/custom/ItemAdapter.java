@@ -16,6 +16,9 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/25/17.
@@ -25,15 +28,20 @@ import edu.ucf.cop4331c.dishdriver.models.DishModel;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
 
+    private final OrderedDishModel orderDishModel;
     // WeakReference will ensure that the activity context is not leaked if the activity is killed by the app.
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
     private ArrayList<DishModel> mItems;
     private boolean mShowRemoveButton;
+    private final OrderModel orderModel;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton) {
+
+    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton, OrderModel orderModel, OrderedDishModel orderedDishModel) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
         mShowRemoveButton = showRemoveButton;
+        this.orderModel = orderModel;
+        this.orderDishModel = orderedDishModel;
     }
 
 
@@ -58,9 +66,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             // Here, we are going to open up the dialog for the modify EditText
             public void addNoteForItemAtPosition(int position) {
                 AppCompatActivity appCompatActivity = appCompatActivityWeakReference.get();
-                if (appCompatActivity != null)
+                if (appCompatActivity != null) {
+
                     // If there is something there, then we want to create a dialog
-                    new ItemModifyDialog().show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+
+                    // TODO: ASK CHRIS, SINCE WE are converting mannually, this breaks? How do I get the OrderedDishModel ):
+                    ItemModifyDialog.newInstance(orderDishModel).show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+
+                }
+
 
             }
         });
@@ -103,6 +117,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void removeItem(int position) {
         mItems.remove(position);
         notifyDataSetChanged();
+    }
+
+    /**
+     * Converts all of our current items into an OrderedDishModel.
+     *
+     * @return      An ArrayList of OrderedDishModels.
+     */
+    public ArrayList<OrderedDishModel> getOrder() {
+        ArrayList<OrderedDishModel> orderedDishModels = new ArrayList<>();
+
+        for (DishModel dishes: mItems) {
+            orderedDishModels.add(new OrderedDishModel(dishes, orderModel));
+        }
+
+        return orderedDishModels;
     }
 
     public ArrayList<DishModel> getItems() {
