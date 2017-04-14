@@ -21,6 +21,13 @@ public class NonQueryResponseModel {
     @Expose
     private Results results;
 
+    public static Observable<NonQueryResponseModel> run(String sql, String[] args) {
+        return DishDriverProvider.getInstance()
+                .nonQuery(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(sql, args))
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io());
+    }
+
     public String getCode() {
         return code;
     }
@@ -35,13 +42,6 @@ public class NonQueryResponseModel {
 
     public void setResults(Results results) {
         this.results = results;
-    }
-
-    public static Observable<NonQueryResponseModel> run(String sql, String[] args) {
-        return DishDriverProvider.getInstance()
-                .nonQuery(DishDriverProvider.DD_HEADER_CLIENT, new SqlModel(sql, args))
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io());
     }
 
     public class Results {

@@ -7,17 +7,16 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/menuBarLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:id="@+id/menuBarLinearLayout">
+        android:layout_alignParentRight="true">
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/menuSpinner"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/convertOrderDishModelButton"
@@ -34,13 +33,12 @@
             app:srcCompat="@drawable/ic_send_black_24dp" />
 
 
-
         <ImageButton
             android:id="@+id/checkButton"
-            android:shadowColor="@color/complementPrimaryColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:shadowColor="@color/complementPrimaryColor"
             app:srcCompat="@drawable/ic_attach_money_black_24dp" />
 
 
@@ -61,20 +59,20 @@
         android:background="@color/black" />
 
     <!--<pl.droidsonroids.gif.GifTextView-->
-        <!--android:id="@+id/hypeTextView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/hype"-->
-        <!--/>-->
+    <!--android:id="@+id/hypeTextView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@drawable/hype"-->
+    <!--/>-->
 
 
     <!--<Button-->
-        <!--android:id="@+id/checkButton"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:text="Check" />-->
+    <!--android:id="@+id/checkButton"-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:text="Check" />-->
 
 
 </RelativeLayout>

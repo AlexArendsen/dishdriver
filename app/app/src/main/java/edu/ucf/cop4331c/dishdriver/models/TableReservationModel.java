@@ -71,9 +71,17 @@ public class TableReservationModel {
                 .observeOn(Schedulers.io())
                 .flatMap(qm -> {
 
+                    System.out.println("TABLE RESERVATION :: Returning from TableReservation query.");
+                    System.out.println("sql: " + sql);
+                    if (qm == null) System.out.println("qm = null");
+                    else if (qm.getResults() == null) System.out.println("qm results = null");
+                    else if (qm.getResults().length == 0 ) System.out.println("qm results list is not null, but it is empty");
+                    else System.out.println("qm contains " + qm.getResults().length + " results");
+
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<TableReservationModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<TableReservationModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -83,26 +91,24 @@ public class TableReservationModel {
     // region DB Retrieval
 
     /**
-     *
      * @param id of the reservation
      * @return a table reservation whose table id matches the id given
      */
-    public static Observable<TableReservationModel> get(int id){
+    public static Observable<TableReservationModel> get(int id) {
 
         return query(
                 "SELECT * FROM Table_Reservations WHERE Id = ?",
                 new String[]{Integer.toString(id)}
-        ).flatMap(list->{
+        ).flatMap(list -> {
             return Observable.just(list.get(0));
         });
     }
 
     /**
-     *
      * @param r The restaurant we want information for
      * @return A list containing all the table reservations for the given restaurant
      */
-    public static Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r){
+    public static Observable<List<TableReservationModel>> forRestaurant(RestaurantModel r) {
         return query(
                 "SELECT TR.* FROM Table_Reservations TR JOIN Tables T ON T.Id = TR.Table_ID JOIN Restaurants R ON T.Restaurant_ID = R.Id WHERE R.Id = ?",
                 new String[]{Integer.toString(r.getId())}
@@ -110,7 +116,6 @@ public class TableReservationModel {
     }
 
     /**
-     *
      * @param r, the restaurant we want to find active reservations for
      * @return a list of table reservations that are active, or are not yet taken
      */
@@ -123,15 +128,14 @@ public class TableReservationModel {
     // endregion
 
     /**
-     *
      * @return deletes the reservation for the current table
      */
-    public Observable<NonQueryResponseModel> unreserve(){
+    public Observable<NonQueryResponseModel> unreserve() {
 
         return NonQueryResponseModel.run(
                 "DELETE FROM Table_Reservations " +
                         "WHERE Id = ?",
-                new String[] {Integer.toString(this.id)}
+                new String[]{Integer.toString(this.id)}
         );
     }
 

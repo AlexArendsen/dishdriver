@@ -6,12 +6,6 @@ package edu.ucf.cop4331c.dishdriver.helpers;
 
 public class MoneyFormatter {
 
-    public enum Format {
-        DollarsAndCents,
-        JustDollars,
-        JustCents
-    }
-
     public static String format(int cents) {
         return format(Format.DollarsAndCents, cents);
     }
@@ -29,10 +23,16 @@ public class MoneyFormatter {
     }
 
     public static int dollarsOf(int cents) {
-        return (int)Math.floor(cents / 100);
+        return (int) Math.floor(cents / 100);
     }
 
     public static int centsOf(int cents) {
         return cents % 100;
+    }
+
+    public enum Format {
+        DollarsAndCents,
+        JustDollars,
+        JustCents
     }
 }
