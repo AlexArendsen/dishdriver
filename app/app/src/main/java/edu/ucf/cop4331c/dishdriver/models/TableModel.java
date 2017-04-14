@@ -14,6 +14,9 @@ import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.order;
+import static android.R.id.list;
+
 /**
  * Created by rebeca on 3/14/2017.
  */
@@ -45,10 +48,13 @@ public class TableModel {
     @Expose
     private Integer capacity = 4;
 
-    @SerializedName("TableStatus_ID")
+    @SerializedName("LatestOpenOrder_ID")
     @Expose
-    private Integer tableStatusId;
+    private Integer latestOpenOrderID;
 
+    @SerializedName("SoonestUpcomingReservation_ID")
+    @Expose
+    private Integer SoonestUpcomingReservation_ID;
     // endregion
 
     // region query() implementation
@@ -89,9 +95,37 @@ public class TableModel {
     public static Observable<List<TableModel>> forRestaurant(RestaurantModel restaurant){
 
         return query(
-          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID =?",
+          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID = ? ORDER BY T.Id",
                 new String[]{Integer.toString(restaurant.getId())}
         );
+    }
+
+    /**
+     * Gets the state of the table.
+     *
+     * If there is a reservation currently active for this table, then TableStatus.RESERVED is returned.
+     * Otherwise, if there is an order that is not payed or cancelled, then TableStatus.OCCUPIED is returned.
+     * Otherwise, TableStatus.UNRESERVED is returned
+     *
+     * @return The table's status
+     */
+    public Observable<TableStatus> getStatus() {
+
+        return TableReservationModel.query(
+            "SELECT * FROM Table_Reservations WHERE Table_ID = ? AND DT_Requested > NOW() AND DT_Accepted IS NULL ORDER BY DT_Requested ASC LIMIT 1",
+            new String[] { Integer.toString(id) }
+        ).flatMap(reservations -> {
+
+            // No reservations -> check if an order exists
+            if (reservations.isEmpty()) return OrderModel.query(
+                "SELECT * FROM Orders WHERE Table_ID = ? AND DT_Created IS NOT NULL AND (DT_Cancelled IS NULL OR DT_Payed IS NULL) ORDER BY DT_Created DESC LIMIT 1",
+                new String[] { Integer.toString(id) }
+            ).flatMap(orders -> Observable.just((orders.isEmpty()) ? TableStatus.UNRESERVED : TableStatus.OCCUPIED ) );
+
+            // If there is a reservation, we don't care if the table is occupied
+            else return Observable.just(TableStatus.RESERVED);
+        });
+
     }
     // endregion
 
@@ -191,16 +225,5 @@ public class TableModel {
         this.capacity = capacity;
     }
 
-    public TableStatus getTableStatus() {
-        switch(tableStatusId) {
-            case 1:  return TableStatus.RESERVED;
-            case 2:  return TableStatus.UNRESERVED;
-            default: return TableStatus.OCCUPIED;
-        }
-    }
-
-    public void setTableStatus(Integer tableStatusId) {
-        this.tableStatusId = tableStatusId;
-    }
     // endregion
 }

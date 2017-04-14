@@ -58,7 +58,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             if (view instanceof TextView) {
                 if (textViewCount < dishes.size()) {
                     view.setVisibility(View.VISIBLE);
-                    ((TextView) view).setText(dishes.get(textViewCount).getName() + " \n" + dishes.get(textViewCount).getNotesToKitchen());
+                    String notes = dishes.get(textViewCount).getNotesToKitchen();
+                    String fromK  = dishes.get(textViewCount).getNotesFromKitchen();
+                    ((TextView) view).setText(dishes.get(textViewCount).getName() + " \n" + ((notes==null)? ((fromK==null)?"": fromK) : notes));
                     textViewCount++;
                 } else {
                     ((TextView) view).setVisibility(View.GONE);

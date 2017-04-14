@@ -252,7 +252,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
-        startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+        //startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
     }
 
 
