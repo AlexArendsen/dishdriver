@@ -2,18 +2,25 @@ package edu.ucf.cop4331c.dishdriver.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import edu.ucf.cop4331c.dishdriver.enums.Status;
-import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import edu.ucf.cop4331c.dishdriver.network.NotificationService;
-import rx.Observable;
-import rx.schedulers.Schedulers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static edu.ucf.cop4331c.dishdriver.enums.Status.*;
+import edu.ucf.cop4331c.dishdriver.enums.Status;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
+import edu.ucf.cop4331c.dishdriver.network.NotificationService;
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
+import static edu.ucf.cop4331c.dishdriver.enums.Status.ACCEPTED;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.CANCELLED;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.COOKED;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.NEW;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.PAID;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.PLACED;
+import static edu.ucf.cop4331c.dishdriver.enums.Status.REJECTED;
 
 
 /**
@@ -92,9 +99,17 @@ public class OrderModel {
                 .observeOn(Schedulers.io())
                 .flatMap(qm -> {
 
+                    System.out.println("ORDER :: Returning from Order query.");
+                    System.out.println("sql: " + sql);
+                    if (qm == null) System.out.println("qm = null");
+                    else if (qm.getResults() == null) System.out.println("qm results = null");
+                    else if (qm.getResults().length == 0 ) System.out.println("qm results list is not null, but it is empty");
+                    else System.out.println("qm contains " + qm.getResults().length + " results");
+
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<OrderModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<OrderModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -107,9 +122,9 @@ public class OrderModel {
 
     public static Observable<OrderModel> get(int id) {
         return query(
-            "SELECT * FROM Orders WHERE Id = ?",
-            new String[] { Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)) );
+                "SELECT * FROM Orders WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     public static Observable<List<OrderModel>> forWaiter(PositionModel waiter) {
@@ -119,7 +134,7 @@ public class OrderModel {
     public static Observable<List<OrderModel>> forWaiter(int id) {
         return query(
                 "SELECT * FROM Orders WHERE Waiter_ID = ? ORDER BY DT_Created DESC, Id DESC",
-                new String[] { Integer.toString(id) }
+                new String[]{Integer.toString(id)}
         );
     }
 
@@ -130,7 +145,7 @@ public class OrderModel {
     public static Observable<List<OrderModel>> forCook(int id) {
         return query(
                 "SELECT * FROM Orders WHERE Cook_ID = ? ORDER BY DT_Created DESC, Id DESC",
-                new String[] { Integer.toString(id) }
+                new String[]{Integer.toString(id)}
         );
     }
 
@@ -141,7 +156,7 @@ public class OrderModel {
     public static Observable<List<OrderModel>> forRestaurant(int id) {
         return query(
                 "SELECT O.* FROM Orders O INNER JOIN Tables T ON O.Table_ID = T.Id ORDER BY DT_Created DESC, O.Id DESC",
-                new String[] { Integer.toString(id) }
+                new String[]{Integer.toString(id)}
         );
     }
     // endregion
@@ -151,12 +166,12 @@ public class OrderModel {
      *
      * @return Return all the non-voided dishes for this order
      */
-    public Observable<List<OrderedDishModel>> dishes(){
+    public Observable<List<OrderedDishModel>> dishes() {
         return OrderedDishModel.odQuery(
                 "SELECT O.*, D.*, O.Id AS OrderedDish_ID " +
-                "FROM Ordered_Dishes O INNER JOIN Dishes D ON O.Dish_ID = D.Id " +
-                "WHERE O.Order_Id = ? AND IsVoided = 0",
-                new String[] {Integer.toString(getId())}
+                        "FROM Ordered_Dishes O INNER JOIN Dishes D ON O.Dish_ID = D.Id " +
+                        "WHERE O.Order_Id = ? AND IsVoided = 0",
+                new String[]{Integer.toString(getId())}
         );
     }
 
@@ -171,7 +186,7 @@ public class OrderModel {
      *
      * @return Total cost of the dishes in this order. Discount, tax, etc. NOT included.
      */
-    public Observable<Integer> dishTotal(){
+    public Observable<Integer> dishTotal() {
         return dishes().flatMap(list -> {
 
             // Android... why must you tempt me so? This would be SO much nicer...
@@ -179,7 +194,7 @@ public class OrderModel {
 
             // Gotta do this bs instead because APIv19 T_T
             int sum = 0;
-            for(OrderedDishModel d : list) sum += d.getOrderedPrice();
+            for (OrderedDishModel d : list) sum += d.getOrderedPrice();
 
             return Observable.just(sum);
         });
@@ -190,14 +205,15 @@ public class OrderModel {
      *
      * @return The current status of this order
      */
-    public Status getStatus(){
+    public Status getStatus() {
 
-        if (dTPayed != null)          return PAID;
+        if (dTPayed != null) return PAID;
         else if (dTCancelled != null) return CANCELLED;
-        else if (dTCooked != null)    return COOKED;
-        else if (dTAccepted != null)  return ACCEPTED;
-        else if (dTRejected != null && (dTPlaced == null || dTRejected.after(dTPlaced)))  return REJECTED;
-        else if (dTPlaced != null)    return PLACED;
+        else if (dTCooked != null) return COOKED;
+        else if (dTAccepted != null) return ACCEPTED;
+        else if (dTRejected != null && (dTPlaced == null || dTRejected.after(dTPlaced)))
+            return REJECTED;
+        else if (dTPlaced != null) return PLACED;
         else return NEW;
 
         /* Wanted to keep this here bc it's lovely in its own way
@@ -218,12 +234,13 @@ public class OrderModel {
     }
 
     // region State Transition Methods
+
     /**
      * Creates an order in the database associated with the given waiter and table. After
      * completion, the ID of this model is updated.
      *
      * @param waiter The waiter to be associated with this order
-     * @param table The table to be associated with this order
+     * @param table  The table to be associated with this order
      * @return A NonQueryResponseModel that represents the progress of the action.
      * @throws IllegalStateException If this order has already been created
      */
@@ -233,18 +250,22 @@ public class OrderModel {
             throw new IllegalStateException("This order has already been created.");
 
         this.waiterId = waiter.getID();
-        this.tableId  = table.getId();
+        this.tableId = table.getId();
         this.dTCreated = new Date();
 
         return NonQueryResponseModel.run(
-            "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created) VALUES (?, ?, NOW())",
-            new String[] {Integer.toString(waiter.getID()), Integer.toString(table.getId())}
+                "INSERT INTO Orders (Waiter_ID, Table_ID, DT_Created, Discount) VALUES (?, ?, NOW(), ?)",
+                new String[]{
+                        Integer.toString(waiter.getID()),
+                        Integer.toString(table.getId()),
+                        Integer.toString((discount == null) ? 0 : discount)
+                }
         ).doOnNext(qr -> {
             this.id = qr.getResults().getInsertId();
         }).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Created",
-                "[#" + id + "] " + waiter.getEmployeeName() + " has created an order at table " + table.getName()
+                    "Order Created",
+                    "[#" + id + "] " + waiter.getEmployeeName() + " has created an order at table " + table.getName()
             );
         });
 
@@ -252,7 +273,7 @@ public class OrderModel {
 
     /**
      * Places the order for the kitchen to review, adding the provided dishes.
-     *
+     * <p>
      * Note: if you want to remove dishes from an order, call the makeVoid() method on the
      * OrderedDishModels you wish to remove.
      *
@@ -267,7 +288,7 @@ public class OrderModel {
 
         // TODO -- Use this to conditionally form the notification message
         boolean isUpdate = s == Status.PLACED;
-        if (!Arrays.asList(new Status[]{ NEW, PLACED, REJECTED }).contains(s))
+        if (!Arrays.asList(new Status[]{NEW, PLACED, REJECTED}).contains(s))
             throw new IllegalStateException("Order must be new or rejected to be placed");
 
         if (s == REJECTED) dTRejected = null;
@@ -278,27 +299,28 @@ public class OrderModel {
         Observable<NonQueryResponseModel> oDishCreate = null;
 
         if (newDishes != null && !newDishes.isEmpty()) {
-            String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen) VALUES ";
+            String sql = "INSERT INTO Ordered_Dishes (Order_ID, Dish_ID, IsRejected, IsVoided, OrderedPrice, NotesFromKitchen, NotesToKitchen) VALUES ";
             int i = 0;
             ArrayList<String> args = new ArrayList<>();
-            for(OrderedDishModel od : newDishes) {
+            for (OrderedDishModel od : newDishes) {
 
                 // CRAZY GROSS
                 if (i++ > 0) sql += ", ";
-                sql += "(?, ?, ?, ?, ?, ?)";
+                sql += "(?, ?, ?, ?, ?, ?, ?)";
                 args.addAll(Arrays.asList(
                         Integer.toString(id),
                         Integer.toString(od.getDishId()),
                         "0", "0",
                         Integer.toString(od.getPrice()), // <-- This is where the price gets frozen
-                        od.getNotesFromKitchen()
+                        od.getNotesFromKitchen(),
+                        od.getNotesToKitchen()
                 ));
             }
 
             // (String[])args.toArray() doesn't work for some reason, so I have to do this bs
             int idx = 0;
             String[] aArgs = new String[args.size()];
-            for(String a : args) aArgs[idx++] = a;
+            for (String a : args) aArgs[idx++] = a;
 
             oDishCreate = NonQueryResponseModel.run(sql, aArgs);
         }
@@ -307,8 +329,11 @@ public class OrderModel {
         dTPlaced = new Date();
 
         Observable<NonQueryResponseModel> oOrderPlace = NonQueryResponseModel.run(
-            "UPDATE Orders SET DT_Placed = NOW() WHERE Id = ?",
-            new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Placed = NOW(), Discount = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
                     "Order Placed",
@@ -319,7 +344,7 @@ public class OrderModel {
         // Wait for all Observables to complete
         return (oDishCreate == null)
                 ? oOrderPlace
-                : Observable.merge(oDishCreate, oOrderPlace) ;
+                : Observable.merge(oDishCreate, oOrderPlace);
     }
 
     /**
@@ -338,12 +363,16 @@ public class OrderModel {
         dTAccepted = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ? WHERE Id = ?",
-                new String[] { Integer.toString(cook.getID()),  Integer.toString(id) }
+                "UPDATE Orders SET DT_Accepted = NOW(), Cook_ID = ?, Discount = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString(cook.getID()),
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Accepted",
-                "[#" + id + "] " + cook.getEmployeeName() + " has accepted order " + getId()
+                    "Order Accepted",
+                    "[#" + id + "] " + cook.getEmployeeName() + " has accepted order " + getId()
             );
         });
     }
@@ -362,19 +391,22 @@ public class OrderModel {
         dTRejected = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Rejected = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Rejected = NOW(), Discount = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Rejected",
-                "[#" + id + "] Kitchen has rejected order " + id
+                    "Order Rejected",
+                    "[#" + id + "] Kitchen has rejected order " + id
             );
         });
     }
 
     /**
      * Cancels this order
-     *
+     * <p>
      * An order can be cancelled if it is New, Placed, Accepted, Rejected, or Cooked; it cannot be
      * cancelled if it is not yet created, or Paid.
      *
@@ -390,12 +422,15 @@ public class OrderModel {
         dTCancelled = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Cancelled = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Cancelled = NOW(), Discount = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Cancelled",
-                "[#" + id + "] " + SessionModel.currentPosition().getEmployeeName() + " has rejected order " + id
+                    "Order Cancelled",
+                    "[#" + id + "] " + SessionModel.currentPosition().getEmployeeName() + " has rejected order " + id
             );
         });
     }
@@ -404,7 +439,7 @@ public class OrderModel {
      * Marks this order as cooked
      *
      * @return A NonQueryResponseModel representing the associated action
-     * @throws IllegalStateException If the order is not in the accepted state
+     * @throws IllegalStateException If the order is not in the cooked state
      */
     public Observable<NonQueryResponseModel> markCooked() throws IllegalStateException {
 
@@ -414,12 +449,15 @@ public class OrderModel {
         dTCooked = new Date();
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Cooked = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Cooked = NOW(), Discount = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Cooked",
-                "[#" + id + "] Order " + id + " has been cooked and is ready for pick-up."
+                    "Order Cooked",
+                    "[#" + id + "] Order " + id + " has been cooked and is ready for pick-up."
             );
         });
     }
@@ -427,23 +465,29 @@ public class OrderModel {
     /**
      * Marks the order as paid
      *
+     * @param amountPaid The amount the customer paid for the order
      * @return A NonQueryResponseModel representing the associated action
      * @throws IllegalStateException If the order is not in the cooked state
      */
-    public Observable<NonQueryResponseModel> markPaid() throws IllegalStateException {
+    public Observable<NonQueryResponseModel> markPaid(int amountPaid) throws IllegalStateException {
 
         if (getStatus() != Status.COOKED)
             throw new IllegalStateException("Only cooked orders can be marked paid");
 
         dTPayed = new Date();
+        payment = amountPaid;
 
         return NonQueryResponseModel.run(
-                "UPDATE Orders SET DT_Payed = NOW() WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                "UPDATE Orders SET DT_Payed = NOW(), Discount = ?, Payment = ? WHERE Id = ?",
+                new String[]{
+                        Integer.toString((discount == null) ? 0 : discount),
+                        Integer.toString((payment == null) ? 0 : payment),
+                        Integer.toString(id)
+                }
         ).doOnCompleted(() -> {
             NotificationService.broadcast(
-                "Order Paid",
-                "[#" + id + "] Order " + id + " has been paid!"
+                    "Order Paid",
+                    "[#" + id + "] Order " + id + " has been paid!"
             );
         });
     }

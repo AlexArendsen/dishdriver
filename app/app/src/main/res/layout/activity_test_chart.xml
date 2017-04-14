@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="2115px"
-android:layout_height="1500px"
-android:background="@color/white">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<com.github.mikephil.charting.charts.PieChart
-    android:id="@+id/pieChart"
-    android:textColor="@color/black"
-    android:textSize="27px"
-    android:textStyle="bold"
-    android:padding="6px"/>
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+</LinearLayout>

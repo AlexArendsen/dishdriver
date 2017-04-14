@@ -1,4 +1,4 @@
-package edu.ucf.cop4331c.dishdriver.exception;
+package edu.ucf.cop4331c.dishdriver.exceptions;
 
 /**
  * Created by ashton on pi + .0002.

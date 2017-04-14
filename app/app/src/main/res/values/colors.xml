@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<color name="colorPrimary">#F6860E </color>-->
-    <color name="colorPrimary">#306EAA </color>
-    <color name="colorPrimaryDark">#F4DECA </color>
+    <color name="colorPrimary">#306EAA</color>
+    <color name="colorPrimaryDark">#0018A8</color>
+    <color name="colorPrimaryLight">#F4DECA</color>
     <color name="colorAccent">#000000</color>
-    <color name="white">#FFFFFF </color>
-    <color name="black">#000000 </color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <!--<color name="complementPrimaryColor">#344055</color>-->
     <color name="complementPrimaryColor">#86B2DB</color>
+    <color name="purple">#DDA0DD</color>
 
 </resources>

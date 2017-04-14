@@ -1,20 +1,13 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -23,15 +16,12 @@ import edu.ucf.cop4331c.dishdriver.models.LoginResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.PositionModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.UserModel;
-import edu.ucf.cop4331c.dishdriver.network.NotificationService;
-import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import xdroid.toaster.Toaster;
 
 /**
  * Created by Melissa on 3/14/2017.
+ *
  * @author Ashton Ansag
  */
 
@@ -45,27 +35,10 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-
-
-        String filename = "myfile";
-        String string = "Hello world!";
-        FileOutputStream outputStream;
-        File file = new File(this.getFilesDir(), filename);
-
-
-        try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @OnClick(R.id.loginButton)
-    public void login(View v){
-        //startActivity(new Intent(SignInActivity.this, TestChartActivity.class));
-        //finish();
+    public void login(View v) {
 
         EditText UserName = (EditText) findViewById(R.id.userNameEditText);
         EditText Password = (EditText) findViewById(R.id.passwordEditText);
@@ -87,7 +60,6 @@ public class SignInActivity extends AppCompatActivity {
                     PositionModel.forUser(SessionModel.currentUser()).subscribe(new Subscriber<List<PositionModel>>() {
                         @Override
                         public void onCompleted() {
-
                         }
 
                         @Override
@@ -98,7 +70,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onNext(List<PositionModel> positionModels) {
 
-                            switch(positionModels.get(0).getRoleID()){
+                            switch (positionModels.get(0).getRoleID()) {
                                 case 1:
                                     startActivity(new Intent(SignInActivity.this, AdminNavigationActivity.class));
                                     break;
@@ -124,12 +96,6 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onNext(LoginResponseModel loginResponseModel) {
-
-                //Toast.makeText(SignInActivity.this, "onComplete", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(SignInActivity.this, CookActivity.class));
-                //UserName.setText("");//overkill
-                //Password.setText("");//overkill but maybe useful with signoutbutton probably not
-                //finish();
             }
         });
     }

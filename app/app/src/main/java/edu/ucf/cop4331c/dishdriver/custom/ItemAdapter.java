@@ -1,6 +1,7 @@
 package edu.ucf.cop4331c.dishdriver.custom;
 
 import android.content.Context;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,11 +13,15 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import xdroid.toaster.Toaster;
 
 /**
@@ -31,11 +36,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private WeakReference<AppCompatActivity> appCompatActivityWeakReference;
     private ArrayList<DishModel> mItems;
     private boolean mShowRemoveButton;
+    private final OrderModel orderModel;
+    private final ArrayList<OrderedDishModel> mConvertedOrderedDishModelList;
 
-    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton) {
+    public ItemAdapter(AppCompatActivity activity, ArrayList<DishModel> items, boolean showRemoveButton, OrderModel orderModel) {
         mItems = items;
         appCompatActivityWeakReference = new WeakReference<AppCompatActivity>(activity);
         mShowRemoveButton = showRemoveButton;
+        this.orderModel = orderModel;
+        mConvertedOrderedDishModelList = new ArrayList<>();
     }
 
 
@@ -60,10 +69,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             // Here, we are going to open up the dialog for the modify EditText
             public void addNoteForItemAtPosition(int position) {
                 AppCompatActivity appCompatActivity = appCompatActivityWeakReference.get();
-                if (appCompatActivity != null)
-                    // If there is something there, then we want to create a dialog
-                    new ItemModifyDialog().show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+                if (appCompatActivity != null) {
 
+                    // If there is something there, then we want to create a dialog
+                    ItemModifyDialog.newInstance(mConvertedOrderedDishModelList.get(position), this, position).show(appCompatActivity.getSupportFragmentManager(), "ITEM_MODIFY_DIALOG");
+                }
+            }
+
+            @Override
+            public void completeNoteForAdapter(int position, String note) {
+                mConvertedOrderedDishModelList.get(position).setToFromKitchen(note);
             }
         });
     }
@@ -99,13 +114,40 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public void addItem(DishModel item) {
         mItems.add(item);
+        mConvertedOrderedDishModelList.add(convertDishModel(item));
         notifyDataSetChanged();
     }
 
     public void removeItem(int position) {
         mItems.remove(position);
+        mConvertedOrderedDishModelList.remove(position);
         notifyDataSetChanged();
     }
+
+    /**
+     * Converts a retrieved dishModel into a orderedDishModel.
+     * @param dishModel
+     * @return
+     */
+    public OrderedDishModel convertDishModel(DishModel dishModel) {
+        return new OrderedDishModel(dishModel, orderModel);
+    }
+
+    /**
+     * Converts all of our current items into an OrderedDishModel.
+     *
+     * @return      An ArrayList of OrderedDishModels.
+     */
+    public ArrayList<OrderedDishModel> getOrder() {
+//        ArrayList<OrderedDishModel> orderedDishModels = new ArrayList<>();
+//
+//        for (DishModel dishes: mItems) {
+//            orderedDishModels.add(new OrderedDishModel(dishes, orderModel));
+//        }
+
+        return mConvertedOrderedDishModelList;
+    }
+
     public ArrayList<DishModel> getItems() {
         return mItems;
     }
@@ -197,6 +239,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         public interface IMyViewHolderClicks {
             void removeItemFromAdapter(int position);
             void addNoteForItemAtPosition(int position);
+            void completeNoteForAdapter(int position, String note);
         }
 
 

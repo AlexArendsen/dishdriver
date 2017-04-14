@@ -155,8 +155,17 @@ public class OrderedDishModel extends DishModel {
         isVoided = 1;
 
         return NonQueryResponseModel.run(
-                "UPDATE Ordered_Dishes SET IsVoided = 1 WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+            "UPDATE Ordered_Dishes SET IsVoided = 1 WHERE Id = ?",
+            new String[] { Integer.toString(id) }
+        );
+    }
+
+    public Observable<NonQueryResponseModel> updateNotesToKitchen(String notes) {
+        notesToKitchen = notes;
+
+        return NonQueryResponseModel.run(
+            "UPDATE Ordered_Dishes SET NotesToKitchen = ? WHERE Id = ?",
+            new String[] { notes, Integer.toString(id) }
         );
     }
     // endregion
@@ -234,7 +243,7 @@ public class OrderedDishModel extends DishModel {
     }
 
     public void setToFromKitchen(String notesToKitchen) {
-        this.notesToKitchen = notesFromKitchen;
+        this.notesToKitchen = notesToKitchen;
     }
 
     public int getOrderedPrice() { return orderedPrice; }

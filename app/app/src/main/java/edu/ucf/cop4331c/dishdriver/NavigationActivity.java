@@ -1,11 +1,15 @@
 package edu.ucf.cop4331c.dishdriver;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,47 +18,84 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.ucf.cop4331c.dishdriver.adapters.OrderAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.CheckDialog;
+import edu.ucf.cop4331c.dishdriver.dialogs.ItemModifyDialog;
+import edu.ucf.cop4331c.dishdriver.enums.Status;
+import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import pl.droidsonroids.gif.GifTextView;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
+import java.lang.reflect.Type;
 
-//class Dishes {
-//    private String name;
-//    private double price;
-//
-//    public Dishes(String name, double price) {
-//        this.name = name;
-//        this.price = price;
-//    }
-//}
+import static xdroid.core.Global.getContext;
+
 public class NavigationActivity extends ProgressDialogActivity {
+
+//    public String onReturnValue(String foo) {
+//
+//        Log.i("onReturnValue", "Got value " + foo + " back from Dialog!");
+//
+//        return foo;
+//
+//
+//    }
 
 
     private int mTableNumber;
+    private OrderModel mOrderModel;
+    private TableModel mTableModel;
+
+    final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
+
+
+//    Type listOfTestObject = new TypeToken<List<OrderedDishModel>>(){}.getType();
+//    Gson gson = null;
+//    String s = gson.toJson(OrderedDishModelList, listOfTestObject);
+//    List<OrderedDishModel> mConvertedOrderedDishModelList = gson.fromJson(s, listOfTestObject);
+
+
+    // final Type OrderedDishModelList = new TypeToken<ArrayList<OrderedDishModel>>(){}.getType();
+
+//    private JsonElement jsonArray;
+//
+//    List<OrderedDishModel> yourClassList = new Gson().fromJson(jsonArray, OrderedDishModelList);
+    // private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     @BindView(R.id.menuSpinner)
     Spinner mMenuSpinner;
     @BindView(R.id.menuItemRecyclerView)
     RecyclerView mMenuItemRecyclerView;
-    @BindView(R.id.beverageSpinner)
-    Spinner mBeverageSpinner;
+    @BindView(R.id.convertOrderDishModelButton)
+    ImageButton mOrderDishButton;
     @BindView(R.id.checkButton)
     ImageButton mCheckButton;
     @BindView(R.id.sendOrderToKitchenButton)
     ImageButton mOrderButton;
+    private ItemAdapter itemAdapter;
 //    @BindView(R.id.hypeTextView)
 //    GifTextView mHypeTextView;
 
@@ -66,43 +107,25 @@ public class NavigationActivity extends ProgressDialogActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-//        final ArrayList<Dishes> menuDishesList = new ArrayList<Dishes>();
-//        menuDishesList.add(new Dishes("Menu", 0));
-//        menuDishesList.add(new Dishes("coconut curry wrap", 10.00));
-//        menuDishesList.add(new Dishes("Acorn Squash", 5.00));
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
 
         // Retrieves the table number from the intent that we passed in the PartySizeDialog.
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
+        mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
+        mTableModel = new Gson().fromJson(getIntent().getStringExtra("TABLE_MODEL"), TableModel.class);
+        // mOrderDishModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_DISH_MODEL"), OrderedDishModel.class);
 
-//        switch (mTableNumber) {
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            //...
-//        }
-
-
+        // OrderedDishModelList = new Gson().fromJson(getIntent().getStringArrayListExtra("ORDER_DISH_LIST"), OrderedDishModel.class);
 
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
-
-//        menuItemsList.add("Menu");
-//        menuItemsList.add("COCONUT CURRY WRAP!");
-//        menuItemsList.add("Acorn squash");
-//        menuItemsList.add("MAYO FOR TJ");
-//        menuItemsList.add("Kimchi");
-//        menuItemsList.add("MUSHROOMS for Ashton");
-//        menuItemsList.add("Scones for Gareth!!");
 
         ArrayAdapter<DishModel> menuAdapter = new ArrayAdapter<DishModel>(getBaseContext(), android.R.layout.simple_list_item_1, menuItemsList);
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        final ItemAdapter itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true);
+        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -127,36 +150,9 @@ public class NavigationActivity extends ProgressDialogActivity {
         mMenuItemRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
         mMenuItemRecyclerView.setAdapter(itemAdapter);
 
-//        // trying to create beverage spinner
-//
-//        final ArrayList<DishModel> beverageList = new ArrayList<String>();
-//        beverageList.add("Beverages");
-//        beverageList.add("Kombocha");
-//        beverageList.add("Chai Tea");
-//
-//
-//        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
-//        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
-//        mBeverageSpinner.setAdapter(beverageAdapter);
-//
-//        mBeverageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                if (position != 0) {
-//                    ((ItemAdapter) mMenuItemRecyclerView.getAdapter()).addItem(beverageList.get(position));
-//                    mMenuItemRecyclerView.smoothScrollToPosition(mMenuItemRecyclerView.getAdapter().getItemCount());
-//                    mBeverageSpinner.setSelection(0);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
-         getDishes(menuItemsList);
+        getDishes(menuItemsList);
+
 
 
     }
@@ -200,60 +196,216 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                             menuItemsList.add(dishModel);
 
-
-
                         }
-
-
-
-//                        for (DishModel dishModel : dishModels) {
-//                            beverageList.add(MoneyFormatter.format(dishModel.getPrice()));
-//
-//                        }
 
                         final ArrayList<String> temps = new ArrayList<String>();
                         final ArrayList<String> prices = new ArrayList<String>();
 
+                        // I know, it's gross!! Ah!!
                         for(int x = 0; x < menuItemsList.size(); x++ ) {
 
                             temps.add(menuItemsList.get(x).getName());
                             prices.add(MoneyFormatter.format(menuItemsList.get(x).getPrice()));
                         }
 
-
-
-
                         // Bind the spinner to the names to display
                         ArrayAdapter<String> menuItemAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, temps);
                         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
                         mMenuSpinner.setAdapter(menuItemAdapter);
-
-
-//                        ArrayAdapter<String> beverageAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, beverageList);
-//                        mBeverageSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.pinkRed));
-//                        mBeverageSpinner.setAdapter(beverageAdapter);
-
-
-
-
                         dismissProgressDialog();
+
+
                     }
                 });
+
+    }
+
+
+    @OnClick(R.id.convertOrderDishModelButton)
+    public void convertToOrderedDishModel() {
+
+        // final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
+
+        Toaster.toast("YOU ARE IN EDIT MODE");
+
+//        Type listOfTestObject = new TypeToken<List<OrderedDishModel>>(){}.getType();
+//        Gson gson = null;
+//        String s = gson.toJson(OrderedDishModelList, listOfTestObject);
+//        List<OrderedDishModel> list2 = gson.fromJson(s, listOfTestObject);
+
+        mOrderModel.place(itemAdapter.getOrder()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<OrderedDishModel>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<OrderedDishModel> orderedDishModels) {
+
+
+
+                        OrderedDishModelList.addAll(orderedDishModels);
+
+
+
+
+
+                    }
+
+
+
+                });
+
+
     }
 
     // TODO: Add check method back in later
 
     @OnClick(R.id.checkButton)
     public void onCheckButtonClicked() {
+
+        // Setting the status back to UNRESERVED once the check button is submitted.
+        Toaster.toast("I am clicking check butt");
+        // mTableModel.setTableStatus(1);
         CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+
+
     }
 
     // go back to SignInActivity
 
     @OnClick(R.id.sendOrderToKitchenButton)
     public void onOrderButtonClicked() {
-        startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+
+        if((itemAdapter.getItems().size() == 0)) {
+
+            new AlertDialog.Builder(NavigationActivity.this)
+                    .setTitle("Error: Empty Order")
+                    .setMessage("Seems like you have no items to place....")
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return;
+
+
+
+
+
+        }
+
+        else {
+
+
+            mOrderModel.place(itemAdapter.getOrder()).asObservable()
+                    .subscribeOn(Schedulers.io())
+                    .flatMap(nonQueryResponseModel -> mOrderModel.dishes())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<OrderedDishModel>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<OrderedDishModel> orderedDishModels) {
+                            Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
+                            startActivity(intent);
+                            finish();
+                        }
+
+                    });
+
+
+
+        }
+//                .subscribe(new Subscriber<NonQueryResponseModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+//                        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        // IF ALL ELSE FAILS, USE THIS FLAG TO SET COLORS
+//                        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                });
+
+
     }
+
+
+
+//    public void getOrders() {
+//        enableProgressDialog("Retrieving Orders...");
+//        OrderModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
+//                .subscribeOn(Schedulers.io())
+//                .flatMap(Observable::from)
+//                .filter(orderModel -> orderModel.getStatus().equals(Status.PLACED))
+//                .concatMap(this::getCombinedObservable)
+//                .toList()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<List<Order>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        dismissProgressDialog();
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Order> orders) {
+//                        mOrders.clear();
+//                        mOrders.addAll(orders);
+//                        mMenuItemRecyclerView.setAdapter(new OrderAdapter(getContext(), mOrders));
+//                        dismissProgressDialog();
+//                    }
+//                });
+//    }
+//
+//    public Observable<Order> getCombinedObservable(OrderModel orderModel) {
+//        return orderModel.dishes().asObservable()
+//                .map(orderedDishModels -> {
+//                    ArrayList<OrderedDishModel> dishes = new ArrayList<OrderedDishModel>();
+//                    dishes.addAll(orderedDishModels);
+//                    return new Order(orderModel, dishes);
+//                });
+//    }
+
+
 
 
 }

@@ -78,6 +78,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.github.HendrixString:Android-PdfMyXml:v1.0.1'
+    // https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
+
+
     // the latest version is "v1.0.1"
     //compile 'org.sazabi:bcrypt4z_2.11:0.0.2'
 }

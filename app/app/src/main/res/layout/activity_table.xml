@@ -8,6 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:layout_weight="1"/>
+
+    <!--TODO: REMOVE THIS CRAP LATER-->
+    <Button
+        android:id="@+id/buttonOfDestructionButton"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="UNRESERVE TABLES"/>
 
 </LinearLayout>

@@ -1,7 +1,5 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.support.design.widget.TabLayout;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -82,7 +80,7 @@ public class OrderModelTests {
         Observable<List<OrderedDishModel>> oMenu = restaurant.menu().flatMap(list -> {
             int total = 0;
             ArrayList<OrderedDishModel> out = new ArrayList<OrderedDishModel>();
-            for(DishModel d : list) {
+            for (DishModel d : list) {
                 if (0 == d.getID() % 2) {
                     out.add(new OrderedDishModel(d, orderRef));
                     System.out.println("Adding " + d.getName() + ": " + MoneyFormatter.format(d.getPrice()));
@@ -108,9 +106,7 @@ public class OrderModelTests {
         // Check local instance state after place
         Assert.assertEquals("Order state incorrect after placement", Status.PLACED, o.getStatus());
 
-        Observable<OrderModel> oOrder = OrderModel.forWaiter(waiter).flatMap(list -> {
-            return Observable.just(list.get(0));
-        });
+        Observable<OrderModel> oOrder = OrderModel.get(o.getId());
         TestSubscriber<OrderModel> sOrder = new TestSubscriber<>();
         oOrder.subscribe(sOrder);
 
@@ -181,6 +177,36 @@ public class OrderModelTests {
         Assert.assertEquals("Local instance not transitioned to paid state after being payed", Status.PAID, o.getStatus());
     }
 
+    @Test
+    public void OpenAnOrderAtTable2AndDontCloseIt() {
+        OrderModel o = new OrderModel();
+
+        // Get the first waiter we find for restaurant #3
+        Observable<PositionModel> oWaiter = RestaurantModel.get(3)
+            .flatMap(list -> list.get(0).waiters())
+            .flatMap(list -> Observable.just(list.get(0)));
+        TestSubscriber<PositionModel> sWaiter = new TestSubscriber<>();
+        oWaiter.subscribe(sWaiter);
+
+        sWaiter.assertNoErrors();
+        sWaiter.awaitTerminalEvent();
+
+        PositionModel waiter = sWaiter.getOnNextEvents().get(0);
+
+        // Get table 2
+        Observable<TableModel> oTable = TableModel.get(2);
+        TestSubscriber<TableModel> sTable = new TestSubscriber<>();
+        oTable.subscribe(sTable);
+
+        sTable.assertNoErrors();
+        sTable.awaitTerminalEvent();
+
+        TableModel table2 = sTable.getOnNextEvents().get(0);
+
+        System.out.println("Hey look I got table #2. See? Look, its id is " + table2.getId());
+        createOrder(o, waiter, table2);
+    }
+
     private OrderModel cancelOrder(OrderModel o) {
         Observable<NonQueryResponseModel> oCancel = o.cancel();
         TestSubscriber<NonQueryResponseModel> sCancel = new TestSubscriber<>();
@@ -199,6 +225,8 @@ public class OrderModelTests {
 
         sCreate.assertNoErrors();
         sCreate.awaitTerminalEvent();
+
+        o.setId(sCreate.getOnNextEvents().get(0).getResults().getInsertId());
 
         return o;
     }
@@ -237,7 +265,7 @@ public class OrderModelTests {
     }
 
     private OrderModel payOrder(OrderModel o) {
-        Observable<NonQueryResponseModel> oPay = o.markPaid();
+        Observable<NonQueryResponseModel> oPay = o.markPaid(1234);
         TestSubscriber<NonQueryResponseModel> sPay = new TestSubscriber<>();
         oPay.subscribe(sPay);
 

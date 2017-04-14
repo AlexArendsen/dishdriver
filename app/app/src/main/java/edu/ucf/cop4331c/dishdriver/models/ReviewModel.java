@@ -73,15 +73,21 @@ public class ReviewModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<ReviewModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<ReviewModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
     }
     // endregion
 
-    public static Call<ArrayList<ReviewModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
-    public Call<Integer> submit() throws UnsupportedOperationException{ throw new UnsupportedOperationException(); }
+    public static Call<ArrayList<ReviewModel>> forRestaurant(RestaurantModel r) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    public Call<Integer> submit() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
 
     // region Getters and Setters
     public Integer getiD() {

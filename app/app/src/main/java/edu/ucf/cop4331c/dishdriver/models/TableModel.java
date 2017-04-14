@@ -14,6 +14,9 @@ import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.order;
+import static android.R.id.list;
+
 /**
  * Created by rebeca on 3/14/2017.
  */
@@ -45,10 +48,13 @@ public class TableModel {
     @Expose
     private Integer capacity = 4;
 
-    @SerializedName("TableStatus_ID")
+    @SerializedName("LatestOpenOrder_ID")
     @Expose
-    private Integer tableStatusId;
+    private Integer latestOpenOrderID;
 
+    @SerializedName("SoonestUpcomingReservation_ID")
+    @Expose
+    private Integer SoonestUpcomingReservation_ID;
     // endregion
 
     // region query() implementation
@@ -64,7 +70,8 @@ public class TableModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<TableModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<TableModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -75,9 +82,9 @@ public class TableModel {
 
     public static Observable<TableModel> get(int id) {
         return query(
-          "SELECT * FROM Tables WHERE Id = ?",
-           new String[]{ Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+                "SELECT * FROM Tables WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     /**
@@ -86,32 +93,61 @@ public class TableModel {
      * @param restaurant The restaurant we want information for
      * @return The list of tables
      */
-    public static Observable<List<TableModel>> forRestaurant(RestaurantModel restaurant){
+    public static Observable<List<TableModel>> forRestaurant(RestaurantModel restaurant) {
 
         return query(
-          "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID =?",
+                "SELECT T.* FROM Tables T JOIN Restaurants R ON T.Restaurant_ID = R.ID WHERE R.ID = ? ORDER BY T.Id",
                 new String[]{Integer.toString(restaurant.getId())}
         );
+    }
+
+    /**
+     * Gets the state of the table.
+     *
+     * If there is a reservation currently active for this table, then TableStatus.RESERVED is returned.
+     * Otherwise, if there is an order that is not payed or cancelled, then TableStatus.OCCUPIED is returned.
+     * Otherwise, TableStatus.UNRESERVED is returned
+     *
+     * @return The table's status
+     */
+    public Observable<TableStatus> getStatus() {
+
+        return TableReservationModel.query(
+            "SELECT * FROM Table_Reservations WHERE Table_ID = ? AND DT_Requested > NOW() AND DT_Accepted IS NULL ORDER BY DT_Requested ASC LIMIT 1",
+            new String[] { Integer.toString(id) }
+        ).flatMap(reservations -> {
+
+            // No reservations -> check if an order exists
+            if (reservations.isEmpty()) return OrderModel.query(
+                "SELECT * FROM Orders WHERE Table_ID = ? AND DT_Created IS NOT NULL AND (DT_Cancelled IS NULL OR DT_Payed IS NULL) ORDER BY DT_Created DESC LIMIT 1",
+                new String[] { Integer.toString(id) }
+            ).flatMap(orders -> Observable.just((orders.isEmpty()) ? TableStatus.UNRESERVED : TableStatus.OCCUPIED ) );
+
+            // If there is a reservation, we don't care if the table is occupied
+            else return Observable.just(TableStatus.RESERVED);
+        });
+
     }
     // endregion
 
     // region DB Modification
+
     /**
      * Creates a reservation for this table with the provided options.
      *
      * @param partyName The name of the party associated with this reservation
      * @param partySize The size of the party associated with this reservation
-     * @param deposit The money amount, in cents, of the deposit for the associated reservation
-     * @param reserved The date and time that is requested for this table reservation
+     * @param deposit   The money amount, in cents, of the deposit for the associated reservation
+     * @param reserved  The date and time that is requested for this table reservation
      * @return A NonQueryResponseModel that conveys the progress of the associated transaction
      */
     public Observable<NonQueryResponseModel> reserve(String partyName, int partySize, int deposit, Date reserved) {
 
         return NonQueryResponseModel.run(
                 "INSERT INTO Table_Reservations " +
-                    "(Table_ID, Party_Name, Party_Size, Deposit, DT_Requested) " +
-                "VALUES (?, ?, ?, ?, ?)",
-                new String[] {
+                        "(Table_ID, Party_Name, Party_Size, Deposit, DT_Requested) " +
+                        "VALUES (?, ?, ?, ?, ?)",
+                new String[]{
                         Integer.toString(id),
                         partyName,
                         Integer.toString(partySize),
@@ -122,22 +158,22 @@ public class TableModel {
 
     }
 
-    public Observable<NonQueryResponseModel> create(){
+    public Observable<NonQueryResponseModel> create() {
         return NonQueryResponseModel.run(
                 "INSERT INTO Tables " +
-                "(Restaurant_ID, Name, Capacity) " +
-                "VALUES " +
-                "(?, ?, 4)",
-               new String[] { getName(), Integer.toString(SessionModel.currentRestaurant().getId()) }
+                        "(Restaurant_ID, Name, Capacity) " +
+                        "VALUES " +
+                        "(?, ?, 4)",
+                new String[]{getName(), Integer.toString(SessionModel.currentRestaurant().getId())}
         );
     }
 
-    public Observable<NonQueryResponseModel> update(){
+    public Observable<NonQueryResponseModel> update() {
         return NonQueryResponseModel.run(
                 "UPDATE Tables SET " +
-                "Name = ? " +
-                "WHERE Id = ?",
-                new String[] { getName(), Integer.toString(getId()) }
+                        "Name = ? " +
+                        "WHERE Id = ?",
+                new String[]{getName(), Integer.toString(getId())}
         );
     }
     // endregion
@@ -189,18 +225,6 @@ public class TableModel {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
-    }
-
-    public TableStatus getTableStatus() {
-        switch(tableStatusId) {
-            case 1:  return TableStatus.RESERVED;
-            case 2:  return TableStatus.UNRESERVED;
-            default: return TableStatus.OCCUPIED;
-        }
-    }
-
-    public void setTableStatus(Integer tableStatusId) {
-        this.tableStatusId = tableStatusId;
     }
     // endregion
 }

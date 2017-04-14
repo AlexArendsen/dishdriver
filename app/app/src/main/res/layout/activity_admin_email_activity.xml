@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/fillEverythingText"
         android:layout_width="1276dp"
         android:layout_height="37dp"
-        android:text="Please select the month you wish to view the satitial data. Include email address to send to:"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:layout_marginLeft="8dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="43dp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="43dp"
+        android:text="Please select the month you wish to view the statistical data. Include email address to send to:"
+        android:textAlignment="center"
+        android:textSize="30sp" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/startDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/fillEverythingText"
+        android:layout_marginEnd="117dp"
+        android:layout_marginTop="65dp"
+        android:layout_toStartOf="@+id/SendEmail"
         android:text="Start Date:"
         android:textSize="26sp"
-        android:layout_marginEnd="117dp"
-        android:layout_below="@+id/fillEverythingText"
-        android:layout_toStartOf="@+id/SendEmail"
-        android:layout_marginTop="65dp" />
+        android:visibility="invisible" />
 
     <EditText
-        android:visibility="invisible"
         android:id="@+id/startDateInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        android:hint="mm/yyyy"
-        android:textSize="26sp"
-        tools:layout_editor_absoluteY="119dp"
-        tools:layout_editor_absoluteX="217dp"
         android:layout_above="@+id/emailText"
         android:layout_alignEnd="@+id/ccEmailAddressInput"
+        android:layout_marginBottom="13dp"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="13dp" />
+        android:ems="10"
+        android:hint="mm/yyyy"
+        android:inputType="date"
+        android:textSize="26sp"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="119dp" />
 
     <TextView
         android:id="@+id/emailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/emailToInput"
+        android:layout_alignBottom="@+id/emailToInput"
+        android:layout_alignStart="@+id/startDateText"
         android:text="Email To:"
         android:textSize="26sp"
         tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="249dp"
-        android:layout_alignBaseline="@+id/emailToInput"
-        android:layout_alignBottom="@+id/emailToInput"
-        android:layout_alignStart="@+id/startDateText" />
+        tools:layout_editor_absoluteY="249dp" />
 
     <EditText
         android:id="@+id/emailToInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="example@testing.com"
-        android:textSize="26sp"
+        android:layout_alignStart="@+id/startDateInput"
         android:layout_below="@+id/startDateText"
-        android:layout_alignStart="@+id/startDateInput"/>
+        android:ems="10"
+        android:hint="example@testing.com"
+        android:inputType="textEmailAddress"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/ccEmailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CC:"
-        android:textSize="26sp"
-        android:layout_below="@+id/emailToInput"
+        android:layout_alignEnd="@+id/emailText"
         android:layout_alignRight="@id/ccEmailAddress"
-        android:layout_alignEnd="@+id/emailText" />
+        android:layout_below="@+id/emailToInput"
+        android:text="CC:"
+        android:textSize="26sp" />
 
     <EditText
         android:id="@+id/ccEmailAddressInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="example@testing.com"
-        android:textSize="26sp"
         android:layout_below="@+id/emailToInput"
-        android:layout_toEndOf="@+id/startDateText" />
+        android:layout_toEndOf="@+id/startDateText"
+        android:ems="10"
+        android:hint="example@testing.com"
+        android:inputType="textPersonName"
+        android:textSize="26sp" />
 
     <Button
         android:id="@+id/SendEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Compose Email"
-        android:textSize="26sp"
-        android:layout_marginBottom="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:text="Compose Email"
+        android:textSize="26sp" />
 
 </RelativeLayout>

@@ -14,7 +14,10 @@ VALUES
   (4, 'alexander-mark-arendsen@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
   (5, 'melissa@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
   (6, 'rebecca@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
-  (7, 'vivienne@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP());
+  (7, 'vivienne@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
+  (8, 'waiter@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
+  (9, 'cook@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP()),
+  (10, 'admin@dishdriver.com', '$2a$04$qj9nwY0MzPcXIqUOpNCRU.zdgjIsQco7.ibIKgXwDWfz.P4nICqwq', '', '', CURRENT_TIMESTAMP());
 
 INSERT INTO Restaurants
   (Id, Name, DT_Opened, DT_Closed)

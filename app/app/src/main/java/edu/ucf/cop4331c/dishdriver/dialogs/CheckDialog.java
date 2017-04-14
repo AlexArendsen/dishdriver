@@ -20,21 +20,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import edu.ucf.cop4331c.dishdriver.MainActivity;
-import edu.ucf.cop4331c.dishdriver.NavigationActivity;
 import edu.ucf.cop4331c.dishdriver.R;
-import edu.ucf.cop4331c.dishdriver.SignInActivity;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
 import xdroid.toaster.Toaster;
-
-import static android.net.wifi.WpsInfo.INVALID;
 
 /**
  * Created by viviennedo on 4/2/17.
@@ -106,7 +100,14 @@ public class CheckDialog extends DialogFragment {
 
         String json = getArguments().getString("STRINGS", "INVALID");
 
-        ArrayList<DishModel> items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>(){}.getType());
+        ArrayList<DishModel> items;
+
+        if (!json.equals("INVALID")) {
+            items = new Gson().fromJson(json, new TypeToken<ArrayList<DishModel>>() {
+            }.getType());
+        } else {
+            items = new ArrayList<>();
+        }
 
 
 
@@ -118,7 +119,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);
@@ -153,11 +154,6 @@ public class CheckDialog extends DialogFragment {
         mItemTotalTextView.setText(total);
 
 
-
-
-
-
-
         // TODO: bind the TextView to
         mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,8 +168,11 @@ public class CheckDialog extends DialogFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent orderIntent = new Intent(getActivity(), SignInActivity.class);
+
+                Intent orderIntent = new Intent(getActivity(), TableActivity.class);
+                orderIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(orderIntent);
+                dismiss();
             }
         });
 

@@ -83,7 +83,8 @@ public class RestaurantModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<RestaurantModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<RestaurantModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -94,15 +95,17 @@ public class RestaurantModel {
 
     /**
      * Get the restaurant with the given ID number
+     *
      * @param id The ID number to search for
      * @return A list containing either the one restaurant with the ID, or no restaurants.
      */
     public static Observable<List<RestaurantModel>> get(int id) {
-        return query("SELECT * FROM Restaurants WHERE Id = ?", new String[] {Integer.toString(id)});
+        return query("SELECT * FROM Restaurants WHERE Id = ?", new String[]{Integer.toString(id)});
     }
 
     /**
      * Searches for restaurants with names beginning with the given string.
+     *
      * @param query The string to search by
      * @return The first 25 restaurants whose names begin with the provide string.
      */
@@ -113,11 +116,12 @@ public class RestaurantModel {
         // of the query.
         query += "%";
 
-        return query("SELECT * FROM Restaurants WHERE Name LIKE ? ORDER BY Name ASC LIMIT 25", new String[] {query});
+        return query("SELECT * FROM Restaurants WHERE Name LIKE ? ORDER BY Name ASC LIMIT 25", new String[]{query});
     }
 
     /**
      * Gets all restaurants that the given user works for
+     *
      * @param position The user to use when finding restaurants
      * @return A list of the restaurants for which the given user works
      */
@@ -125,7 +129,7 @@ public class RestaurantModel {
 
         return query(
                 "SELECT R.* FROM Restaurants R JOIN Positions P ON R.Id = P.Restaurant_ID WHERE P.Id = ?",
-                new String[] { Integer.toString(position.getID()) }
+                new String[]{Integer.toString(position.getID())}
         );
 
     }
@@ -139,7 +143,7 @@ public class RestaurantModel {
                         "(Name, DT_Opened)" +
                         "VALUES" +
                         "(?, NOW())",
-                new String[] { getName() }
+                new String[]{getName()}
         );
     }
 
@@ -148,8 +152,8 @@ public class RestaurantModel {
         return NonQueryResponseModel.run(
                 "UPDATE Restaurants SET" +
                         "Name = ? " +
-                "WHERE Id = ?",
-                new String[] { getName(), Integer.toString(getId()) }
+                        "WHERE Id = ?",
+                new String[]{getName(), Integer.toString(getId())}
         );
 
     }
@@ -158,39 +162,19 @@ public class RestaurantModel {
 
     // region Employee Retrieval
     public Observable<List<PositionModel>> waiters() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 2",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Waiter);
     }
 
     public Observable<List<PositionModel>> cooks() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 3",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Cook);
     }
 
     public Observable<List<PositionModel>> admins() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ? AND Role_ID = 1",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this, Role.Admin);
     }
 
     public Observable<List<PositionModel>> employees() {
-
-        return PositionModel.query(
-                "SELECT * FROM Positions P WHERE Restaurant_ID = ?",
-                new String[] { Integer.toString(id) }
-        );
-
+        return PositionModel.forRestaurant(this);
     }
     // endregion
 
@@ -201,7 +185,7 @@ public class RestaurantModel {
         // already because the DB will simply throw an error if they do.
         return NonQueryResponseModel.run(
                 "INSERT INTO Positions (Employee_ID, Role_ID, Restaurant_ID, DT_Hired) VALUES (?, ?, ?, NOW())",
-                new String[] { Integer.toString(user.getID()), Integer.toString(role.ordinal()), Integer.toString(id) }
+                new String[]{Integer.toString(user.getID()), Integer.toString(role.ordinal()), Integer.toString(id)}
         );
 
     }
@@ -212,7 +196,7 @@ public class RestaurantModel {
 
         return DishModel.query(
                 "SELECT * FROM Dishes WHERE Restaurant_ID = ? AND DT_Deleted IS NULL",
-                new String[] { Integer.toString(id) }
+                new String[]{Integer.toString(id)}
         );
     }
     // endregion
@@ -228,10 +212,10 @@ public class RestaurantModel {
         int n = 0;
 
         // Note: this is really gross and not efficient.
-        for(DishModel d : dishes) {
+        for (DishModel d : dishes) {
             if (n++ > 0) sql += ", "; // <--- Disgusting, I know #dontjudgeme #justjava7things T_T
             sql += "(?, ?, ?, ?)";
-            arguments.addAll(Arrays.asList(new String[] {
+            arguments.addAll(Arrays.asList(new String[]{
                     Integer.toString(getId()),
                     Integer.toString(d.getPrice()),
                     d.getName(),
@@ -239,7 +223,7 @@ public class RestaurantModel {
             }));
         }
 
-        return NonQueryResponseModel.run(sql, (String[])arguments.toArray());
+        return NonQueryResponseModel.run(sql, (String[]) arguments.toArray());
     }
     // endregion
 

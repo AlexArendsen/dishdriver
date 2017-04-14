@@ -3,18 +3,17 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//import org.mindrot.jbcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import retrofit2.Call;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-import static android.R.id.list;
+//import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Created by copper on 3/14/17.
@@ -65,14 +64,14 @@ public class UserModel {
     /**
      * Create a user instance
      *
-     * @param email The email
-     * @param password The plaintext password
+     * @param email     The email
+     * @param password  The plaintext password
      * @param firstName The user's first name
-     * @param lastName The user's last name
+     * @param lastName  The user's last name
      */
     public UserModel(String email, String password, String firstName, String lastName) {
         this.email = email;
-        this.password = password;//BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -91,7 +90,8 @@ public class UserModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<UserModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<UserModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -102,9 +102,9 @@ public class UserModel {
 
     public static Observable<UserModel> get(int id) {
         return query(
-            "SELECT * FROM Users WHERE Id = ?",
-            new String[] { Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+                "SELECT * FROM Users WHERE Id = ?",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     /**
@@ -116,8 +116,8 @@ public class UserModel {
     public static Observable<UserModel> findFirst(String email) {
         return query(
                 "SELECT * FROM Users WHERE Email = ?",
-                new String[] { email }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ));
+                new String[]{email}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     // endregion
@@ -126,7 +126,7 @@ public class UserModel {
     public Observable<NonQueryResponseModel> create() {
         return NonQueryResponseModel.run(
                 "INSERT INTO Users (Email, Password, FirstName, LastName, DT_Created) VALUES (?, ?, ?, ?, NOW())",
-                new String[] { email, password, firstName, lastName }
+                new String[]{email, password, firstName, lastName}
         );
     }
     // endregion
@@ -206,8 +206,8 @@ public class UserModel {
     // endregion
 
     // region Overridden Methods
-    public String toString(){
-        return "id: "+ this.id +", email: "+ this.email;
+    public String toString() {
+        return "id: " + this.id + ", email: " + this.email;
     }
     // endregion
 }

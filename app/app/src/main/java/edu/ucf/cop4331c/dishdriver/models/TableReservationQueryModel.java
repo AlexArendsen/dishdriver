@@ -21,11 +21,11 @@ public class TableReservationQueryModel {
         this.code = code;
     }
 
-    public  TableReservationModel[] getResults() {
+    public TableReservationModel[] getResults() {
         return results;
     }
 
-    public void setResults( TableReservationModel[] results) {
+    public void setResults(TableReservationModel[] results) {
         this.results = results;
     }
 }
