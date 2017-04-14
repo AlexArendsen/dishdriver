@@ -1,7 +1,5 @@
 package edu.ucf.cop4331c.dishdriver;
 
-import android.support.design.widget.TabLayout;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -177,6 +175,36 @@ public class OrderModelTests {
         // And finally, have the order paid / payed / whatever'd for, check the state
         o = payOrder(o);
         Assert.assertEquals("Local instance not transitioned to paid state after being payed", Status.PAID, o.getStatus());
+    }
+
+    @Test
+    public void OpenAnOrderAtTable2AndDontCloseIt() {
+        OrderModel o = new OrderModel();
+
+        // Get the first waiter we find for restaurant #3
+        Observable<PositionModel> oWaiter = RestaurantModel.get(3)
+            .flatMap(list -> list.get(0).waiters())
+            .flatMap(list -> Observable.just(list.get(0)));
+        TestSubscriber<PositionModel> sWaiter = new TestSubscriber<>();
+        oWaiter.subscribe(sWaiter);
+
+        sWaiter.assertNoErrors();
+        sWaiter.awaitTerminalEvent();
+
+        PositionModel waiter = sWaiter.getOnNextEvents().get(0);
+
+        // Get table 2
+        Observable<TableModel> oTable = TableModel.get(2);
+        TestSubscriber<TableModel> sTable = new TestSubscriber<>();
+        oTable.subscribe(sTable);
+
+        sTable.assertNoErrors();
+        sTable.awaitTerminalEvent();
+
+        TableModel table2 = sTable.getOnNextEvents().get(0);
+
+        System.out.println("Hey look I got table #2. See? Look, its id is " + table2.getId());
+        createOrder(o, waiter, table2);
     }
 
     private OrderModel cancelOrder(OrderModel o) {
