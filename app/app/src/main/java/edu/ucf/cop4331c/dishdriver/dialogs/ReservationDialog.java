@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.dialogs;
 
 
 import android.os.Bundle;
+
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 
 import com.google.gson.Gson;
 
@@ -44,7 +46,7 @@ public class ReservationDialog extends DialogFragment {
 
     private static final String TAG = "RESRVATION_DIALOG";
     private EditText mEditText;
-    private EditText mEditTextSize;
+    private  EditText mEditTextSize;
     private TimePicker mTimePicker;
     private CheckBox mDepositCheckBox;
     private Button mSubmitButton;
@@ -97,13 +99,15 @@ public class ReservationDialog extends DialogFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(), String.valueOf(tablePosition), Toast.LENGTH_SHORT).show();
+                // Toaster.toast("Does this work hmmmm?");
 
-                if (isEmpty(mEditText)) {
+                if(isEmpty(mEditText)) {
                     mEditText.setError("Please input a reservation name");
                     return;
                 }
 
-                if (isEmpty(mEditTextSize)) {
+                if(isEmpty(mEditTextSize)) {
                     mEditTextSize.setError("Please input a party size");
                     return;
                 }

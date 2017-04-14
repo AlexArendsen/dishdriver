@@ -1,5 +1,7 @@
+
 package edu.ucf.cop4331c.dishdriver.dialogs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -22,11 +24,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import edu.ucf.cop4331c.dishdriver.models.OrderModel;
-import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 4/2/17.
@@ -39,19 +41,19 @@ public class CheckDialog extends DialogFragment {
     private static String total;
     private static String gratuity;
     private static String totalWithTip;
-    private static OrderModel mOrderModel;
 
     //TODO: Eventually you will want to change this to an arraylist of the item models and not just strings.
 
     /**
      * Creates a new instance of the check dialog class. Sets the bundle (arguments) of the new instance to contain the list of inputted items.
      *
-     * @param items The list of items that have been added to the order by the waiter.
-     * @return Returns a new CheckDialog which contains all the items for this order.
+     * @param items     The list of items that have been added to the order by the waiter.
+     * @return          Returns a new CheckDialog which contains all the items for this order.
      */
 
 
-    public static CheckDialog newInstance(ArrayList<DishModel> items, OrderModel orderModel) {
+
+    public static CheckDialog newInstance(ArrayList<DishModel> items) {
 
 
         CheckDialog checkDialog = new CheckDialog();
@@ -61,7 +63,6 @@ public class CheckDialog extends DialogFragment {
         total = getCheckTotalAmount(items);
         gratuity = getTipAmount(items);
         totalWithTip = getSubtotalWithTip(items);
-        mOrderModel = orderModel;
 
 
         convertToStr.addAll(items);
@@ -87,49 +88,6 @@ public class CheckDialog extends DialogFragment {
         return checkDialog;
     }
 
-    public static String getCheckTotalAmount(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        int sum = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return MoneyFormatter.format(sum);
-    }
-
-    public static String getTipAmount(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        int sum = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return (String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018))));
-
-    }
-
-    public static String getSubtotalWithTip(ArrayList<DishModel> items) {
-
-        // Iterate through item models and sum the price.
-        double sum = 0;
-
-        for (int i = 0; i < items.size(); i++) {
-
-            sum += items.get(i).getPrice();
-        }
-
-
-        return String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018) + (sum / 100)));
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -151,6 +109,8 @@ public class CheckDialog extends DialogFragment {
             items = new ArrayList<>();
         }
 
+
+
         // Bind our Recycler view and set its layout manager to be LinearLayout (Default orientation is vertical)
         RecyclerView receiptRecyclerView = (RecyclerView) view.findViewById(R.id.receiptOfItemsRecyclerView);
         receiptRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -159,7 +119,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false,null);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);
@@ -198,21 +158,78 @@ public class CheckDialog extends DialogFragment {
         mTipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toaster.toast("hello this button works");
                 mGratuityTextView.setText((String) gratuity);
+
+
             }
         });
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOrderModel.markPaid(Integer.parseInt(total));
-                getActivity().finish();
+
+                Intent orderIntent = new Intent(getActivity(), TableActivity.class);
+                orderIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(orderIntent);
+                dismiss();
             }
         });
+
     }
 
     private boolean isEmpty(EditText etText) {
 
         return etText.getText().toString().trim().length() == 0;
     }
+
+    public static String getCheckTotalAmount(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++ ) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return MoneyFormatter.format(sum);
+    }
+
+    public static String getTipAmount(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        int sum = 0;
+
+        for (int i = 0; i < items.size(); i++ ) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return (String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018))));
+
+    }
+
+    public static String getSubtotalWithTip(ArrayList<DishModel> items) {
+
+        // Iterate through item models and sum the price.
+        double sum = 0;
+
+        for (int i = 0; i < items.size(); i++ ) {
+
+            sum += items.get(i).getPrice();
+        }
+
+
+        return String.valueOf(new DecimalFormat("0.00").format((sum * 0.0018) + (sum/100)));
+    }
+
+
+
+
+
+
+
 }

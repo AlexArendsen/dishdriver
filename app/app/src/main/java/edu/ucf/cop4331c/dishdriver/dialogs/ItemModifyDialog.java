@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 
 import edu.ucf.cop4331c.dishdriver.R;
+import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
@@ -25,16 +26,21 @@ import xdroid.toaster.Toaster;
  */
 
 public class ItemModifyDialog extends DialogFragment {
+    private static ItemAdapter.ItemViewHolder.IMyViewHolderClicks iMyViewHolderClicks;
 
 //    public interface MyDialogFragmentListener {
 //        public String onReturnValue(String foo);
 //    }
 
-    public static ItemModifyDialog newInstance(OrderedDishModel orderedDishModel) {
 
+
+
+    public static ItemModifyDialog newInstance(OrderedDishModel orderedDishModel, ItemAdapter.ItemViewHolder.IMyViewHolderClicks iMyViewHolderClicks, int position) {
+        ItemModifyDialog.iMyViewHolderClicks = iMyViewHolderClicks;
         ItemModifyDialog frag = new ItemModifyDialog();
         Bundle args = new Bundle();
         args.putString("ORDER_DISH_MODEL", new Gson().toJson(orderedDishModel));
+        args.putInt("ORDER_DISH_POSITION", position);
         frag.setArguments(args);
         return frag;
     }
@@ -43,6 +49,7 @@ public class ItemModifyDialog extends DialogFragment {
     private EditText mModifyEditText;
     private Button mSubmitButton;
     private OrderedDishModel mOrderDishModel;
+    private int mOrderPosition;
 
 
 
@@ -58,6 +65,7 @@ public class ItemModifyDialog extends DialogFragment {
 //        ItemModifyDialog itemModifyDialog = new ItemModifyDialog();
         Bundle bundle = new Bundle();
         mOrderDishModel = new Gson().fromJson(getArguments().getString("ORDER_DISH_MODEL"), OrderedDishModel.class);
+        mOrderPosition = getArguments().getInt("ORDER_DISH_POSITION");
 
         super.onViewCreated(view, savedInstanceState);
 
@@ -76,13 +84,9 @@ public class ItemModifyDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!isEmpty(mModifyEditText)) {
+                if(!isEmpty(mModifyEditText)) {
 
                     String sModifyEditText = mModifyEditText.getText().toString();
-                    bundle.putString("ITEM_MODIFY_DIALOG", sModifyEditText);
-                    String test = bundle.getString("ITEM_MODIFY_DIALOG");
-
-                    mOrderDishModel.updateNotesToKitchen(test);
 
                     mSubmitButton.setEnabled(true);
 
@@ -90,15 +94,20 @@ public class ItemModifyDialog extends DialogFragment {
                         @Override
                         public void onClick(View v) {
 
+
 //                            MyDialogFragmentListener activity = (MyDialogFragmentListener) getActivity();
 //                            activity.onReturnValue(test);
                             // Toaster.toast(test);
+                            iMyViewHolderClicks.completeNoteForAdapter(mOrderPosition, sModifyEditText);
+
+
                             getDialog().dismiss();
 
                         }
                     });
 
-                } else
+                }
+                else
                     mSubmitButton.setEnabled(false);
             }
 

@@ -6,16 +6,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
@@ -23,9 +26,11 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
+import edu.ucf.cop4331c.dishdriver.models.TableReservationModel;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -298,9 +303,9 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
     static class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         RelativeLayout mTableRelativeLayout;
+        TextView mTableNameTextView;
 
         public IMyViewHolderClicks mListener;
-        TextView mTableNameTextView;
 
         public TableViewHolder(View itemView) {
             super(itemView);
