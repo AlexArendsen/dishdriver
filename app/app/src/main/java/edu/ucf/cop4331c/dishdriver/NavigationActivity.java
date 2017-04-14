@@ -245,7 +245,8 @@ public class NavigationActivity extends ProgressDialogActivity {
         // Setting the status back to UNRESERVED once the check button is submitted.
         Toaster.toast("I am clicking check butt");
         // mTableModel.setTableStatus(1);
-        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems()).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+        CheckDialog.newInstance(((ItemAdapter) mMenuItemRecyclerView.getAdapter()).getItems(), mOrderModel).show(getSupportFragmentManager(), "RECEIPT_DIALOG");
+        //mOrderModel.markPaid()
 
 
     }
@@ -267,7 +268,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-            finish();//startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
+            //finish();//startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
 
             return;
 

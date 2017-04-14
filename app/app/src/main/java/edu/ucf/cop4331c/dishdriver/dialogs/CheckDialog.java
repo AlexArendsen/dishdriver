@@ -25,6 +25,8 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderedDishModel;
 
 /**
  * Created by viviennedo on 4/2/17.
@@ -37,6 +39,7 @@ public class CheckDialog extends DialogFragment {
     private static String total;
     private static String gratuity;
     private static String totalWithTip;
+    private static OrderModel mOrderModel;
 
     //TODO: Eventually you will want to change this to an arraylist of the item models and not just strings.
 
@@ -48,7 +51,7 @@ public class CheckDialog extends DialogFragment {
      */
 
 
-    public static CheckDialog newInstance(ArrayList<DishModel> items) {
+    public static CheckDialog newInstance(ArrayList<DishModel> items, OrderModel orderModel) {
 
 
         CheckDialog checkDialog = new CheckDialog();
@@ -58,6 +61,7 @@ public class CheckDialog extends DialogFragment {
         total = getCheckTotalAmount(items);
         gratuity = getTipAmount(items);
         totalWithTip = getSubtotalWithTip(items);
+        mOrderModel = orderModel;
 
 
         convertToStr.addAll(items);
@@ -155,7 +159,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null,null);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false,null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);
@@ -201,6 +205,7 @@ public class CheckDialog extends DialogFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOrderModel.markPaid(Integer.parseInt(total));
                 getActivity().finish();
             }
         });
@@ -210,6 +215,4 @@ public class CheckDialog extends DialogFragment {
 
         return etText.getText().toString().trim().length() == 0;
     }
-
-
 }
