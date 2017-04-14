@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -23,13 +24,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import edu.ucf.cop4331c.dishdriver.adapters.TableAdapter;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.PartySizeDialog;
 import edu.ucf.cop4331c.dishdriver.events.ShowPartyDialogEvent;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
+import edu.ucf.cop4331c.dishdriver.models.TableReservationModel;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,6 +48,8 @@ public class TableActivity extends ProgressDialogActivity {
     private static final String TAG = "TableActivity-";
     @BindView(R.id.tableRecyclerView)
     RecyclerView mTableRecyclerView;
+    @BindView(R.id.buttonOfDestructionButton)
+    Button mButtonOfDestruction;
     TableAdapter mTableAdapter;
     boolean doubleBackToExitPressedOnce = false;
     private ArrayList<TableModel> mTableModels;
@@ -234,12 +241,32 @@ public class TableActivity extends ProgressDialogActivity {
                         dismissProgressDialog();
                     }
                 });
+    }
 
+    @OnClick(R.id.buttonOfDestructionButton)
+    public void onDestroyReservationsAndDreams() {
+        enableProgressDialog("DESTROYING DREAMS");
+        TableReservationModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
+                .subscribeOn(Schedulers.io())
+                .flatMap(reservations -> Observable.from(reservations))
+                .concatMap(reservation -> reservation.unreserve())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NonQueryResponseModel>() {
+                    @Override
+                    public void onCompleted() {
+                        dismissProgressDialog();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissProgressDialog();
+                    }
 
-
-
-
+                    @Override
+                    public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+                        dismissProgressDialog();
+                    }
+                });
     }
 
 

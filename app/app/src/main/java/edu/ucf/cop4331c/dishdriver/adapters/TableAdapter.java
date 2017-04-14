@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import edu.ucf.cop4331c.dishdriver.NavigationActivity;
@@ -114,12 +115,29 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
 
 
                                     if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
+                                        mTableModels.get(position).reserve("NULL PARTY", 4, 100, new Date(System.currentTimeMillis())).asObservable()
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new Subscriber<NonQueryResponseModel>() {
+                                                    @Override
+                                                    public void onCompleted() {
+                                                        activity.dismissProgressDialog();
+                                                    }
 
-                                        mTableModels.get(position).setTableStatus(2);
-                                        Intent intent = new Intent(context, NavigationActivity.class);
-                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
-                                        activity.dismissProgressDialog();
-                                        context.startActivity(intent);
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        activity.dismissProgressDialog();
+                                                    }
+
+                                                    @Override
+                                                    public void onNext(NonQueryResponseModel nonQueryResponseModel) {
+                                                        Intent intent = new Intent(context, NavigationActivity.class);
+                                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                                        activity.dismissProgressDialog();
+                                                        context.startActivity(intent);
+                                                    }
+                                                });
+
                                     }
 
                                     // Check to see if the Table is the same as the Waiter associated with it,

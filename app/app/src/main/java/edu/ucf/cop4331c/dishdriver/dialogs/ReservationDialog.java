@@ -141,16 +141,19 @@ public class ReservationDialog extends DialogFragment {
                             @Override
                             public void onCompleted() {
                                 Log.d(TAG, "onCompleted: COMPLETE");
+                                dismiss();
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 Log.e(TAG, "onError: FAILURE", e);
+                                dismiss();
                             }
 
                             @Override
                             public void onNext(NonQueryResponseModel nonQueryResponseModel) {
                                 Toast.makeText(getContext(), "Reservation Made", Toast.LENGTH_SHORT).show();
+                                dismiss();
                             }
                         });
 //

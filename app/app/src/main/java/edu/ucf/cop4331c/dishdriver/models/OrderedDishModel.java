@@ -243,7 +243,7 @@ public class OrderedDishModel extends DishModel {
     }
 
     public void setToFromKitchen(String notesToKitchen) {
-        this.notesToKitchen = notesFromKitchen;
+        this.notesToKitchen = notesToKitchen;
     }
 
     public int getOrderedPrice() { return orderedPrice; }

@@ -19,8 +19,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,6 +49,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xdroid.toaster.Toaster;
+import java.lang.reflect.Type;
 
 import static xdroid.core.Global.getContext;
 
@@ -64,7 +68,21 @@ public class NavigationActivity extends ProgressDialogActivity {
     private int mTableNumber;
     private OrderModel mOrderModel;
     private TableModel mTableModel;
-    private OrderedDishModel mOrderDishModel;
+
+    final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
+
+
+//    Type listOfTestObject = new TypeToken<List<OrderedDishModel>>(){}.getType();
+//    Gson gson = null;
+//    String s = gson.toJson(OrderedDishModelList, listOfTestObject);
+//    List<OrderedDishModel> mConvertedOrderedDishModelList = gson.fromJson(s, listOfTestObject);
+
+
+    // final Type OrderedDishModelList = new TypeToken<ArrayList<OrderedDishModel>>(){}.getType();
+
+//    private JsonElement jsonArray;
+//
+//    List<OrderedDishModel> yourClassList = new Gson().fromJson(jsonArray, OrderedDishModelList);
     // private ArrayList<Order> mOrders = new ArrayList<Order>();
 
     @BindView(R.id.menuSpinner)
@@ -97,7 +115,9 @@ public class NavigationActivity extends ProgressDialogActivity {
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
         mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
         mTableModel = new Gson().fromJson(getIntent().getStringExtra("TABLE_MODEL"), TableModel.class);
-        mOrderDishModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_DISH_MODEL"), OrderedDishModel.class);
+        // mOrderDishModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_DISH_MODEL"), OrderedDishModel.class);
+
+        // OrderedDishModelList = new Gson().fromJson(getIntent().getStringArrayListExtra("ORDER_DISH_LIST"), OrderedDishModel.class);
 
         final ArrayList<DishModel> menuItemsList = new ArrayList<>();
 
@@ -105,7 +125,7 @@ public class NavigationActivity extends ProgressDialogActivity {
         mMenuSpinner.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.complementPrimaryColor));
         mMenuSpinner.setAdapter(menuAdapter);
 
-        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel, mOrderDishModel);
+        itemAdapter = new ItemAdapter(this, new ArrayList<DishModel>(), true, mOrderModel);
 
         mMenuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -204,9 +224,14 @@ public class NavigationActivity extends ProgressDialogActivity {
     @OnClick(R.id.convertOrderDishModelButton)
     public void convertToOrderedDishModel() {
 
-        final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
+        // final ArrayList<OrderedDishModel> OrderedDishModelList = new ArrayList<>();
 
         Toaster.toast("YOU ARE IN EDIT MODE");
+
+//        Type listOfTestObject = new TypeToken<List<OrderedDishModel>>(){}.getType();
+//        Gson gson = null;
+//        String s = gson.toJson(OrderedDishModelList, listOfTestObject);
+//        List<OrderedDishModel> list2 = gson.fromJson(s, listOfTestObject);
 
         mOrderModel.place(itemAdapter.getOrder()).asObservable()
                 .subscribeOn(Schedulers.io())
@@ -226,15 +251,20 @@ public class NavigationActivity extends ProgressDialogActivity {
                     @Override
                     public void onNext(List<OrderedDishModel> orderedDishModels) {
 
-                        for(OrderedDishModel orderedDishModel : orderedDishModels) {
 
-                            OrderedDishModelList.add(orderedDishModel);
-                        }
+
+                        OrderedDishModelList.addAll(orderedDishModels);
+
+
+
 
 
                     }
 
+
+
                 });
+
 
     }
 
@@ -297,18 +327,16 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                         @Override
                         public void onNext(List<OrderedDishModel> orderedDishModels) {
-
-
+                            Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
+                            startActivity(intent);
+                            finish();
                         }
 
                     });
 
 
-        Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
-        startActivity(intent);
-        finish();
 
         }
 //                .subscribe(new Subscriber<NonQueryResponseModel>() {

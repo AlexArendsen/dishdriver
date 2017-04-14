@@ -28,7 +28,6 @@ import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
-import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import xdroid.toaster.Toaster;
 
 /**
@@ -120,7 +119,7 @@ public class CheckDialog extends DialogFragment {
         // Bind our gratuityEditText
 //        EditText gratuityEditText = (EditText) view.findViewById(R.id.gratuityEditTextView);
 
-        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null,null);
+        ItemAdapter itemAdapter = new ItemAdapter((AppCompatActivity) getActivity(), items, false, null);
         receiptRecyclerView.setAdapter(itemAdapter);
 
         Button mTipButton = (Button) view.findViewById(R.id.tipButton);
