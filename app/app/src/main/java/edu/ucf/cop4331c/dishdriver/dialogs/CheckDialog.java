@@ -28,6 +28,7 @@ import edu.ucf.cop4331c.dishdriver.TableActivity;
 import edu.ucf.cop4331c.dishdriver.custom.ItemAdapter;
 import edu.ucf.cop4331c.dishdriver.helpers.MoneyFormatter;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import xdroid.toaster.Toaster;
 
 /**
@@ -41,6 +42,7 @@ public class CheckDialog extends DialogFragment {
     private static String total;
     private static String gratuity;
     private static String totalWithTip;
+    private static OrderModel mOrderModel;
 
     //TODO: Eventually you will want to change this to an arraylist of the item models and not just strings.
 
@@ -53,7 +55,7 @@ public class CheckDialog extends DialogFragment {
 
 
 
-    public static CheckDialog newInstance(ArrayList<DishModel> items) {
+    public static CheckDialog newInstance(ArrayList<DishModel> items, OrderModel orderModel) {
 
 
         CheckDialog checkDialog = new CheckDialog();
@@ -63,6 +65,7 @@ public class CheckDialog extends DialogFragment {
         total = getCheckTotalAmount(items);
         gratuity = getTipAmount(items);
         totalWithTip = getSubtotalWithTip(items);
+        mOrderModel = orderModel;
 
 
         convertToStr.addAll(items);
@@ -169,10 +172,12 @@ public class CheckDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
+                mOrderModel.markPaid(Integer.parseInt(total));
+
                 Intent orderIntent = new Intent(getActivity(), TableActivity.class);
                 orderIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(orderIntent);
-                dismiss();
+                getActivity().finish();
+//                dismiss();
             }
         });
 
