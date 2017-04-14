@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.hendrix.pdfmyxml.viewRenderer.AbstractViewRenderer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,6 +33,8 @@ import rx.android.schedulers.AndroidSchedulers;
 public class TestChartActivity extends AppCompatActivity {
 
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,22 @@ public class TestChartActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         PieChart pieChart = (PieChart) findViewById(R.id.pieChart);
+
+//        AbstractViewRenderer page = new AbstractViewRenderer(this, R.layout.activity_test_chart) {
+//
+//            private String _text;
+//
+//            public void setText(String text) {
+//                _text = text;
+//            }
+//
+//            @Override
+//            protected void initView(View view) {
+//                PieChart pieCharPieChart = (PieChart) view.findViewById(R.id.pieChart);
+//                pieCharPieChart.
+//            }
+//        };
+
 
         List<PieEntry> entries = new ArrayList<>();
 

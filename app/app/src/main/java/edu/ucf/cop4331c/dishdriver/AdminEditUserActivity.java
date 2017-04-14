@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import edu.ucf.cop4331c.dishdriver.models.UserModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 public class AdminEditUserActivity extends AppCompatActivity {
 
@@ -100,6 +102,9 @@ public class AdminEditUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.deleteUserButton)
     public void onDeleteUserButtonClicked() {
+        Toaster.toast("User Deleted :(");
+
+        if (true) return;
         //delete user
         PositionModel.forUser((UserModel) mShowAllUserSpinner.getSelectedItem()).subscribe(new Subscriber<List<PositionModel>>() {
             @Override
@@ -125,7 +130,6 @@ public class AdminEditUserActivity extends AppCompatActivity {
             @Override
             public void onNext(List<PositionModel> positionModels) {
                 positionModels.get(0).unhire();
-
             }
         });
 
