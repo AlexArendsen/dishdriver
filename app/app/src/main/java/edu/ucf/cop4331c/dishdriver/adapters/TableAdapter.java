@@ -2,6 +2,7 @@ package edu.ucf.cop4331c.dishdriver.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -76,7 +78,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     //EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
 
                     // Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
-                    Toaster.toast("I am clicking this table?" + mTableModels.get(position).getTableStatus());
+                    Toaster.toast("I am clicking this table?" + mTableModels.get(position).getStatus());
 
                     // mTableModels.get(position).getTableStatus();
                     // Toaster.toast("" + position + " of " + mTableModels.size() + " duh " + mTableModels.get(position).getTableStatus());
@@ -109,28 +111,58 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                                     orderModel.setWaiterId(SessionModel.currentPosition().getID());
                                     orderModel.setTableId(mTableModels.get(position).getId());
 
+                                    mTableModels.get(position).getStatus().observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TableStatus>() {
 
-                                    if (mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
 
-                                        mTableModels.get(position).setTableStatus(2);
-                                        Intent intent = new Intent(context, NavigationActivity.class);
-                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
-                                        activity.dismissProgressDialog();
-                                        context.startActivity(intent);
-                                    }
+                                        @Override
+                                        public void onCompleted() {
 
-                                    // Check to see if the Table is the same as the Waiter associated with it,
-                                    // If it is Occupied, only the Waiter associated with the table can reopen it.
+                                        }
 
-                                    else if ((mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) &&
-                                            SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())) {
-                                        Intent intent = new Intent(context, NavigationActivity.class);
-                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
-                                        context.startActivity(intent);
-                                    } else {
-                                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to " + TableStatus.OCCUPIED);
-                                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to " + currentOrderModel.getWaiterId());
-                                    }
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(TableStatus tableStatus) {
+                                            switch (tableStatus) {
+                                                case OCCUPIED:
+                                                    if (! SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())) break;
+                                                case UNRESERVED:
+                                                    Intent intent = new Intent(context, NavigationActivity.class);
+                                                    intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+                                                    activity.dismissProgressDialog();
+                                                    context.startActivity(intent);
+                                                    break;
+
+                                            }
+
+                                        }
+
+                                    });
+
+//                                        if (mTableModels.get(position).getStatus() == Observable<TableStatus.UNRESERVED>) {
+//
+//                                        mTableModels.get(position).setTableStatus(2);
+//                                        Intent intent = new Intent(context, NavigationActivity.class);
+//                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+//                                        activity.dismissProgressDialog();
+//                                        context.startActivity(intent);
+//                                    }
+//
+//                                    // Check to see if the Table is the same as the Waiter associated with it,
+//                                    // If it is Occupied, only the Waiter associated with the table can reopen it.
+//
+//                                    else if ((mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) &&
+//                                            SessionModel.currentPosition().getID().equals(currentOrderModel.getWaiterId())) {
+//                                        Intent intent = new Intent(context, NavigationActivity.class);
+//                                        intent.putExtra("ORDER_MODEL", new Gson().toJson(orderModel));
+//                                        context.startActivity(intent);
+//                                    } else {
+//                                        Toaster.toast(mTableModels.get(position).getTableStatus() + " compared to " + TableStatus.OCCUPIED);
+//                                        Toaster.toast(SessionModel.currentPosition().getID() + "compared to " + currentOrderModel.getWaiterId());
+//                                    }
                                 }
                             });
                 }
@@ -157,36 +189,93 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                 // Toaster.toast("hello");
                 AppCompatActivity appCompatActivity = mAppCompatWeakReference.get();
 
-                if (appCompatActivity != null && mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
-                    TableModel tableModel = mTableModels.get(position);
-                    ReservationDialog.newInstance("Reservation", position + 1, tableModel).show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
+                if (appCompatActivity != null) {
+                    mTableModels.get(position).getStatus().observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TableStatus>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(TableStatus tableStatus) {
+                            switch (tableStatus) {
+                                case UNRESERVED:
+                                    ReservationDialog.newInstance("Reservation", position +1, mTableModels.get(position))
+                                            .show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
+                                    break;
+                                case RESERVED:
+                                    Toaster.toast("This table is reserved.");
+                                default:
+                            }
+                        }
+                    });
                 }
 
-                else if(mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
-                    // TODO: figure out a way to UNRESERVE IT
 
-                }
+//                if (appCompatActivity != null && mTableModels.get(position).getTableStatus() == TableStatus.UNRESERVED) {
+//                    TableModel tableModel = mTableModels.get(position);
+//                    ReservationDialog.newInstance("Reservation", position + 1, tableModel).show(appCompatActivity.getSupportFragmentManager(), "RESERVATION_DIALOG");
+//                }
+
+//                else if(mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+//                    // TODO: figure out a way to UNRESERVE IT
+//
+//                }
 
                 return true;
 
             }
         });
 
-        if (mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) {
+        mTableModels.get(position).getStatus().observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TableStatus>() {
+            @Override
+            public void onCompleted() {
 
-            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.colorPrimaryDark));
-        }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(TableStatus tableStatus) {
+                switch (tableStatus) {
+                    case OCCUPIED:
+                        holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.colorPrimaryDark));
+                        break;
+                    case RESERVED:
+                        holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
+                        break;
+                    default:
+                        holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
+                        break;
+                }
 
 
-        else if (mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+            }
+        });
 
-            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
-        }
-
-        else {
-
-            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
-        }
+//        if (mTableModels.get(position).getTableStatus() == TableStatus.OCCUPIED) {
+//
+//            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.colorPrimaryDark));
+//        }
+//
+//
+//        else if (mTableModels.get(position).getTableStatus() == TableStatus.RESERVED) {
+//
+//            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.purple));
+//        }
+//
+//        else {
+//
+//            holder.mTableRelativeLayout.setBackground(ContextCompat.getDrawable(holder.mTableRelativeLayout.getContext(), R.color.complementPrimaryColor));
+//        }
 
     }
 

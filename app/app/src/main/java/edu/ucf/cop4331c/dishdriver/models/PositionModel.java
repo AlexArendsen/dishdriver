@@ -66,6 +66,13 @@ public class PositionModel {
                 .observeOn(Schedulers.io())
                 .flatMap(qm -> {
 
+                    System.out.println("POSITION :: Returning from Position query.");
+                    System.out.println("sql: " + sql);
+                    if (qm == null) System.out.println("qm = null");
+                    else if (qm.getResults() == null) System.out.println("qm results = null");
+                    else if (qm.getResults().length == 0 ) System.out.println("qm results list is not null, but it is empty");
+                    else System.out.println("qm contains " + qm.getResults().length + " results");
+
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
                     if (qm == null || qm.getResults() == null)
@@ -171,12 +178,22 @@ public class PositionModel {
     public static Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant, Role role) {
 
         // So clunky T_T
-        return forRestaurant(restaurant)
-                .flatMap(models -> {
-                    return Observable.just(
-                            Arrays.asList((PositionModel[]) models.stream().filter(p -> p.getRole() == role).toArray())
-                    );
-                });
+//        return forRestaurant(restaurant)
+//                .flatMap(models -> {
+//                    return Observable.just(
+//                            Arrays.asList((PositionModel[]) models.stream().filter(p -> p.getRole() == role).toArray())
+//                    );
+//                });
+
+        return forRestaurant(restaurant).flatMap(models -> {
+            ArrayList<PositionModel> results = new ArrayList<PositionModel>();
+
+            // Manually filter this shit bc idfk what's going on
+            for (PositionModel p : models)
+                if (p.getRole() == role) results.add(p);
+
+            return Observable.just(results);
+        });
     }
     // endregion
 

@@ -60,7 +60,7 @@
                 android:layout_marginStart="270dp"
                 android:background="#FF2222"
                 android:gravity="center"
-                android:text="Cancel Order"
+                android:text="Reject Order"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

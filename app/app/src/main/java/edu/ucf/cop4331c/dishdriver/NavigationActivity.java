@@ -332,6 +332,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        finish();
 //                    }
 //                });
+        //startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
     }
 
 

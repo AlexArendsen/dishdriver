@@ -71,6 +71,13 @@ public class TableReservationModel {
                 .observeOn(Schedulers.io())
                 .flatMap(qm -> {
 
+                    System.out.println("TABLE RESERVATION :: Returning from TableReservation query.");
+                    System.out.println("sql: " + sql);
+                    if (qm == null) System.out.println("qm = null");
+                    else if (qm.getResults() == null) System.out.println("qm results = null");
+                    else if (qm.getResults().length == 0 ) System.out.println("qm results list is not null, but it is empty");
+                    else System.out.println("qm contains " + qm.getResults().length + " results");
+
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
                     if (qm == null || qm.getResults() == null)
