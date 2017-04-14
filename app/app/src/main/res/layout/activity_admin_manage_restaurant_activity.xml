@@ -98,15 +98,12 @@
         android:id="@+id/descriptionInput"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="11dp"
         android:ems="10"
         android:inputType="text"
         android:hint="Describe the item"
         android:layout_below="@+id/descriptionText"
-        android:layout_alignStart="@+id/descriptionText"
-        android:layout_alignTop="@+id/itemDescriptionTextView"
-        android:layout_alignEnd="@+id/drinkText"
-        android:layout_marginBottom="50dp"/>
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:id="@+id/priceInput"

@@ -36,8 +36,19 @@ public class DishModel {
 
     @SerializedName("DT_Deleted")
     @Expose
-    private Object dTDeleted;
+    private Object dTDeleted = null;
     // endregion
+
+    public DishModel(){
+
+    }
+
+    public DishModel(Integer restaurantID, Integer price, String desciption, String name) {
+        this.restaurantID = restaurantID;
+        this.price = price;
+        this.description = desciption;
+        this.name = name;
+    }
 
     // region query() Definition
     public static Observable<List<DishModel>> query(String sql, String[] args) {
@@ -87,6 +98,7 @@ public class DishModel {
 
     // region DB Modifications
     public Observable<NonQueryResponseModel> create() {
+
         return NonQueryResponseModel.run(
                 "INSERT INTO Dishes (Restaurant_ID, Price, Name, Description) VALUES (?, ?, ?, ?)",
                 new String[] {
