@@ -17,10 +17,10 @@ public class OneSignalProvider {
     public static OneSignalService getInstance() {
         if (sOneSignalService == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://onesignal.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+                    .baseUrl("https://onesignal.com")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
 
             sOneSignalService = retrofit.create(OneSignalService.class);
         }

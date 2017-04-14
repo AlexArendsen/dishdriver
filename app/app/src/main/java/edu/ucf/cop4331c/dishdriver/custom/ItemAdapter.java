@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -191,7 +190,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             mListener = listener;
 
 
-
             mMenuItemTextView = (TextView) itemView.findViewById(R.id.itemTextView);
             mDeleteItemImageView = (ImageView) itemView.findViewById(R.id.itemClearImageView);
             mModifyItemImageView = (ImageView) itemView.findViewById(R.id.itemModifyImageView);
@@ -201,7 +199,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             mDeleteItemImageView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Testing this stuff", Toast.LENGTH_SHORT).show();
                     // We are calling our listener's remove item from adapter method in order to remove this item from the list.
                     mListener.removeItemFromAdapter(getAdapterPosition());
                 }
@@ -214,7 +211,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 @Override
                 public void onClick(View v) {
 
-                    Toaster.toast("This modify button is working");
 
                     // This will take you to the dialog where you can modify the item
                     mListener.addNoteForItemAtPosition(getAdapterPosition());
@@ -225,6 +221,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         // This interface will be used to handle item removals from the adapter.
         public interface IMyViewHolderClicks {
             void removeItemFromAdapter(int position);
+
             void addNoteForItemAtPosition(int position);
         }
 

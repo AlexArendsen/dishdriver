@@ -1,17 +1,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/party_name"
@@ -45,7 +43,7 @@
 
         <TextView
             android:id="@+id/reservation_time"
-            android:layout_width="800dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Reservation Time"
@@ -64,10 +62,6 @@
             android:text="Reservation Date"
             android:textSize="20sp" />
 
-        <CalendarView
-            android:id="@+id/calendarView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <CheckBox
             android:id="@+id/reservationDepositCheckBox"
@@ -79,7 +73,8 @@
 
         <Button
             android:id="@+id/reservationConfirmationButton"
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="1000dp"
             android:layout_height="wrap_content"
             android:text="Confirm" />
     </LinearLayout>

@@ -13,10 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -84,7 +82,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 
     // Oh my gosh, major debugging... do not bind views if you aren;t going to use them!!!
 
-//    @BindView(R.id.itemPriceTextView)
+    //    @BindView(R.id.itemPriceTextView)
 //    TextView mItemPriceTextView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +93,15 @@ public class NavigationActivity extends ProgressDialogActivity {
 
         // Retrieves the table number from the intent that we passed in the PartySizeDialog.
         mTableNumber = getIntent().getIntExtra("PARTY_NUMBER", 0);
+
+//        switch (mTableNumber) {
+//            case 1:
+//                break;
+//            case 2:
+//                break;
+//            //...
+//        }
+
         mOrderModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_MODEL"), OrderModel.class);
         mTableModel = new Gson().fromJson(getIntent().getStringExtra("TABLE_MODEL"), TableModel.class);
         mOrderDishModel = new Gson().fromJson(getIntent().getStringExtra("ORDER_DISH_MODEL"), OrderedDishModel.class);
@@ -130,11 +137,7 @@ public class NavigationActivity extends ProgressDialogActivity {
         mMenuItemRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false));
         mMenuItemRecyclerView.setAdapter(itemAdapter);
 
-
         getDishes(menuItemsList);
-
-
-
     }
 
     private void getDishes(final ArrayList<DishModel> menuItemsList) {
@@ -144,10 +147,10 @@ public class NavigationActivity extends ProgressDialogActivity {
         //TODO: Use this as soon as session model is fixed
 //        DishModel.forRestaurant(SessionModel.currentRestaurant()).asObservable()
         DishModel.forRestaurant(SessionModel.currentRestaurant())
-        // RestaurantModel.get(3).asObservable()
+                // RestaurantModel.get(3).asObservable()
                 // flatMap is going to grab the first element is your list of Observable objects.
                 // in our case, we have a list of restaurantModels
-               // .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
+                // .flatMap(restaurantModels -> DishModel.forRestaurant(restaurantModels.get(0)))
                 // subscribeOn means you will look at the backend (where the elements are located at)
                 .subscribeOn(Schedulers.io())
                 // observeOn means to display elements on the UI mainthread (which is where we are interested in viewing it
@@ -163,7 +166,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissProgressDialog();
-                        Toast.makeText(NavigationActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        Toaster.toast("Network Error");
                     }
 
                     @Override
@@ -173,9 +176,7 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        beverageList.clear();
 
                         for (DishModel dishModel : dishModels) {
-
                             menuItemsList.add(dishModel);
-
                         }
 
                         final ArrayList<String> temps = new ArrayList<String>();
@@ -183,7 +184,6 @@ public class NavigationActivity extends ProgressDialogActivity {
 
                         // I know, it's gross!! Ah!!
                         for(int x = 0; x < menuItemsList.size(); x++ ) {
-
                             temps.add(menuItemsList.get(x).getName());
                             prices.add(MoneyFormatter.format(menuItemsList.get(x).getPrice()));
                         }
@@ -199,7 +199,6 @@ public class NavigationActivity extends ProgressDialogActivity {
                 });
 
     }
-
 
     @OnClick(R.id.convertOrderDishModelButton)
     public void convertToOrderedDishModel() {
@@ -268,6 +267,7 @@ public class NavigationActivity extends ProgressDialogActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+            finish();//startActivity(new Intent(NavigationActivity.this, SignInActivity.class));
 
             return;
 
@@ -307,7 +307,7 @@ public class NavigationActivity extends ProgressDialogActivity {
         Intent intent = new Intent(NavigationActivity.this, TableActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("TABLE_MODEL", new Gson().toJson(mTableModel));
-        startActivity(intent);
+//        startActivity(intent);
         finish();
 
         }
@@ -332,8 +332,6 @@ public class NavigationActivity extends ProgressDialogActivity {
 //                        finish();
 //                    }
 //                });
-
-
     }
 
 

@@ -1,7 +1,6 @@
 package edu.ucf.cop4331c.dishdriver.network;
 
 import edu.ucf.cop4331c.dishdriver.models.PostNotificationModel;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -17,19 +16,22 @@ public class NotificationService {
                 "Basic " + OneSignalProvider.REST_KEY,
                 new PostNotificationModel(title, body)
         )
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.io())
-        .subscribe(new Subscriber<Void>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<Void>() {
 
-            @Override
-            public void onCompleted() { }
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            @Override
-            public void onError(Throwable e) { }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
 
-            @Override
-            public void onNext(Void aVoid) { }
-        });
+                    @Override
+                    public void onNext(Void aVoid) {
+                    }
+                });
     }
 
 }

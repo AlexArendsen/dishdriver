@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="edu.ucf.cop4331c.dishdriver.MainActivity"
-    android:background="@color/colorPrimary" >
+    tools:context="edu.ucf.cop4331c.dishdriver.MainActivity">
 
     <Button
         android:id="@+id/takeMeToAppButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:layout_margin="100dp"
-        android:text="TAKE ME TO APP"/>
+        android:layout_weight="1"
+        android:text="TAKE ME TO APP" />
 
     <Button
         android:id="@+id/takeMeToLibraryButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:layout_margin="100dp"
-        android:text="TAKE ME TO LIBRARY TEST"/>
+        android:layout_weight="1"
+        android:text="TAKE ME TO LIBRARY TEST" />
 
 </LinearLayout>

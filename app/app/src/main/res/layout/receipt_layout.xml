@@ -55,8 +55,8 @@
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:hint=""
-            android:textSize="18sp"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -71,13 +71,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Subtotal(USD):"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
+
         <TextView
+            android:id="@+id/itemSubtotalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemSubtotalTextView"
-            android:textSize="18sp"
-            android:text="9999USD"/>
+            android:text="9999USD"
+            android:textSize="18sp" />
 
 
     </LinearLayout>

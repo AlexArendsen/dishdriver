@@ -30,7 +30,6 @@ public class ItemModifyDialog extends DialogFragment {
 //        public String onReturnValue(String foo);
 //    }
 
-
     public static ItemModifyDialog newInstance(OrderedDishModel orderedDishModel) {
 
         ItemModifyDialog frag = new ItemModifyDialog();
@@ -77,7 +76,7 @@ public class ItemModifyDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!isEmpty(mModifyEditText)) {
+                if (!isEmpty(mModifyEditText)) {
 
                     String sModifyEditText = mModifyEditText.getText().toString();
                     bundle.putString("ITEM_MODIFY_DIALOG", sModifyEditText);
@@ -85,13 +84,11 @@ public class ItemModifyDialog extends DialogFragment {
 
                     mOrderDishModel.updateNotesToKitchen(test);
 
-
                     mSubmitButton.setEnabled(true);
 
                     mSubmitButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
 
 //                            MyDialogFragmentListener activity = (MyDialogFragmentListener) getActivity();
 //                            activity.onReturnValue(test);
@@ -101,8 +98,7 @@ public class ItemModifyDialog extends DialogFragment {
                         }
                     });
 
-                }
-                else
+                } else
                     mSubmitButton.setEnabled(false);
             }
 

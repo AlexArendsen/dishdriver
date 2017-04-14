@@ -4,7 +4,6 @@ import edu.ucf.cop4331c.dishdriver.models.PostNotificationModel;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import rx.Completable;
 import rx.Observable;
 
 /**
@@ -17,6 +16,6 @@ public interface OneSignalService {
     Observable<Void> broadcast(
             @Header("Authorization") String rest_key,
             @Body PostNotificationModel model
-            );
+    );
 
 }

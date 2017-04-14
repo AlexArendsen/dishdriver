@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -24,12 +22,9 @@ import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.custom.ProgressDialogActivity;
 import edu.ucf.cop4331c.dishdriver.dialogs.ReservationDialog;
 import edu.ucf.cop4331c.dishdriver.enums.TableStatus;
-import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.OrderModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
 import edu.ucf.cop4331c.dishdriver.models.TableModel;
-import edu.ucf.cop4331c.dishdriver.models.TableReservationModel;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,7 +35,6 @@ import xdroid.toaster.Toaster;
  */
 
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHolder> {
-
 
     public interface OnItemLongClickListener {
         public boolean onItemLongClicked(int position);
@@ -68,15 +62,18 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
                     .inflate(R.layout.card_table, parent, false);
 
             TableViewHolder tableViewHolder = new TableViewHolder(view, new TableViewHolder.IMyViewHolderClicks() {
-                @Override
                 // OKay, so here, we will check if the Status is correct and also if the Waiter if correct.
 
 
                 // Oh okay, I need to somehow get the onClick on the view just for the table.
-
+                @Override
                 public void myOnClick(View caller, int position) {
 
                     Context context = mAppCompatWeakReference.get();
+//                  Toaster.toast("Table: " + String.valueOf(position) + " clicked.");
+//                   caller.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimaryDark));
+//                    context.startActivity(new Intent(context, NavigationActivity.class));
+                    //EventBus.getDefault().post(new ShowPartyDialogEvent(position + 1));
 
                     // Toast.makeText(context, "Table: " + String.valueOf(position) + " clicked.", Toast.LENGTH_SHORT).show();
                     Toaster.toast("I am clicking this table?" + mTableModels.get(position).getTableStatus());
@@ -155,6 +152,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
             @Override
             public boolean onLongClick(View v) {
 
+                //Toaster.toast("hello");
+                // TODO: MAKE IT GO TO ReservationDialog
                 // Toaster.toast("hello");
                 AppCompatActivity appCompatActivity = mAppCompatWeakReference.get();
 
@@ -210,9 +209,9 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.TableViewHol
     static class TableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         RelativeLayout mTableRelativeLayout;
-        TextView mTableNameTextView;
 
         public IMyViewHolderClicks mListener;
+        TextView mTableNameTextView;
 
         public TableViewHolder(View itemView) {
             super(itemView);

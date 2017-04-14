@@ -3,15 +3,15 @@ package edu.ucf.cop4331c.dishdriver.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import edu.ucf.cop4331c.dishdriver.enums.Role;
-import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
-import rx.Observable;
-import rx.schedulers.Schedulers;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import edu.ucf.cop4331c.dishdriver.enums.Role;
+import edu.ucf.cop4331c.dishdriver.network.DishDriverProvider;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by rebeca on 3/14/2017.
@@ -68,7 +68,8 @@ public class PositionModel {
 
                     // If no response was sent, just give back an empty list so things don't
                     // explode in UI
-                    if (qm == null || qm.getResults() == null) return Observable.just(new ArrayList<PositionModel>());
+                    if (qm == null || qm.getResults() == null)
+                        return Observable.just(new ArrayList<PositionModel>());
                     return Observable.just(Arrays.asList(qm.getResults()));
 
                 });
@@ -80,21 +81,21 @@ public class PositionModel {
     public static Observable<PositionModel> get(int id) {
         return query(
                 "SELECT " +
-                    "P.*, " +
-                    "R.Name AS Restaurant_Name, " +
-                    "IF( " +
+                        "P.*, " +
+                        "R.Name AS Restaurant_Name, " +
+                        "IF( " +
                         "NULLIF(U.FirstName, '') IS NULL, " +
                         "U.Email, " +
                         "CONCAT(U.FirstName, ' ', U.LastName) " +
-                    ") AS Employee_Name " +
-                "FROM " +
-                    "Positions P " +
-                    "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
-                    "INNER JOIN Users U ON P.Employee_ID = U.Id " +
-                "WHERE " +
-                    "P.Id = ? ",
-                new String[] { Integer.toString(id) }
-        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0) ) );
+                        ") AS Employee_Name " +
+                        "FROM " +
+                        "Positions P " +
+                        "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                        "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+                        "WHERE " +
+                        "P.Id = ? ",
+                new String[]{Integer.toString(id)}
+        ).flatMap(list -> Observable.just((list.isEmpty()) ? null : list.get(0)));
     }
 
     /**
@@ -111,22 +112,22 @@ public class PositionModel {
         // #ThanksOracle
 
         return query(
-            "SELECT " +
-                "P.*, " +
-                "R.Name AS Restaurant_Name, " +
-                "IF( " +
-                    "NULLIF(U.FirstName, '') IS NULL, " +
-                    "U.Email, " +
-                    "CONCAT(U.FirstName, ' ', U.LastName) " +
-                ") AS Employee_Name " +
-            "FROM " +
-                "Positions P " +
-                "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
-                "INNER JOIN Users U ON P.Employee_ID = U.Id " +
-            "WHERE " +
-                "P.Employee_ID = ? " +
-                "AND P.DT_Unhired IS NULL",
-            new String[] { Integer.toString(user.getID()) }
+                "SELECT " +
+                        "P.*, " +
+                        "R.Name AS Restaurant_Name, " +
+                        "IF( " +
+                        "NULLIF(U.FirstName, '') IS NULL, " +
+                        "U.Email, " +
+                        "CONCAT(U.FirstName, ' ', U.LastName) " +
+                        ") AS Employee_Name " +
+                        "FROM " +
+                        "Positions P " +
+                        "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                        "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+                        "WHERE " +
+                        "P.Employee_ID = ? " +
+                        "AND P.DT_Unhired IS NULL",
+                new String[]{Integer.toString(user.getID())}
         );
     }
 
@@ -139,22 +140,22 @@ public class PositionModel {
     public static Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant) {
 
         return query(
-            "SELECT " +
-                "P.*, " +
-                "R.Name AS Restaurant_Name, " +
-                "IF( " +
-                    "NULLIF(U.FirstName, '') IS NULL, " +
-                    "U.Email, " +
-                    "CONCAT(U.FirstName, ' ', U.LastName) " +
-                ") AS Employee_Name " +
-            "FROM " +
-                "Positions P " +
-                "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
-                "INNER JOIN Users U ON P.Employee_ID = U.Id " +
-            "WHERE " +
-                "P.Restaurant_ID = ? " +
-                "AND P.DT_Unhired IS NULL",
-            new String[] { Integer.toString(restaurant.getId()) }
+                "SELECT " +
+                        "P.*, " +
+                        "R.Name AS Restaurant_Name, " +
+                        "IF( " +
+                        "NULLIF(U.FirstName, '') IS NULL, " +
+                        "U.Email, " +
+                        "CONCAT(U.FirstName, ' ', U.LastName) " +
+                        ") AS Employee_Name " +
+                        "FROM " +
+                        "Positions P " +
+                        "INNER JOIN Restaurants R ON P.Restaurant_ID = R.Id " +
+                        "INNER JOIN Users U ON P.Employee_ID = U.Id " +
+                        "WHERE " +
+                        "P.Restaurant_ID = ? " +
+                        "AND P.DT_Unhired IS NULL",
+                new String[]{Integer.toString(restaurant.getId())}
         );
     }
 
@@ -164,7 +165,7 @@ public class PositionModel {
      * role. Unhired positions are excluded.
      *
      * @param restaurant The restaurant whose positions are to be fetched
-     * @param role The role
+     * @param role       The role
      * @return The list of the positions currently working at the provided restaurant.
      */
     public static Observable<List<PositionModel>> forRestaurant(RestaurantModel restaurant, Role role) {
@@ -173,7 +174,7 @@ public class PositionModel {
         return forRestaurant(restaurant)
                 .flatMap(models -> {
                     return Observable.just(
-                            Arrays.asList((PositionModel[])models.stream().filter(p -> p.getRole() == role).toArray())
+                            Arrays.asList((PositionModel[]) models.stream().filter(p -> p.getRole() == role).toArray())
                     );
                 });
     }
@@ -183,9 +184,10 @@ public class PositionModel {
 
     /**
      * Alias for PositionMode.create()
-     * @param user The user to hire
+     *
+     * @param user       The user to hire
      * @param restaurant The restaurant to hire this user to
-     * @param role The role of this user (waiter, cook, or administrator)
+     * @param role       The role of this user (waiter, cook, or administrator)
      * @return The NonQueryResponseModel conveying the progress of the associated DB transaction.
      */
     public static Observable<NonQueryResponseModel> hire(UserModel user, RestaurantModel restaurant, Role role) {
@@ -194,19 +196,20 @@ public class PositionModel {
 
     /**
      * Hires an existing user to the provided restaurant
-     * @param user The user to hire
+     *
+     * @param user       The user to hire
      * @param restaurant The restaurant to hire this user to
-     * @param role The role of this user (waiter, cook, or administrator)
+     * @param role       The role of this user (waiter, cook, or administrator)
      * @return The NonQueryResponseModel conveying the progress of the associated DB transaction.
      */
     public static Observable<NonQueryResponseModel> create(UserModel user, RestaurantModel restaurant, Role role) {
         return NonQueryResponseModel.run(
                 "INSERT INTO Positions (Employee_ID, Role_ID, Restaurant_ID, DT_Hired) VALUES (?, ?, ?, NOW())",
-                new String[] {
+                new String[]{
                         Integer.toString(user.getID()),
                         Integer.toString(role.ordinal() + 1),
                         Integer.toString(restaurant.getId())
-        });
+                });
     }
 
     // Skipping this one for now, de-deprecate if UI makes a case for it
@@ -217,18 +220,20 @@ public class PositionModel {
 
     /**
      * Fires this employee.
+     *
      * @return The NonQueryResponseModel conveying the progress of the associated DB transaction.
      */
     public Observable<NonQueryResponseModel> unhire() {
         return NonQueryResponseModel.run(
                 "UPDATE Positions SET DT_Unhired = ? WHERE Id = ?",
-                new String[] { Integer.toString(id) }
+                new String[]{Integer.toString(id)}
         );
     }
     // endregion
 
     /**
      * Returns the user's currently selected position
+     *
      * @return The user's currently selected position
      */
     public PositionModel current() {
@@ -239,6 +244,7 @@ public class PositionModel {
 
     /**
      * A friendly, human-readable name for this position in the format "[Role] at [Restaurant]"
+     *
      * @return A string in the format "[Role] at [Restaurant]"
      */
     public String getPositionName() {
@@ -246,11 +252,15 @@ public class PositionModel {
     }
 
     public Role getRole() {
-        switch(roleID) {
-            case 1:  return Role.Admin;
-            case 2:  return Role.Waiter;
-            case 3:  return Role.Cook;
-            default: return Role.Unknown;
+        switch (roleID) {
+            case 1:
+                return Role.Admin;
+            case 2:
+                return Role.Waiter;
+            case 3:
+                return Role.Cook;
+            default:
+                return Role.Unknown;
         }
     }
     // endregion

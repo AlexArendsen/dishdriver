@@ -22,7 +22,7 @@ public class DateStringAdapter implements JsonDeserializer<Date> {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         try {
             return fmt.parse(src);
-        } catch (Exception e)  {
+        } catch (Exception e) {
             throw new JsonParseException("Date deserialization error: " + e.getMessage());
         }
     }

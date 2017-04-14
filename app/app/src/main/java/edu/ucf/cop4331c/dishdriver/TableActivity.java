@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,6 +32,7 @@ import edu.ucf.cop4331c.dishdriver.models.TableModel;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xdroid.toaster.Toaster;
 
 /**
  * Created by viviennedo on 3/14/17.
@@ -56,13 +56,13 @@ public class TableActivity extends ProgressDialogActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toaster.toast("Please click BACK again to exit");
 
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -79,6 +79,7 @@ public class TableActivity extends ProgressDialogActivity {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         mTableAdapter = new TableAdapter(this);
+
         mTableRecyclerView.setLayoutManager(gridLayoutManager);
 //        if (SessionModel.currentRestaurant() != null)
 //            DishModel.forRestaurant(SessionModel.currentRestaurant()).subscribe(new Subscriber<List<DishModel>>() {
@@ -144,7 +145,7 @@ public class TableActivity extends ProgressDialogActivity {
         switch(view.getId()) {
             case R.id.reservationDepositCheckBox:
                if (checked)
-                    Toast.makeText(this, "hello, I want a table", Toast.LENGTH_SHORT).show();
+                   Toaster.toast("hello, I want a table");
                 //else
                 break;
 
@@ -241,8 +242,6 @@ public class TableActivity extends ProgressDialogActivity {
 
 
     }
-
-
 
 
 }

@@ -44,21 +44,37 @@ public class PostNotificationModel {
     // endregion
 
     // region Getters and Setters
-    public String getAppId() { return appId; }
+    public String getAppId() {
+        return appId;
+    }
 
-    public void setAppId(String appId) { this.appId = appId; }
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
-    public List<String> getIncludedSegments() { return includedSegments; }
+    public List<String> getIncludedSegments() {
+        return includedSegments;
+    }
 
-    public void setIncludedSegments(List<String> includedSegments) { this.includedSegments = includedSegments; }
+    public void setIncludedSegments(List<String> includedSegments) {
+        this.includedSegments = includedSegments;
+    }
 
-    public Contents getContents() { return contents; }
+    public Contents getContents() {
+        return contents;
+    }
 
-    public void setContents(Contents contents) { this.contents = contents; }
+    public void setContents(Contents contents) {
+        this.contents = contents;
+    }
 
-    public Headings getHeadings() { return headings; }
+    public Headings getHeadings() {
+        return headings;
+    }
 
-    public void setHeadings(Headings headings) { this.headings = headings; }
+    public void setHeadings(Headings headings) {
+        this.headings = headings;
+    }
     // endregion
 
     // region Private Classes
@@ -68,9 +84,13 @@ public class PostNotificationModel {
         @Expose
         private String en;
 
-        public String getEn() { return en; }
+        public String getEn() {
+            return en;
+        }
 
-        public void setEn(String en) { this.en = en; }
+        public void setEn(String en) {
+            this.en = en;
+        }
 
     }
 
@@ -80,9 +100,13 @@ public class PostNotificationModel {
         @Expose
         private String en;
 
-        public String getEn() { return en; }
+        public String getEn() {
+            return en;
+        }
 
-        public void setEn(String en) { this.en = en; }
+        public void setEn(String en) {
+            this.en = en;
+        }
 
     }
 

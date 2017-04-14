@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,50 +10,50 @@
 
     <LinearLayout
         android:id="@+id/addUserLinearLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toStartOf="@+id/divider">
+        android:layout_toStartOf="@+id/divider"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/addUserTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:textSize="30sp"
-            android:text="Add New User"/>
+            android:layout_marginTop="10dp"
+            android:text="Add New User"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/firstNameEditText"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:hint="First Name"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/lastNameEditText"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:hint="Last Name"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/emailEditText"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:hint="Email Address"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/positionSpinner"
@@ -66,26 +65,24 @@
             />
 
         <Button
+            android:id="@+id/generatePasswordButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:id="@+id/generatePasswordButton"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="Generate Password/Create User"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:padding="10dp"
-            />
+            android:text="Generate Password/Create User" />
 
         <EditText
+            android:id="@+id/passwordTextView"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:id="@+id/passwordTextView"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:textSize="20sp"
+            android:layout_marginTop="10dp"
             android:hint="Click Generate Password/Create New User"
-            />
+            android:textSize="20sp" />
 
 
     </LinearLayout>
@@ -96,24 +93,24 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:background="@color/black"/>
+        android:background="@color/black" />
 
     <LinearLayout
         android:id="@+id/deleteUserLinearLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/divider">
+        android:layout_toEndOf="@+id/divider"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/deleteUserTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:textSize="30sp"
-            android:text="Delete User"/>
+            android:layout_marginTop="10dp"
+            android:text="Delete User"
+            android:textSize="30sp" />
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/showAllUserSpinner"

@@ -13,7 +13,6 @@ public class ShowPartyDialogEvent {
 
     private int mTableId;
 
-
     public ShowPartyDialogEvent(int i) {
 
         mTableId = i;
