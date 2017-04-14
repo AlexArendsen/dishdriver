@@ -104,7 +104,6 @@ public class SessionModel {
         return sPosition;
     }
     public static RestaurantModel currentRestaurant(){
-        Toaster.toast(sRestaurant.getName() + " " + sRestaurant.getId());
         return sRestaurant;
     }
 }

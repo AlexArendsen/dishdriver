@@ -42,6 +42,7 @@ public class DishModel {
     public DishModel(){
 
     }
+
     public DishModel(Integer restaurantID, Integer price, String desciption, String name) {
         this.restaurantID = restaurantID;
         this.price = price;
@@ -97,6 +98,7 @@ public class DishModel {
 
     // region DB Modifications
     public Observable<NonQueryResponseModel> create() {
+
         return NonQueryResponseModel.run(
                 "INSERT INTO Dishes (Restaurant_ID, Price, Name, Description) VALUES (?, ?, ?, ?)",
                 new String[] {

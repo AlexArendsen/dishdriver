@@ -1,16 +1,19 @@
 package edu.ucf.cop4331c.dishdriver;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.ucf.cop4331c.dishdriver.R;
 import edu.ucf.cop4331c.dishdriver.models.DishModel;
+import edu.ucf.cop4331c.dishdriver.models.NonQueryResponseModel;
 import edu.ucf.cop4331c.dishdriver.models.SessionModel;
+import rx.Observable;
 import xdroid.toaster.Toaster;
 
 public class AdminEditMenuActivity extends AppCompatActivity {
@@ -21,11 +24,15 @@ public class AdminEditMenuActivity extends AppCompatActivity {
     EditText mPriceInput;
     @BindView(R.id.descriptionInput)
     EditText mDescriptionInput;
+    @BindView(R.id.addDrink)
+    Button mAddDrink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_restaurant_activity);
+
+        ButterKnife.bind(this);
     }
 
     public void dialogBoxForEachItem() {
@@ -49,16 +56,25 @@ public class AdminEditMenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.addDrink)
     public void onAddMenuItemButtonClicked() {
-        Toaster.toast("IM HERE");
 
         //validate input has value
-        if((mPriceInput.getText().length() > 1)&& (mNameInput.getText().length() > 1) && (mDescriptionInput.getText().length() > 1)){
+        if ((mPriceInput.getText().length() >= 1) && (mNameInput.getText().length() >= 1) && (mDescriptionInput.getText().length() >= 1)) {
 
-            DishModel tmp = new DishModel(SessionModel.currentRestaurant().getId(), Integer.parseInt(mPriceInput.getText().toString()), mDescriptionInput.getText().toString(), mNameInput.getText().toString());
-            tmp.create();
+            DishModel d = new DishModel();
+            d.setName(mNameInput.getText().toString());
+            d.setDescription(mDescriptionInput.getText().toString());
+            d.setPrice(Integer.parseInt(mPriceInput.getText().toString()));
+            d.setRestaurantID(SessionModel.currentRestaurant().getId());
 
-        }
-        else{
+            Observable<NonQueryResponseModel> oCreate = d.create();
+            oCreate.subscribe();
+
+            Toaster.toast("Added");
+            mNameInput.setText("");
+            mPriceInput.setText("");
+            mDescriptionInput.setText("");
+
+        } else {
             //failed message
             new android.app.AlertDialog.Builder(AdminEditMenuActivity.this)
                     .setTitle("Failed")
@@ -71,6 +87,6 @@ public class AdminEditMenuActivity extends AppCompatActivity {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
-        finish();
+        //finish();
     }
 }
