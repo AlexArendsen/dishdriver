@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="43dp"
-        android:text="Please select the month you wish to view the satitial data. Include email address to send to:"
+        android:text="Please select the month you wish to view the statistical data. Include email address to send to:"
         android:textAlignment="center"
         android:textSize="30sp" />
 
