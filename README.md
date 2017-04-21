@@ -1,7 +1,5 @@
 # DishDriver
 
-[# Source stuff](app/app/src/main/java/edu/ucf/cop4331c/dishdriver/)
-
 COP4331C Spring 2017: Group 2 ("The Cardigans of Nassiff")
 
 Project: "DishDriver" -- Restaurant Management Mobile App
