@@ -15,6 +15,7 @@ Project: "DishDriver" -- Restaurant Management Mobile App
 * Melissa Gramajo
 * Vivienne Do
 
+
 ## Getting Started
 
 1. Clone using HTTPS
@@ -31,6 +32,7 @@ Project: "DishDriver" -- Restaurant Management Mobile App
 * Writing tests
 * Code review
 * Other guidelines
+
 
 ## Who To Talk To
 
